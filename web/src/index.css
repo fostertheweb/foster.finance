@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 40rem;
+}
+
+.month {
+  text-align: center;
+  font-size: 2rem;
+  border: 1px solid #ddd;
+}
+
+.week {
+  display: flex;
+  border-left: 1px solid #ddd;
+}
+
+.day {
+  background: #eee;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 0.2rem;
+  position: relative;
+  width: 10rem;
+  height: 5rem;
+}
+
+.day span {
+  float: right;
+  font-size: 0.8rem;
+}
+
+.current-month {
+  background: white;
+}
+
+.today {
+  color: orange;
+  font-weight: bold;
+}
+
+.weekdays {
+  display: flex;
+}
+
+.weekdays div {
+  width: 40rem;
+  text-align: center;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.panel {
+  padding: 1rem;
+}

@@ -1,0 +1,17 @@
+#import "./plaid/transactions.graphql"
+
+type ExchangePublicTokenResponse {
+  access_token: String
+  item_id: String
+  request_id: String
+  status_code: Int
+}
+
+type Query {
+  getTransactions(startDate: String!, endDate: String!, options: TransactionsOptions): TransactionsResponse
+  getAccounts: AccountsResponse
+}
+
+type Mutation {
+  exchangePublicToken(publicToken: String!): ExchangePublicTokenResponse
+}

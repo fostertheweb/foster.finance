@@ -1,0 +1,14 @@
+{
+  "name": "outlay",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "client": "yarn workspace web start",
+    "server": "yarn workspace server run develop"
+  },
+  "workspaces": [
+    "web",
+    "server"
+  ],
+  "private": true
+}
