@@ -7,7 +7,7 @@ export default function() {
     <Navbar>
       <Navbar.Group align={Alignment.LEFT}>
         <Link to="/">
-          <Navbar.Heading>Outlay</Navbar.Heading>
+          <Navbar.Heading>Foster Finance</Navbar.Heading>
         </Link>
         <Navbar.Divider />
         <Link to="accounts">
