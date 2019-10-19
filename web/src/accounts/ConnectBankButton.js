@@ -2,7 +2,7 @@ import React from "react";
 import PlaidLink from "react-plaid-link";
 import { Classes } from "@blueprintjs/core";
 import classNames from "classnames";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
@@ -17,16 +17,6 @@ const EXCHANGE_PUBLIC_TOKEN = gql`
   }
 `;
 
-const GET_ACCOUNTS = gql`
-  {
-    getAccounts {
-      accounts {
-        name
-      }
-    }
-  }
-`;
-
 function handleSuccess(token) {
   localStorage.setItem("plaid_access_token", token);
 }
@@ -35,24 +25,7 @@ function handleExit() {
   console.log("Plaid - handleExit");
 }
 
-export const getAccessToken = () => localStorage.getItem("plaid_access_token");
-
-export function AccountsList() {
-  const { data, loading, error } = useQuery(GET_ACCOUNTS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <pre>Error</pre>;
-
-  return (
-    <ul>
-      {data.getAccounts.accounts.map(account => (
-        <li>{account.name}</li>
-      ))}
-    </ul>
-  );
-}
-
-export function AddAccountButton() {
+export default function() {
   const [exchangePublicToken, { data }] = useMutation(EXCHANGE_PUBLIC_TOKEN);
 
   if (data) {
@@ -62,7 +35,7 @@ export function AddAccountButton() {
   return (
     <PlaidLink
       style={{}}
-      className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY, "bp3-icon-add")}
+      className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY, "bp3-icon-bank-account")}
       clientName="Outlay"
       env={env}
       product={product}
@@ -71,7 +44,7 @@ export function AddAccountButton() {
       onSuccess={publicToken => {
         exchangePublicToken({ variables: { publicToken } });
       }}>
-      Add Account
+      Connect to Bank
     </PlaidLink>
   );
 }

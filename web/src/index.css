@@ -1,5 +1,8 @@
+html,
 body {
   margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 .App {
@@ -10,55 +13,100 @@ body {
 .calendar {
   display: flex;
   flex-direction: column;
-  width: 40rem;
+  height: calc(100vh - 50px);
 }
 
 .month {
   text-align: center;
   font-size: 2rem;
-  border: 1px solid #ddd;
 }
 
 .week {
   display: flex;
-  border-left: 1px solid #ddd;
+  flex: 1;
 }
 
 .day {
+  box-sizing: border-box;
   background: #eee;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  padding: 0.2rem;
+  flex: 1;
   position: relative;
-  width: 10rem;
-  height: 5rem;
 }
 
 .day span {
   float: right;
-  font-size: 0.8rem;
+  font-size: 0.8em;
+  margin: 0.2em;
 }
 
 .current-month {
   background: white;
 }
 
-.today {
+.day span.today {
   color: orange;
   font-weight: bold;
+  font-size: 1.3em;
+  margin: -0.1em 0.1em;
 }
 
 .weekdays {
   display: flex;
-}
-
-.weekdays div {
-  width: 40rem;
-  text-align: center;
-  border-left: 1px solid #ddd;
+  justify-content: space-around;
   border-bottom: 1px solid #ddd;
 }
 
+.weekdays div {
+  border-right: 1px solid #ddd;
+  flex: 1;
+  text-align: center;
+  padding: 0.4rem 0;
+}
+
+.weekdays div:last-child {
+  border: 0;
+}
+
 .panel {
+  padding: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-family: "Secular One", sans-serif;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.logo .top {
+  font-size: 1.16em;
+}
+
+.logo .bottom {
+  font-size: 1em;
+  margin-top: -0.4em;
+}
+
+.expenses {
+  display: flex;
+}
+
+.sidebar {
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+}
+
+.content {
+  flex: 1;
+}
+
+.controls {
+  display: flex;
+}
+
+.accounts {
   padding: 1rem;
 }

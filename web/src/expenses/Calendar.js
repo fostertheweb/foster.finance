@@ -13,7 +13,7 @@ function getDaysInMonth(year, month) {
   return luxon.DateTime.local().daysInMonth;
 }
 
-function getYear() {
+function getCurrentYear() {
   return luxon.DateTime.local().year;
 }
 
@@ -22,7 +22,7 @@ function getFirstWeekday(year, month) {
     return luxon.DateTime.local(year, month, 1).weekday;
   }
 
-  return luxon.DateTime.local(getYear(), getCurrentMonth(), 1).weekday;
+  return luxon.DateTime.local(getCurrentYear(), getCurrentMonth(), 1).weekday;
 }
 
 function isToday(year, month, day) {
@@ -46,29 +46,44 @@ function Week({ days }) {
 
 export function Calendar({ year, month }) {
   let weeks = [];
+  let key = 0;
   let number = 1;
-  const monthLong = luxon.DateTime.local(year, month).monthLong;
+  let maxRows = 5;
 
-  for (let cell = 0; cell < 5; cell++) {
+  if (getFirstWeekday(year, month) === 7) {
+    maxRows = 6;
+  }
+
+  for (let row = 0; row < maxRows; row++) {
     let week = [];
 
-    for (let weekday = 0; weekday < 7; weekday++) {
-      if (cell === 0 && weekday < getFirstWeekday(year, month)) {
-        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} />);
-      } else if (number > getDaysInMonth(year, month)) {
-        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} />);
-      } else {
-        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} />);
+    for (let weekday = 1; weekday < 8; weekday++) {
+      if (row === 0 && weekday === 6 && weekday === getFirstWeekday(year, month)) {
+        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
         number++;
+        key++;
+      } else if (row === 0 && weekday === 7 && weekday === getFirstWeekday(year, month)) {
+        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
+        number++;
+        key++;
+      } else if (row === 0 && weekday < getFirstWeekday(year, month)) {
+        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} key={key} />);
+        key++;
+      } else if (number > getDaysInMonth(year, month)) {
+        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} key={key} />);
+        key++;
+      } else {
+        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
+        number++;
+        key++;
       }
     }
 
-    weeks.push(<Week days={week} />);
+    weeks.push(<Week days={week} key={row} />);
   }
 
   return (
     <div className="calendar">
-      <div className="month">{monthLong}</div>
       <div className="weekdays">
         <div>Sunday</div>
         <div>Monday</div>

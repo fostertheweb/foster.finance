@@ -1,13 +1,14 @@
 import React from "react";
 import { Alignment, Button, Navbar } from "@blueprintjs/core";
 import { Link } from "@reach/router";
+import Logo from "../common/Logo";
 
 export default function() {
   return (
     <Navbar>
       <Navbar.Group align={Alignment.LEFT}>
         <Link to="/">
-          <Navbar.Heading>Foster Finance</Navbar.Heading>
+          <Logo />
         </Link>
         <Navbar.Divider />
         <Link to="accounts">

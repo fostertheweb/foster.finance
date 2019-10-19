@@ -1,18 +1,17 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
-import { getAccessToken } from "./Plaid";
 import { ApolloProvider } from "@apollo/react-hooks";
-import Header from "./Header";
+import Header from "./layout/Header";
 import { Router } from "@reach/router";
-import { Accounts } from "./Accounts";
-import { Expenses } from "./Expenses";
+import Accounts from "./routes/Accounts";
+import Expenses from "./routes/Expenses";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
   request(operation) {
     operation.setContext({
       headers: {
-        plaid: getAccessToken(),
+        plaid: localStorage.getItem("plaid_access_token"),
       },
     });
   },
@@ -27,7 +26,7 @@ function App() {
     <div>
       <ApolloProvider client={client}>
         <Header />
-        <Router className="panel">
+        <Router>
           <Home path="/" />
           <Expenses path="expenses" />
           <Accounts path="accounts" />
