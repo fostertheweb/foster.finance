@@ -3,7 +3,9 @@ import React from "react";
 export default function() {
   return (
     <div className="logo">
-      <div className="icon">💸</div>
+      <span role="img" className="icon">
+        💸
+      </span>
       <div className="text">
         <div className="top">Foster</div>
         <div className="bottom">Finance</div>

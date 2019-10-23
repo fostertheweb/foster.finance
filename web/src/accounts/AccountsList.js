@@ -1,12 +1,22 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import AccountCard from "./AccountCard";
 
 const GET_ACCOUNTS = gql`
   {
     getAccounts {
       accounts {
+        account_id
         name
+        official_name
+        mask
+        type
+        subtype
+        balances {
+          available
+          current
+        }
       }
     }
   }
@@ -19,10 +29,10 @@ export default function() {
   if (error) return <pre>Error</pre>;
 
   return (
-    <ul>
+    <div className="accounts-list">
       {data.getAccounts.accounts.map(account => (
-        <li>{account.name}</li>
+        <AccountCard key={account.account_id} data={account} />
       ))}
-    </ul>
+    </div>
   );
 }

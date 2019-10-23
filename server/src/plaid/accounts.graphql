@@ -32,16 +32,21 @@ enum AccountType {
   BROKERAGE
   CREDIT
   DEPOSITORY
+  INVESTMENT
   LOAN
   MORTGAGE
   OTHER
 }
 
 enum AccountSubType {
+  RETIREMENT
+  STUDENT
   CHECKING
   CASH_DIRECTORY
   SAVINGS
   CREDIT_CARD
+  MONEY_MARKET
+  IRA
 }
 
 enum ISOCurrencyCode {
