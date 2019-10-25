@@ -1,0 +1,20 @@
+enum PlaidErrorType {
+  INVALID_REQUEST
+  INVALID_INPUT
+  INSTITUTION_ERROR
+  RATE_LIMIT_EXCEEDED
+  API_ERROR
+  ITEM_ERROR
+  ASSET_REPORT_ERROR
+}
+
+enum PlaidErrorCode {}
+
+type PlaidError {
+  error_type: PlaidErrorType!
+  http_code: Int!
+  error_code: String!
+  error_message: String!
+  display_message: String
+  request_id: String!
+}

@@ -1,5 +1,17 @@
 #import "./accounts.graphql"
 
+type TransactionsRequest {
+  start_date: String!
+  end_date: String!
+  options: TransactionsRequestOptions
+}
+
+type TransactionsRequestOptions {
+  account_ids: [String]
+  count: Int
+  offset: Int
+}
+
 enum TransactionType {
   DIGITAL
   PLACE
@@ -27,12 +39,6 @@ type PaymentMeta {
   payeeName: String
 }
 
-input TransactionsOptions {
-  account_ids: [String]
-  count: Int
-  offset: Int
-}
-
 type Transaction {
   transaction_id: String
   account_id: String
@@ -53,5 +59,4 @@ type TransactionsResponse {
   accounts: [Account]
   transactions: [Transaction]
   total_transactions: Int
-  request_id: String
 }

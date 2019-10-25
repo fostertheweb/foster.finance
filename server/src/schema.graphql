@@ -8,10 +8,10 @@ type ExchangePublicTokenResponse {
 }
 
 type Query {
-  getTransactions(startDate: String!, endDate: String!, options: TransactionsOptions): TransactionsResponse
+  getTransactions(input: TransactionsRequest): TransactionsResponse
   getAccounts: AccountsResponse
 }
 
 type Mutation {
-  exchangePublicToken(publicToken: String!): ExchangePublicTokenResponse
+  exchangePublicToken(token: String!): ExchangePublicTokenResponse
 }
