@@ -19,7 +19,9 @@ export default function() {
         </Link>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
-        <Button icon="user" text="Login" />
+        <Link to="login">
+          <Button icon="user" text="Login" />
+        </Link>
       </Navbar.Group>
     </Navbar>
   );

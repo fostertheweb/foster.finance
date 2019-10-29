@@ -1,13 +1,17 @@
 import { ApolloServer, makeExecutableSchema } from "apollo-server";
 import plaid from "plaid";
-import * as typeDefs from "./schema.graphql";
+import { initializeApp, firestore } from "firebase-admin";
 
-const {
-  PLAID_CLIENT_ID,
-  PLAID_SECRET,
-  PLAID_PUBLIC_KEY,
-  PLAID_ENV,
-} = process.env;
+import * as typeDefs from "./schema.graphql";
+import plaidResolvers from "./plaid/resolvers";
+
+const { DATABASE_URL, PLAID_CLIENT_ID, PLAID_SECRET, PLAID_PUBLIC_KEY, PLAID_ENV } = process.env;
+
+initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: DATABASE_URL,
+});
+
 const client = new plaid.Client(
   PLAID_CLIENT_ID,
   PLAID_SECRET,
@@ -16,37 +20,9 @@ const client = new plaid.Client(
 );
 
 const resolvers = {
-  AccountType: {
-    BROKERAGE: "brokerage",
-    CREDIT: "credit",
-    DEPOSITORY: "depository",
-    INVESTMENT: "investment",
-    LOAN: "loan",
-    MORTGAGE: "mortgage",
-    OTHER: "other",
-  },
-  AccountSubType: {
-    RETIREMENT: "401k",
-    STUDENT: "student",
-    CHECKING: "checking",
-    SAVINGS: "savings",
-    CASH_DIRECTORY: "cd",
-    CREDIT_CARD: "credit card",
-    MONEY_MARKET: "money market",
-    IRA: "ira",
-  },
-  TransactionType: {
-    DIGITAL: "digital",
-    PLACE: "place",
-    SPECIAL: "special",
-    UNRESOLVED: "unresolved",
-  },
+  ...plaidResolvers,
   Query: {
-    async getTransactions(
-      _parent,
-      { startDate, endDate },
-      { plaid, accessToken },
-    ) {
+    async getTransactions(_parent, { startDate, endDate }, { plaid, accessToken }) {
       try {
         return await plaid.getTransactions(accessToken, startDate, endDate);
       } catch (err) {
@@ -64,9 +40,9 @@ const resolvers = {
     },
   },
   Mutation: {
-    async exchangePublicToken(_parent, { publicToken }, { plaid }) {
+    async exchangePublicToken(_parent, { token }, { plaid }) {
       try {
-        return await plaid.exchangePublicToken(publicToken);
+        return await plaid.exchangePublicToken(token);
       } catch (err) {
         return err;
       }
@@ -78,7 +54,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new ApolloServer({
   schema,
   context({ req }) {
-    return { plaid: client, accessToken: req.headers.plaid };
+    return { plaid: client, db: firestore(), accessToken: req.headers.plaid };
   },
 });
 

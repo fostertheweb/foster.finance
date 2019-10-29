@@ -1,2 +1,8 @@
-type Item {
+# type Item {}
+
+type ExchangePublicTokenResponse {
+  access_token: String
+  item_id: String
+  request_id: String
+  status_code: Int
 }

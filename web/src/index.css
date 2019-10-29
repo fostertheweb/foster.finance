@@ -96,7 +96,7 @@ body {
 .icon {
   margin-right: 0.2rem;
   margin-bottom: -0.5rem;
-  font-size: 2rem;
+  font-size: 2em;
 }
 
 .expenses {
@@ -146,4 +146,41 @@ body {
 .balance-available {
   color: #999;
   margin-left: auto;
+}
+
+.wrap {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  width: 30vw;
+  padding: 2rem;
+}
+
+.left .logo {
+  font-size: 1.5rem;
+}
+
+.right {
+  width: 70vw;
+  background: white;
+}
+
+.s-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 15vh;
+}
+
+.s-wrap .logo {
+  font-size: 2.5rem;
+}
+
+.s-left {
+  margin-right: 2rem;
+}
+
+.s-right {
+  width: 40vw;
 }

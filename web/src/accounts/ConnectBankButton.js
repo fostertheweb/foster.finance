@@ -10,8 +10,8 @@ const env = process.env.REACT_APP_PLAID_ENVIRONMENT;
 const publicKey = process.env.REACT_APP_PLAID_PUBLIC_KEY;
 
 const EXCHANGE_PUBLIC_TOKEN = gql`
-  mutation ExchangePublicToken($publicToken: String!) {
-    exchangePublicToken(publicToken: $publicToken) {
+  mutation ExchangePublicToken($token: String!) {
+    exchangePublicToken(token: $token) {
       access_token
     }
   }
@@ -41,8 +41,8 @@ export default function() {
       product={product}
       publicKey={publicKey}
       onExit={handleExit}
-      onSuccess={publicToken => {
-        exchangePublicToken({ variables: { publicToken } });
+      onSuccess={token => {
+        exchangePublicToken({ variables: { token } });
       }}>
       Connect to Bank
     </PlaidLink>

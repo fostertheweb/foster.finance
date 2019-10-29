@@ -1,6 +1,6 @@
 #import "./item.graphql"
 
-type PlaidResponse {
-  item: Item
-  request_id: string
-}
+# type PlaidResponse {
+#   item: Item
+#   request_id: string
+# }

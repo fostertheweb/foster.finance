@@ -59,11 +59,25 @@ export function Calendar({ year, month }) {
 
     for (let weekday = 1; weekday < 8; weekday++) {
       if (row === 0 && weekday === 6 && weekday === getFirstWeekday(year, month)) {
-        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
+        week.push(
+          <Day
+            number={number}
+            isInCurrentMonth={true}
+            isToday={isToday(year, month, number)}
+            key={key}
+          />,
+        );
         number++;
         key++;
       } else if (row === 0 && weekday === 7 && weekday === getFirstWeekday(year, month)) {
-        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
+        week.push(
+          <Day
+            number={number}
+            isInCurrentMonth={true}
+            isToday={isToday(year, month, number)}
+            key={key}
+          />,
+        );
         number++;
         key++;
       } else if (row === 0 && weekday < getFirstWeekday(year, month)) {
@@ -73,7 +87,14 @@ export function Calendar({ year, month }) {
         week.push(<Day number={""} isInCurrentMonth={false} isToday={false} key={key} />);
         key++;
       } else {
-        week.push(<Day number={number} isInCurrentMonth={true} isToday={isToday(year, month, number)} key={key} />);
+        week.push(
+          <Day
+            number={number}
+            isInCurrentMonth={true}
+            isToday={isToday(year, month, number)}
+            key={key}
+          />,
+        );
         number++;
         key++;
       }

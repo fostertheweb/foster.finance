@@ -1,0 +1,6 @@
+type Bank {
+  institution_id: String!
+  account_ids: [String!]!
+  access_token: String!
+  display_label: String
+}

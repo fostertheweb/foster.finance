@@ -8,7 +8,7 @@ enum PlaidErrorType {
   ASSET_REPORT_ERROR
 }
 
-enum PlaidErrorCode {}
+# enum PlaidErrorCode {}
 
 type PlaidError {
   error_type: PlaidErrorType!

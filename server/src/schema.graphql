@@ -1,11 +1,7 @@
-#import "./plaid/transactions.graphql"
-
-type ExchangePublicTokenResponse {
-  access_token: String
-  item_id: String
-  request_id: String
-  status_code: Int
-}
+#import "./plaid/account.graphql"
+#import "./plaid/transaction.graphql"
+#import "./plaid/item.graphql"
+#import "./users/user.graphql"
 
 type Query {
   getTransactions(input: TransactionsRequest): TransactionsResponse
@@ -14,4 +10,5 @@ type Query {
 
 type Mutation {
   exchangePublicToken(token: String!): ExchangePublicTokenResponse
+  createUser(input: User!): User
 }
