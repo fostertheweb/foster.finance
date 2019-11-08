@@ -1,7 +1,0 @@
-type RecurringExpense {
-  date: String!
-  amount: Float!
-  vendor: String!
-  display_label: String
-  transaction_ids: [String]
-}

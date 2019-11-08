@@ -4,8 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack --display-error-details",
-    "develop": "webpack --watch",
+    "develop": "nodemon",
     "start": "node --experimental-modules -r dotenv/config"
   },
   "keywords": [],
@@ -15,12 +14,11 @@
     "apollo-server": "^2.9.3",
     "graphql": "^14.5.7",
     "graphql-tag": "^2.10.1",
+    "nexus": "^0.12.0-rc.4",
     "plaid": "^4.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2",
-    "nodemon-webpack-plugin": "^4.1.1",
-    "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9"
+    "dotenv": "^8.2.0",
+    "nodemon": "^1.19.2"
   }
 }

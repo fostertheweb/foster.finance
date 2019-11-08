@@ -1,16 +1,10 @@
-import { ApolloServer, makeExecutableSchema } from "apollo-server";
+import { ApolloServer } from "apollo-server";
+import { makeSchema } from "nexus";
 import plaid from "plaid";
-import { initializeApp, firestore } from "firebase-admin";
 
-import * as typeDefs from "./schema.graphql";
-import plaidResolvers from "./plaid/resolvers";
+import * as types from "./schema";
 
-const { DATABASE_URL, PLAID_CLIENT_ID, PLAID_SECRET, PLAID_PUBLIC_KEY, PLAID_ENV } = process.env;
-
-initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: DATABASE_URL,
-});
+const { PLAID_CLIENT_ID, PLAID_SECRET, PLAID_PUBLIC_KEY, PLAID_ENV } = process.env;
 
 const client = new plaid.Client(
   PLAID_CLIENT_ID,
@@ -20,7 +14,6 @@ const client = new plaid.Client(
 );
 
 const resolvers = {
-  ...plaidResolvers,
   Query: {
     async getTransactions(_parent, { startDate, endDate }, { plaid, accessToken }) {
       try {
@@ -50,12 +43,20 @@ const resolvers = {
   },
 };
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeSchema({
+  types,
+});
+
+function context({ req }) {
+  return {
+    plaid: client,
+    authz: req.headers.Authorization,
+  };
+}
+
 const server = new ApolloServer({
   schema,
-  context({ req }) {
-    return { plaid: client, db: firestore(), accessToken: req.headers.plaid };
-  },
+  context,
 });
 
 server.listen().then(({ url }) => {

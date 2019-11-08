@@ -1,4 +1,4 @@
-const resolvers = {
+export default {
   AccountType: {
     BROKERAGE: "brokerage",
     CREDIT: "credit",
@@ -26,4 +26,7 @@ const resolvers = {
   },
 };
 
-export default resolvers;
+export * from "./account";
+export * from "./error";
+export * from "./item";
+export * from "./transaction";

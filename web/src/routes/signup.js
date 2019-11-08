@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Card, FormGroup, InputGroup, Intent, H2 } from "@blueprintjs/core";
+import { Button, FormGroup, InputGroup, Intent, H2 } from "@blueprintjs/core";
 import { Link } from "@reach/router";
-import Logo from "../common/Logo";
+import Logo from "../components/logo";
 
 export default function() {
   return (
@@ -15,11 +15,11 @@ export default function() {
           After creating an account you will connect to your bank so we can view your transactions
           and help you save more money. Already have an account? <Link to="/login">Log in</Link>
         </p>
-        <FormGroup label="First Name" labelFor="email">
-          <InputGroup id="email" placeholder="" />
+        <FormGroup label="First Name" labelFor="firstName">
+          <InputGroup id="firstName" placeholder="" />
         </FormGroup>
-        <FormGroup label="Last Name" labelFor="email">
-          <InputGroup id="email" placeholder="" />
+        <FormGroup label="Last Name" labelFor="lastName">
+          <InputGroup id="lastName" placeholder="" />
         </FormGroup>
         <FormGroup label="Email" labelFor="email">
           <InputGroup id="email" placeholder="" />
@@ -28,7 +28,7 @@ export default function() {
           <InputGroup id="password" type="password" />
         </FormGroup>
         <FormGroup>
-          <Button intent={Intent.PRIMARY} large disabled>
+          <Button type="submit" intent={Intent.PRIMARY} large disabled>
             Sign Up
           </Button>
         </FormGroup>
