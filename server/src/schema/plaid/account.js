@@ -89,21 +89,29 @@ const EFT = objectType({
 
 const AccountSubType = enumType({
   name: "AccountSubType",
-  members: [
-    "RETIREMENT",
-    "STUDENT",
-    "CHECKING",
-    "CASH_DIRECTORY",
-    "SAVINGS",
-    "CREDIT_CARD",
-    "MONEY_MARKET",
-    "IRA",
-  ],
+  members: {
+    RETIREMENT: "401k",
+    STUDENT: "student",
+    CHECKING: "checking",
+    SAVINGS: "savings",
+    CASH_DIRECTORY: "cd",
+    CREDIT_CARD: "credit card",
+    MONEY_MARKET: "money market",
+    IRA: "ira",
+  },
 });
 
 const AccountType = enumType({
   name: "AccountType",
-  members: ["BROKERAGE", "CREDIT", "DEPOSITORY", "INVESTMENT", "LOAN", "MORTGAGE", "OTHER"],
+  members: {
+    BROKERAGE: "brokerage",
+    CREDIT: "credit",
+    DEPOSITORY: "depository",
+    INVESTMENT: "investment",
+    LOAN: "loan",
+    MORTGAGE: "mortgage",
+    OTHER: "other",
+  },
 });
 
 const ISOCurrencyCode = enumType({

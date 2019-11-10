@@ -100,7 +100,12 @@ const TransactionsRequestOptions = inputObjectType({
 
 const TransactionType = enumType({
   name: "TransactionType",
-  members: ["DIGITAL", "PLACE", "SPECIAL", "UNRESOLVED"],
+  members: {
+    DIGITAL: "digital",
+    PLACE: "place",
+    SPECIAL: "special",
+    UNRESOLVED: "unresolved",
+  },
 });
 
 module.exports = { Transaction, TransactionsRequest, TransactionsResponse };

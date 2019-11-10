@@ -1,3 +1,4 @@
+const path = require("path");
 const { makeSchema } = require("nexus");
 const plaid = require("plaid");
 const types = require("./schema");
@@ -11,6 +12,9 @@ const client = new plaid.Client(
 
 const schema = makeSchema({
   types,
+  outputs: {
+    schema: path.join(__dirname, "schema.graphql"),
+  },
 });
 
 function context({ req }) {
