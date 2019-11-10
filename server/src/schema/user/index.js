@@ -1,3 +1,5 @@
-export * from "./bank";
-export * from "./expense";
-export * from "./user";
+module.exports = {
+  ...require("./bank"),
+  ...require("./expense"),
+  ...require("./user"),
+};

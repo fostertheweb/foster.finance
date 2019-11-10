@@ -1,4 +1,4 @@
-import { objectType, enumType, scalarType } from "nexus";
+const { objectType, enumType } = require("nexus");
 
 const PlaidError = objectType({
   name: "PlaidError",
@@ -24,3 +24,5 @@ const PlaidErrorType = enumType({
     "ASSET_REPORT_ERROR",
   ],
 });
+
+module.exports = { PlaidError };

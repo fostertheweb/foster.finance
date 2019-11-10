@@ -1,6 +1,6 @@
-import { objectType, scalarType } from "nexus";
-import { Bank } from "./bank";
-import { RecurringExpense } from "./expense";
+const { objectType, inputObjectType } = require("nexus");
+const { Bank } = require("./bank");
+const { RecurringExpense } = require("./expense");
 
 const User = objectType({
   name: "User",
@@ -33,3 +33,5 @@ const CreateUserRequest = inputObjectType({
     t.string("emoji");
   },
 });
+
+module.exports = { User, CreateUserRequest };

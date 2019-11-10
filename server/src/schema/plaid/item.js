@@ -1,4 +1,4 @@
-import { objectType, scalarType } from "nexus";
+const { objectType } = require("nexus");
 
 const ExchangePublicTokenResponse = objectType({
   name: "ExchangePublicTokenResponse",
@@ -9,3 +9,5 @@ const ExchangePublicTokenResponse = objectType({
     t.int("status_code", { nullable: true });
   },
 });
+
+module.exports = { ExchangePublicTokenResponse };

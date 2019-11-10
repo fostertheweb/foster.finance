@@ -5,19 +5,20 @@
   "private": true,
   "scripts": {
     "develop": "nodemon",
-    "start": "node --experimental-modules -r dotenv/config"
+    "start": "node -r dotenv/config src/server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.9.3",
+    "apollo-server-lambda": "^2.9.7",
     "graphql": "^14.5.7",
     "graphql-tag": "^2.10.1",
     "nexus": "^0.12.0-rc.4",
     "plaid": "^4.3.0"
   },
   "devDependencies": {
+    "apollo-server": "^2.9.3",
     "dotenv": "^8.2.0",
     "nodemon": "^1.19.2"
   }

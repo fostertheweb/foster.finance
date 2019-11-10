@@ -1,6 +1,6 @@
-import { objectType, scalarType } from "nexus";
+const { objectType } = require("nexus");
 
-export const RecurringExpense = objectType({
+const RecurringExpense = objectType({
   name: "RecurringExpense",
   definition(t) {
     t.string("date");
@@ -13,3 +13,5 @@ export const RecurringExpense = objectType({
     });
   },
 });
+
+module.exports = { RecurringExpense };

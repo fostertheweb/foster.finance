@@ -1,4 +1,4 @@
-export default {
+const enums = {
   AccountType: {
     BROKERAGE: "brokerage",
     CREDIT: "credit",
@@ -26,7 +26,9 @@ export default {
   },
 };
 
-export * from "./account";
-export * from "./error";
-export * from "./item";
-export * from "./transaction";
+module.exports = {
+  ...require("./account"),
+  ...require("./error"),
+  ...require("./item"),
+  ...require("./transaction"),
+};

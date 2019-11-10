@@ -1,4 +1,4 @@
-import { objectType, enumType, scalarType } from "nexus";
+const { objectType, enumType } = require("nexus");
 
 const ACH = objectType({
   name: "ACH",
@@ -10,7 +10,7 @@ const ACH = objectType({
   },
 });
 
-export const Account = objectType({
+const Account = objectType({
   name: "Account",
   definition(t) {
     t.string("account_id", { nullable: true });
@@ -62,6 +62,7 @@ const AccountsResponse = objectType({
     });
   },
 });
+
 const Balances = objectType({
   name: "Balances",
   definition(t) {
@@ -109,3 +110,5 @@ const ISOCurrencyCode = enumType({
   name: "ISOCurrencyCode",
   members: ["USD", "CAD"],
 });
+
+module.exports = { Account, AccountsResponse, Balances };

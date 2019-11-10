@@ -1,2 +1,4 @@
-export * from "./plaid";
-export * from "./user";
+module.exports = {
+  ...require("./plaid"),
+  ...require("./user"),
+};

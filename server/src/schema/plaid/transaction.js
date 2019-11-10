@@ -1,5 +1,5 @@
-import { objectType, inputObjectType, enumType, scalarType } from "nexus";
-import { Account } from "./account";
+const { objectType, inputObjectType, enumType } = require("nexus");
+const { Account } = require("./account");
 
 const Category = objectType({
   name: "Category",
@@ -88,6 +88,7 @@ const TransactionsRequest = inputObjectType({
     t.field("options", { type: TransactionsRequestOptions });
   },
 });
+
 const TransactionsRequestOptions = inputObjectType({
   name: "TransactionsRequestOptions",
   definition(t) {
@@ -101,3 +102,5 @@ const TransactionType = enumType({
   name: "TransactionType",
   members: ["DIGITAL", "PLACE", "SPECIAL", "UNRESOLVED"],
 });
+
+module.exports = { Transaction, TransactionsRequest, TransactionsResponse };

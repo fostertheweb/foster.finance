@@ -1,6 +1,6 @@
-import { objectType, scalarType } from "nexus";
+const { objectType } = require("nexus");
 
-export const Bank = objectType({
+const Bank = objectType({
   name: "Bank",
   definition(t) {
     t.string("institution_id");
@@ -9,3 +9,5 @@ export const Bank = objectType({
     t.string("display_label", { nullable: true });
   },
 });
+
+module.exports = { Bank };
