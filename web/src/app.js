@@ -32,13 +32,11 @@ function Home() {
 
 function Application({ children }) {
   const auth = useAuth();
-  console.log(auth);
   return auth.user ? children : <Login />;
 }
 
 function Public({ children }) {
   const auth = useAuth();
-  console.log(auth);
   return auth.user ? <Redirect to="accounts" /> : children;
 }
 

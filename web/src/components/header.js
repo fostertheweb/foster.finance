@@ -3,7 +3,7 @@ import { Alignment, Button, Navbar } from "@blueprintjs/core";
 import { Link } from "@reach/router";
 import Logo from "./logo";
 import { useAuth } from "../hooks/use-auth";
-import { useQuery } from "@apollo/react-hooks";
+// import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 const GET_USER = gql`
@@ -18,10 +18,10 @@ const GET_USER = gql`
 
 export default function() {
   const { user } = useAuth();
-  const { data, loading, error } = useQuery(GET_USER, { variables: { uid: user.uid } });
+  // const { data, loading, error } = useQuery(GET_USER, { variables: { uid: user.username } });
 
-  if (loading) return "Loading...";
-  if (error) return error.message;
+  // if (loading) return "Loading...";
+  // if (error) return error.message;
 
   return (
     <Navbar>
@@ -38,8 +38,8 @@ export default function() {
         </Link>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
-        <Link to="login">
-          <Button icon="user" text={data.first_name} />
+        <Link to="/">
+          <Button rightIcon="user" text={user.attributes.email} minimal />
         </Link>
       </Navbar.Group>
     </Navbar>
