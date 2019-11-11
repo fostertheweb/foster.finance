@@ -6,8 +6,8 @@ import { useAuth } from "../hooks/use-auth";
 
 export default function() {
   const auth = useAuth();
-  const [email, setLoginEmail] = useState("");
-  const [password, setLoginPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <div className="wrap">
@@ -15,13 +15,12 @@ export default function() {
         <Logo />
         <H2>Log In</H2>
         <p>
-          Don't have an account? <Link to="/signup">Sign up</Link>
+          Don't have an account? <Link to="/public/signup">Sign up</Link>
         </p>
         <form
           onSubmit={e => {
             e.preventDefault();
-            const user = auth.signin(email, password);
-            console.log(user);
+            auth.signIn(email, password);
             navigate("/");
           }}>
           <FormGroup label="Email" labelFor="email">
@@ -29,7 +28,7 @@ export default function() {
               id="email"
               placeholder=""
               value={email}
-              onChange={event => setLoginEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
           </FormGroup>
           <FormGroup label="Password" labelFor="password">
@@ -37,7 +36,7 @@ export default function() {
               id="password"
               type="password"
               value={password}
-              onChange={event => setLoginPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
             />
           </FormGroup>
           <FormGroup>

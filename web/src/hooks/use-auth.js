@@ -3,7 +3,6 @@ import Amplify, { Auth, Hub } from "aws-amplify";
 
 Amplify.configure({
   Auth: {
-    identityPoolId: process.env.REACT_APP_AWS_IDENTITY_POOL_ID,
     region: process.env.REACT_APP_AWS_REGION,
     userPoolId: process.env.REACT_APP_AWS_USER_POOL_ID,
     userPoolWebClientId: process.env.REACT_APP_AWS_USER_POOL_WEB_CLIENT_ID,
@@ -26,29 +25,22 @@ export const useAuth = () => {
 function useAuthProvider() {
   const [user, setUser] = useState(null);
 
-  async function signIn(email, password) {
-    try {
-      const user = await Auth.signIn(email, password);
-      setUser(user);
-      return user;
-    } catch (err) {}
+  function signIn(email, password) {
+    return Auth.signIn(email, password)
+      .then(setUser)
+      .catch(console.error);
   }
 
-  async function signUp(email, password) {
-    try {
-      return await Auth.signUp(email, password);
-    } catch (err) {
-      console.log(err);
-    }
+  function signUp(email, password) {
+    return Auth.signUp(email, password)
+      .then(setUser)
+      .catch(console.error);
   }
 
-  async function signOut() {
-    try {
-      await Auth.signOut();
-      setUser(null);
-    } catch (err) {
-      console.log(err);
-    }
+  function signOut() {
+    return Auth.signOut()
+      .then(setUser)
+      .catch(console.error);
   }
 
   function handleAuthChange({ payload: { event, data } }) {
@@ -56,11 +48,8 @@ function useAuthProvider() {
       case "signIn":
         setUser(data);
         break;
-      case "signOut":
-        setUser(null);
-        break;
       default:
-        setUser(data);
+        setUser(null);
         break;
     }
   }
@@ -69,7 +58,7 @@ function useAuthProvider() {
     Auth.currentAuthenticatedUser()
       .then(setUser)
       .catch(e => {
-        console.log(e);
+        console.error(e);
         setUser(null);
       });
 
