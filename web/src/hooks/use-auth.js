@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify, { Auth, Hub } from "aws-amplify";
 
 Amplify.configure({
   Auth: {
@@ -45,22 +45,37 @@ function useAuthProvider() {
   async function signOut() {
     try {
       await Auth.signOut();
-      setUser(false);
+      setUser(null);
     } catch (err) {
       console.log(err);
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = Auth.onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(false);
-      }
-    });
+  function handleAuthChange({ payload: { event, data } }) {
+    switch (event) {
+      case "signIn":
+        setUser(data);
+        break;
+      case "signOut":
+        setUser(null);
+        break;
+      default:
+        setUser(data);
+        break;
+    }
+  }
 
-    return () => unsubscribe();
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(setUser)
+      .catch(e => {
+        console.log(e);
+        setUser(null);
+      });
+
+    Hub.listen("auth", handleAuthChange);
+
+    return () => Hub.remove("auth", handleAuthChange);
   }, []);
 
   return {

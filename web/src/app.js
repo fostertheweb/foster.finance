@@ -8,7 +8,7 @@ import Accounts from "./routes/accounts";
 import Expenses from "./routes/expenses";
 import Login from "./routes/login";
 import Signup from "./routes/signup";
-import { ProvideAuth, useAuth } from "./hooks/use-auth";
+import { AuthProvider, useAuth } from "./hooks/use-auth";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
@@ -46,7 +46,7 @@ function App() {
   return (
     <div>
       <ApolloProvider client={client}>
-        <ProvideAuth>
+        <AuthProvider>
           <Router>
             <Application path="/">
               <Home path="/" />
@@ -58,7 +58,7 @@ function App() {
               <Signup path="signup" />
             </Public>
           </Router>
-        </ProvideAuth>
+        </AuthProvider>
       </ApolloProvider>
     </div>
   );
