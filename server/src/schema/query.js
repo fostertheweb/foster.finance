@@ -11,8 +11,12 @@ const Query = objectType({
           required: true,
         }),
       },
-      async resolve(root, { input }, { db }) {
-        return await db.saveDoc("users", input);
+      async resolve(_root, { uid }, { db }) {
+        const users = await db.users.findDoc({
+          user_id: uid,
+        });
+        // findDoc returns array
+        return users[0];
       },
     });
   },
