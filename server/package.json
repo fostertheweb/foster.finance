@@ -14,6 +14,7 @@
     "apollo-server-lambda": "^2.9.7",
     "graphql": "^14.5.7",
     "graphql-tag": "^2.10.1",
+    "massive": "^6.1.1",
     "nexus": "^0.12.0-rc.4",
     "plaid": "^4.3.0"
   },

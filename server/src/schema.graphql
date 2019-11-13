@@ -100,6 +100,10 @@ type Location {
   state: String
 }
 
+type Mutation {
+  createUser(input: CreateUserRequest!): User!
+}
+
 type PaymentMeta {
   payeeName: String
   ppdId: Int
@@ -126,7 +130,7 @@ enum PlaidErrorType {
 }
 
 type Query {
-  ok: Boolean!
+  getUser(uid: String!): User!
 }
 
 type RecurringExpense {
