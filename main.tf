@@ -126,6 +126,13 @@ EOF
   tags = local.common_tags
 }
 
+resource "aws_s3_bucket_object" "client" {
+  bucket = aws_s3_bucket.client.name
+  key    = "client"
+  source = "./web/client.zip"
+  etag   = filemd5("./web/client.zip")
+}
+
 # Route53
 data "aws_route53_zone" "selected" {
   name = "foster.finance."
@@ -137,4 +144,6 @@ resource "aws_route53_record" "alias" {
   type    = "A"
   ttl     = "300"
   records = [aws_s3_bucket.client.bucket_domain_name]
+
+  depends_on = [aws_s3_bucket.client]
 }

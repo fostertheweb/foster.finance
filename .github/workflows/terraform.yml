@@ -8,12 +8,20 @@ jobs:
     steps:
       - name: "Checkout Source"
         uses: actions/checkout@master
+      - name: "Install Dependencies"
+        run: yarn install
+      - name: "Build"
+        run: yarn build
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - name: "Setup Terraform Credentials"
+        run: echo "$TERRAFORM_CLOUD_TOKEN" >> ~/.terraformrc
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
       - name: "Terraform Init"
         uses: hashicorp/terraform-github-actions@master
         with:
@@ -26,5 +34,12 @@ jobs:
         with:
           tf_actions_version: 0.12.13
           tf_actions_subcommand: "plan"
+        args: '-var="plaid_client_id=$PLAID_CLIENT_ID" -var="plaid_secret=$PLAID_SECRET" -var="plaid_public_key=$PLAID_PUBLIC_KEY" -var="plaid_env=$PLAID_ENV" -var="db_user=$DB_USER" -var="db_pass=$DB_PASS"'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_USER: ${{ secrets.DB_USER }}
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_PUBLIC_KEY: ${{ secrets.PLAID_PUBLIC_KEY }}
+          PLAID_SECRET: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
