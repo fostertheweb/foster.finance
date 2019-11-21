@@ -127,7 +127,7 @@ EOF
 }
 
 resource "aws_s3_bucket_object" "client" {
-  bucket = aws_s3_bucket.client.name
+  bucket = "foster.finance"
   key    = "client"
   source = "./web/client.zip"
   etag   = filemd5("./web/client.zip")
