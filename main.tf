@@ -23,7 +23,18 @@ locals {
 
 # Cognito
 resource "aws_cognito_user_pool" "pool" {
-  name = "foster-finance"
+  name                     = "foster-finance"
+  auto_verified_attributes = ["email"]
+  username_attributes      = ["email"]
+
+  device_configuration {
+    challenge_required_on_new_device      = false
+    device_only_remembered_on_user_prompt = true
+  }
+
+  email_configuration {
+    email_sending_account = "COGNITO_DEFAULT"
+  }
 
   tags = local.common_tags
 }
