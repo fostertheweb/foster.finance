@@ -154,7 +154,7 @@ resource "aws_route53_record" "alias" {
   name    = data.aws_route53_zone.selected.name
   type    = "A"
   ttl     = "300"
-  records = [aws_s3_bucket.client.bucket_domain_name]
+  records = [aws_s3_bucket.client.website_domain]
 
   depends_on = [aws_s3_bucket.client]
 }
