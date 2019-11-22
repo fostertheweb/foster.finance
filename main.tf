@@ -27,6 +27,11 @@ resource "aws_cognito_user_pool" "pool" {
   auto_verified_attributes = ["email"]
   username_attributes      = ["email"]
 
+  admin_create_user_config {
+    allow_admin_create_user_only = false
+    unused_account_validity_days = 0
+  }
+
   device_configuration {
     challenge_required_on_new_device      = false
     device_only_remembered_on_user_prompt = true
