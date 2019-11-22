@@ -24,12 +24,12 @@ locals {
 # Cognito
 resource "aws_cognito_user_pool" "pool" {
   name = "foster-finance"
+
   tags = local.common_tags
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  name = " foster-finance-client"
-
+  name         = " foster-finance-client"
   user_pool_id = aws_cognito_user_pool.pool.id
 }
 
@@ -67,17 +67,12 @@ EOF
 }
 
 resource "aws_lambda_function" "api" {
-  filename      = "./server/lambda.zip"
-  function_name = "foster-finance-api"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "exports.handler"
-
-  # The filebase64sha256() function is available in Terraform 0.11.12 and later
-  # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
-  # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
+  filename         = "./server/lambda.zip"
+  function_name    = "foster-finance-api"
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "exports.handler"
   source_code_hash = filebase64sha256("./server/lambda.zip")
-
-  runtime = "nodejs10.x"
+  runtime          = "nodejs12.x"
 
   environment {
     variables = {
@@ -112,7 +107,7 @@ resource "aws_s3_bucket" "client" {
       "Effect":"Allow",
       "Principal": "*",
       "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::${aws_s3_bucket.client.id}/*"]
+      "Resource":["arn:aws:s3:::foster.finance/*"]
     }
   ]
 }
