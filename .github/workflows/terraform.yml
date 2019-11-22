@@ -30,7 +30,7 @@ jobs:
         with:
           tf_actions_version: 0.12.13
           tf_actions_subcommand: "init"
-        args: '-backend-config="token=${{ secrets.TF_CLOUD_TOKEN }}" -backend-config="organization=Family"'
+          args: '-backend-config="token=${{ secrets.TF_CLOUD_TOKEN }}" -backend-config="organization=Family"'
       - name: "Terraform Variables"
         run: echo "$TFVARS" >> ./terraform.tfvars
         env:
