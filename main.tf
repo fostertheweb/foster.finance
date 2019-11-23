@@ -140,9 +140,11 @@ EOF
 resource "aws_s3_bucket_object" "client" {
   for_each = fileset("./web/build", "**")
 
-  bucket = aws_s3_bucket.client.id
-  key    = each.value
-  source = "./web/build/${each.value}"
+  bucket       = aws_s3_bucket.client.id
+  key          = each.value
+  source       = "./web/build/${each.value}"
+  etag         = filemd5("./web/build/${each.value}")
+  content_type = lookup(var.client_mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
 
   depends_on = [aws_s3_bucket.client]
 }
