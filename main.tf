@@ -160,7 +160,7 @@ resource "aws_route53_record" "alias" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket.client.website_endpoint
+    name                   = aws_s3_bucket.client.website_domain
     zone_id                = aws_s3_bucket.client.hosted_zone_id
     evaluate_target_health = false
   }
