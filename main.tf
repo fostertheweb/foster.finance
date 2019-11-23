@@ -156,7 +156,12 @@ resource "aws_route53_record" "alias" {
   name    = data.aws_route53_zone.selected.name
   type    = "A"
   ttl     = "300"
-  records = [aws_s3_bucket.client.website_domain]
+
+  alias {
+    name                   = aws_s3_bucket.client.website_endpoint
+    zone_id                = aws_s3_bucket.client.hosted_zone_id
+    evaluate_target_health = false
+  }
 
   depends_on = [aws_s3_bucket.client]
 }
