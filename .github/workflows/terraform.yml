@@ -1,4 +1,4 @@
-name: "Terraform for AWS"
+name: "Build and Deploy"
 on:
   - push
 jobs:

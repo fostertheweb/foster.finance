@@ -138,10 +138,11 @@ EOF
 }
 
 resource "aws_s3_bucket_object" "client" {
-  bucket = "foster.finance"
-  key    = "client"
-  source = "./web/client.zip"
-  etag   = filemd5("./web/client.zip")
+  for_each = fileset("./web/build", "**")
+
+  bucket = aws_s3_bucket.client.id
+  key    = each.value
+  source = "./web/build/${each.value}"
 
   depends_on = [aws_s3_bucket.client]
 }
