@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import { Button, FormGroup, InputGroup, Intent, H2 } from "@blueprintjs/core";
-import { Link, navigate } from "@reach/router";
+import React from "react";
+import { Icon, Intent, H2 } from "@blueprintjs/core";
+import { Link } from "@reach/router";
 import Logo from "../components/logo";
-import { useAuth } from "../hooks/use-auth";
+import SignUpForm from "../components/signup-form";
+import CreateUserForm from "../components/create-user-form";
 
 export default function() {
-  const auth = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   return (
     <div className="s-wrap">
       <div className="s-left">
@@ -21,38 +18,21 @@ export default function() {
           and help you save more money. Already have an account?{" "}
           <Link to="/public/login">Log in</Link>
         </p>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            auth.signUp(email, password);
-            navigate("/");
-          }}>
-          <FormGroup label="First Name" labelFor="firstName">
-            <InputGroup id="firstName" placeholder="" />
-          </FormGroup>
-          <FormGroup label="Last Name" labelFor="lastName">
-            <InputGroup id="lastName" placeholder="" />
-          </FormGroup>
-          <FormGroup label="Email" labelFor="email">
-            <InputGroup
-              id="email"
-              placeholder=""
-              onChange={event => setEmail(event.target.value)}
-            />
-          </FormGroup>
-          <FormGroup label="Password" labelFor="password">
-            <InputGroup
-              id="password"
-              type="password"
-              onChange={event => setPassword(event.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button type="submit" intent={Intent.PRIMARY} large disabled={!email || !password}>
-              Sign Up
-            </Button>
-          </FormGroup>
-        </form>
+        <div className="signup-form">
+          <div className="signup-progress">
+            <div className="form-step form-step--active">
+              <Icon icon="key" intent={Intent.PRIMARY} />
+              <div>Login</div>
+            </div>
+            <div className="connection">&nbsp;</div>
+            <div className="form-step">
+              <Icon icon="user" />
+              <div>Profile</div>
+            </div>
+            <SignUpForm />
+            <CreateUserForm />
+          </div>
+        </div>
       </div>
     </div>
   );

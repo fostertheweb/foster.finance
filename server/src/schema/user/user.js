@@ -16,9 +16,8 @@ const User = objectType({
       list: [false],
       nullable: true,
     });
-    t.string("first_name", { nullable: true });
-    t.string("last_name", { nullable: true });
-    t.string("email", { nullable: true });
+    t.string("name", { nullable: true });
+    t.string("email", { nullable: false });
     t.string("emoji", { nullable: true });
   },
 });
@@ -27,9 +26,8 @@ const CreateUserRequest = inputObjectType({
   name: "CreateUserRequest",
   definition(t) {
     t.string("user_id", { required: true });
-    t.string("first_name");
-    t.string("last_name");
-    t.string("email");
+    t.string("name");
+    t.string("email", { required: true });
     t.string("emoji");
   },
 });

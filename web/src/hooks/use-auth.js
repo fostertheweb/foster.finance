@@ -24,17 +24,22 @@ export const useAuth = () => {
 
 function useAuthProvider() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   function signIn(email, password) {
+    setLoading(true);
     return Auth.signIn(email, password)
       .then(setUser)
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }
 
   function signUp(email, password) {
+    setLoading(true);
     return Auth.signUp(email, password)
       .then(setUser)
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }
 
   function signOut() {
@@ -68,6 +73,7 @@ function useAuthProvider() {
   }, []);
 
   return {
+    loading,
     user,
     signIn,
     signUp,

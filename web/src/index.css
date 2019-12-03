@@ -184,3 +184,45 @@ body {
 .s-right {
   width: 40vw;
 }
+
+.emoji-input {
+  background: #ddd;
+  border-radius: 100%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-input:hover {
+  background: #ccc;
+  cursor: pointer;
+}
+
+.signup-progress {
+  display: flex;
+  margin: 2rem 0;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.connection {
+  height: 2px;
+  background: #ccc;
+  width: 50%;
+}
+
+.form-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-step--action {
+  color: blue;
+}
+
+.signup-form {
+  max-width: 18rem;
+}

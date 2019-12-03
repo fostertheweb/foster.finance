@@ -66,10 +66,9 @@ type Bank {
 }
 
 input CreateUserRequest {
-  email: String
+  email: String!
   emoji: String
-  first_name: String
-  last_name: String
+  name: String
   user_id: String!
 }
 
@@ -102,6 +101,7 @@ type Location {
 
 type Mutation {
   createUser(input: CreateUserRequest!): User!
+  exchangePublicToken(token: String!): ExchangePublicTokenResponse!
 }
 
 type PaymentMeta {
@@ -184,10 +184,9 @@ enum TransactionType {
 
 type User {
   banks: [Bank]
-  email: String
+  email: String!
   emoji: String
-  first_name: String
-  last_name: String
+  name: String
   recurring_expenses: [RecurringExpense]
   user_id: String!
 }

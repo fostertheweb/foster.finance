@@ -1,5 +1,6 @@
-const { arg, objectType } = require("nexus");
+const { arg, objectType, stringArg } = require("nexus");
 const { User, CreateUserRequest } = require("./user");
+const { ExchangePublicTokenResponse } = require("./plaid");
 
 const Mutation = objectType({
   name: "Mutation",
@@ -12,9 +13,17 @@ const Mutation = objectType({
           required: true,
         }),
       },
-      async resolve(root, { input }, { db }) {
-        console.log("================================ db =======================", db);
+      async resolve(_root, { input }, { db }) {
         return await db.saveDoc("users", input);
+      },
+    });
+    t.field("exchangePublicToken", {
+      type: ExchangePublicTokenResponse,
+      args: {
+        token: stringArg({ required: true }),
+      },
+      async reolve(_root, { token }, { plaid }) {
+        return await plaid.exchangePublicToken(token);
       },
     });
   },
