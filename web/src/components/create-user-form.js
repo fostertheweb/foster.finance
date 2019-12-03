@@ -26,9 +26,10 @@ export default function({ user }) {
     <form
       onSubmit={e => {
         e.preventDefault();
-        createUser();
+        const input = { user_id: user.sub, email: user.email, name, emoji };
+        createUser({ variables: { input } });
       }}>
-      <FormGroup>
+      <FormGroup label="Emoji">
         <EmojiInput onChange={setEmoji} />
       </FormGroup>
       <FormGroup label="Name" labelFor="name">
@@ -40,7 +41,11 @@ export default function({ user }) {
         />
       </FormGroup>
       <FormGroup>
-        <Button type="submit" intent={Intent.PRIMARY} loading={loading} large>
+        <Button
+          type="submit"
+          intent={error ? Intent.DANGER : Intent.PRIMARY}
+          loading={loading}
+          large>
           Save Name &amp; Emoji
         </Button>
         <Button large>Skip</Button>

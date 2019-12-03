@@ -41,6 +41,7 @@ function Application({ children }) {
   return auth.user ? children : <Login />;
 }
 
+// this not compatible with two step signup lol
 function Public({ children }) {
   const auth = useAuth();
   return auth.user ? <Redirect to="accounts" /> : children;

@@ -4,8 +4,11 @@ import { Link } from "@reach/router";
 import Logo from "../components/logo";
 import SignUpForm from "../components/signup-form";
 import CreateUserForm from "../components/create-user-form";
+import { useAuth } from "../hooks/use-auth";
 
 export default function() {
+  const auth = useAuth();
+
   return (
     <div className="s-wrap">
       <div className="s-left">
@@ -20,18 +23,17 @@ export default function() {
         </p>
         <div className="signup-form">
           <div className="signup-progress">
-            <div className="form-step form-step--active">
-              <Icon icon="key" intent={Intent.PRIMARY} />
+            <div className={`form-step ${auth.user ? "" : "form-step--active"}`}>
+              <Icon icon="key" intent={auth.user ? Intent.NONE : Intent.PRIMARY} />
               <div>Login</div>
             </div>
-            <div className="connection">&nbsp;</div>
-            <div className="form-step">
-              <Icon icon="user" />
+            <div className={`connection ${auth.user ? "connection--active" : ""}`}>&nbsp;</div>
+            <div className={`form-step ${auth.user ? "form-step--active" : ""}`}>
+              <Icon icon="user" intent={auth.user ? Intent.PRIMARY : Intent.NONE} />
               <div>Profile</div>
             </div>
-            <SignUpForm />
-            <CreateUserForm />
           </div>
+          {auth.user ? <CreateUserForm user={auth.user} /> : <SignUpForm />}
         </div>
       </div>
     </div>
