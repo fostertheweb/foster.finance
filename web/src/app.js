@@ -3,6 +3,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { Redirect, Router } from "@reach/router";
 import { Button, Intent } from "@blueprintjs/core";
+import CreateProfile from "./routes/create-profile";
 
 import Header from "./components/header";
 import Accounts from "./routes/accounts";
@@ -41,12 +42,6 @@ function Application({ children }) {
   return auth.user ? children : <Login />;
 }
 
-// this not compatible with two step signup lol
-function Public({ children }) {
-  const auth = useAuth();
-  return auth.user ? <Redirect to="accounts" /> : children;
-}
-
 function App() {
   return (
     <div>
@@ -58,10 +53,9 @@ function App() {
               <Expenses path="expenses" />
               <Accounts path="accounts" />
             </Application>
-            <Public path="public">
-              <Login path="login" />
-              <Signup path="signup" />
-            </Public>
+            <Login path="login" />
+            <Signup path="signup" />
+            <CreateProfile path="create-profile" />
           </Router>
         </AuthProvider>
       </ApolloProvider>

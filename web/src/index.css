@@ -76,26 +76,25 @@ body {
 }
 
 .logo {
-  display: flex;
+  display: inline-flex;
+  height: 36px;
   align-items: center;
   font-family: "Secular One", sans-serif;
-  text-transform: uppercase;
-  color: #555;
+  text-transform: lowercase;
+  color: #111;
+  border: 2px solid #111;
+  padding: 0 0.4rem;
 }
 
-.logo .top {
-  font-size: 1.16em;
+.login-form {
+  margin-top: 2rem;
 }
 
-.logo .bottom {
-  font-size: 1em;
-  margin-top: -0.4em;
-}
-
-.icon {
-  margin-right: 0.2rem;
-  margin-bottom: -0.5rem;
-  font-size: 2em;
+.brand {
+  font-size: 22px;
+  line-height: 30px;
+  display: block;
+  margin-top: 2px;
 }
 
 .expenses {
@@ -154,11 +153,7 @@ body {
 
 .left {
   width: 30vw;
-  padding: 2rem;
-}
-
-.left .logo {
-  font-size: 1.5rem;
+  padding: 1.5rem;
 }
 
 .right {
@@ -166,11 +161,34 @@ body {
   background: white;
   padding: 2rem;
 }
+.right img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.header {
+  margin: 1.5rem;
+}
+
+.somethin {
+  width: 40vw;
+  margin: 2rem auto;
+}
+
+.create-user-form {
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.form-controls {
+  margin-left: 2rem;
+}
 
 .s-wrap {
   display: flex;
   justify-content: center;
-  margin-top: 15vh;
+  align-items: center;
+  margin: 4rem auto 2rem auto;
 }
 
 .s-wrap .logo {
@@ -181,8 +199,18 @@ body {
   margin-right: 2rem;
 }
 
+.s-left img {
+  width: 30vw;
+}
+
 .s-right {
-  width: 40vw;
+  width: 20rem;
+}
+
+.create-profile {
+  flex-direction: column;
+  align-items: flex-start;
+  width: 30vw;
 }
 
 .emoji-input {
