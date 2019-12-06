@@ -43,6 +43,7 @@ variable "client_mime_types" {
     ttf   = "font/ttf"
     otf   = "font/otf"
     eot   = "font/eot"
+    svg   = "image/svg+xml"
     woff  = "font/woff"
     woff2 = "font/woff2"
   }

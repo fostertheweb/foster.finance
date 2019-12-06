@@ -25,12 +25,13 @@ export const useAuth = () => {
 function useAuthProvider() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   function signIn(email, password) {
     setLoading(true);
     return Auth.signIn(email, password)
       .then(setUser)
-      .catch(console.error)
+      .catch(setError)
       .finally(() => setLoading(false));
   }
 
@@ -38,20 +39,27 @@ function useAuthProvider() {
     setLoading(true);
     return Auth.signUp(email, password)
       .then(setUser)
-      .catch(console.error)
+      .catch(setError)
       .finally(() => setLoading(false));
   }
 
   function signOut() {
+    setLoading(true);
     return Auth.signOut()
       .then(setUser)
-      .catch(console.error);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }
 
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
       case "signIn":
         setUser(data);
+        setError(null);
+        break;
+      case "signIn_failure":
+        setUser(null);
+        setError(data);
         break;
       default:
         setUser(null);
@@ -62,8 +70,8 @@ function useAuthProvider() {
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(setUser)
-      .catch(e => {
-        console.error(e);
+      .catch(err => {
+        setError(err);
         setUser(null);
       });
 
@@ -73,6 +81,7 @@ function useAuthProvider() {
   }, []);
 
   return {
+    error,
     loading,
     user,
     signIn,

@@ -1,7 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { Redirect, Router } from "@reach/router";
+import { Router } from "@reach/router";
 import { Button, Intent } from "@blueprintjs/core";
 import CreateProfile from "./routes/create-profile";
 

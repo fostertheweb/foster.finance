@@ -4,17 +4,17 @@ import { Link } from "@reach/router";
 import Logo from "./logo";
 import { useAuth } from "../hooks/use-auth";
 // import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+// import gql from "graphql-tag";
 
-const GET_USER = gql`
-  {
-    getUser(uid: $uid) {
-      first_name
-      last_name
-      emoji
-    }
-  }
-`;
+// const GET_USER = gql`
+//   {
+//     getUser(uid: $uid) {
+//       first_name
+//       last_name
+//       emoji
+//     }
+//   }
+// `;
 
 export default function() {
   const { user } = useAuth();
@@ -38,9 +38,7 @@ export default function() {
         </Link>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
-        <Link to="/">
-          <Button rightIcon="user" text={user.attributes.email} minimal />
-        </Link>
+        <Link to="/">{/* <Button rightIcon="user" text={user.attributes.email} minimal /> */}</Link>
       </Navbar.Group>
     </Navbar>
   );

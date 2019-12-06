@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, FormGroup, H3, InputGroup, Intent, Divider } from "@blueprintjs/core";
+import { Button, FormGroup, H3, InputGroup, Intent } from "@blueprintjs/core";
 import { Link, navigate } from "@reach/router";
 import Logo from "../components/logo";
 import { useAuth } from "../hooks/use-auth";

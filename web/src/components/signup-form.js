@@ -25,9 +25,10 @@ export default function() {
       onSubmit={e => {
         e.preventDefault();
         auth.signUp(email, password);
-
-        if (auth.user) {
+        if (!auth.error) {
           navigate("/create-profile");
+        } else {
+          console.error(auth.error);
         }
       }}>
       <FormGroup label="Email" labelFor="email">

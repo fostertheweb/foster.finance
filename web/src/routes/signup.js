@@ -3,12 +3,9 @@ import { H2 } from "@blueprintjs/core";
 import { Link } from "@reach/router";
 import Logo from "../components/logo";
 import SignUpForm from "../components/signup-form";
-import { useAuth } from "../hooks/use-auth";
 import Image from "../images/money.svg";
 
 export default function() {
-  const auth = useAuth();
-
   return (
     <>
       <div className="header">
