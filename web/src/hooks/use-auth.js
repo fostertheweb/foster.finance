@@ -23,56 +23,89 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [state, setState] = useState({
+    loading: false,
+    error: null,
+    data: null,
+  });
 
   function signIn(email, password) {
-    setLoading(true);
+    setState({ ...state, loading: true });
     return Auth.signIn(email, password)
-      .then(setUser)
-      .catch(setError)
-      .finally(() => setLoading(false));
+      .then(user => {
+        console.log({ response: user });
+        setState({
+          loading: false,
+          error: null,
+          data: user,
+        });
+        return user;
+      })
+      .catch(err => {
+        setState({ loading: false, error: err, data: null });
+        console.error(err);
+      });
   }
 
   function signUp(email, password) {
-    setLoading(true);
+    setState({ ...state, loading: true });
     return Auth.signUp(email, password)
-      .then(setUser)
-      .catch(setError)
-      .finally(() => setLoading(false));
+      .then(user => {
+        console.log({ response: user });
+        setState({
+          loading: false,
+          error: null,
+          data: user,
+        });
+        return user;
+      })
+      .catch(err => {
+        setState({ loading: false, error: err, data: null });
+        console.error(err);
+      });
   }
 
   function signOut() {
-    setLoading(true);
+    setState({ ...state, loading: true });
     return Auth.signOut()
-      .then(setUser)
-      .catch(setError)
-      .finally(() => setLoading(false));
+      .then(response => {
+        setState({ loading: false, error: null, data: null });
+        console.log({ response });
+      })
+      .catch(err => {
+        setState({ loading: false, error: err, data: null });
+        console.error(err);
+      });
   }
 
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
+      case "signUp":
       case "signIn":
-        setUser(data);
-        setError(null);
+        console.log({ event, data });
+        setState({ loading: false, error: null, data });
         break;
+      case "signUp_failure":
       case "signIn_failure":
-        setUser(null);
-        setError(data);
+        console.log({ event, data });
+        setState({ loading: false, error: data, data: null });
         break;
       default:
-        setUser(null);
+        console.log({ event, data });
+        setState({ loading: false, error: null, data });
         break;
     }
   }
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(setUser)
+      .then(user => {
+        setState({ loading: false, error: null, data: user });
+        console.log({ user });
+      })
       .catch(err => {
-        setError(err);
-        setUser(null);
+        setState({ loading: false, error: err, data: null });
+        console.log({ err });
       });
 
     Hub.listen("auth", handleAuthChange);
@@ -81,9 +114,7 @@ function useAuthProvider() {
   }, []);
 
   return {
-    error,
-    loading,
-    user,
+    user: state,
     signIn,
     signUp,
     signOut,

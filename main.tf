@@ -149,6 +149,18 @@ resource "aws_s3_bucket_object" "client" {
   depends_on = [aws_s3_bucket.client]
 }
 
+#Cloudfront
+resource "aws_cloudfront_distribution" "cdn" {
+  enabled = true
+  bucket  = "foster.finance"
+
+  depends_on = [aws_s3_bucket.client]
+}
+
+resource "aws_cloudfront_origin_access_identity" "access_identity" {
+
+}
+
 # Route53
 data "aws_route53_zone" "selected" {
   name = "foster.finance."
@@ -160,10 +172,35 @@ resource "aws_route53_record" "alias" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket.client.website_domain
-    zone_id                = aws_s3_bucket.client.hosted_zone_id
+    name                   = aws_cloudfront_distribution.cdn.domain_name
+    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
     evaluate_target_health = false
   }
 
-  depends_on = [aws_s3_bucket.client]
+  depends_on = [aws_cloudfront_distribution.cdn]
+}
+
+#ACM
+resource "aws_acm_certificate" "cert" {
+  domain_name       = "foster.finance"
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = local.common_tags
+}
+
+resource "aws_route53_record" "cert_validation" {
+  name    = "${aws_acm_certificate.cert.domain_validation_options.0.resource_record_name}"
+  type    = "${aws_acm_certificate.cert.domain_validation_options.0.resource_record_type}"
+  zone_id = "${data.aws_route53_zone.selected.id}"
+  records = ["${aws_acm_certificate.cert.domain_validation_options.0.resource_record_value}"]
+  ttl     = 60
+}
+
+resource "aws_acm_certificate_validation" "cert" {
+  certificate_arn         = "${aws_acm_certificate.cert.arn}"
+  validation_record_fqdns = ["${aws_route53_record.cert_validation.fqdn}"]
 }

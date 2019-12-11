@@ -49,5 +49,5 @@ jobs:
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.12.13
-          tf_actions_subcommand: "apply"
+          tf_actions_subcommand: "plan"
           args: "-lock=false"

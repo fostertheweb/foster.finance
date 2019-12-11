@@ -2,7 +2,7 @@ import React from "react";
 import { Alignment, Button, Navbar } from "@blueprintjs/core";
 import { Link } from "@reach/router";
 import Logo from "./logo";
-import { useAuth } from "../hooks/use-auth";
+// import { useAuth } from "../hooks/use-auth";
 // import { useQuery } from "@apollo/react-hooks";
 // import gql from "graphql-tag";
 
@@ -17,7 +17,7 @@ import { useAuth } from "../hooks/use-auth";
 // `;
 
 export default function() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   // const { data, loading, error } = useQuery(GET_USER, { variables: { uid: user.username } });
 
   // if (loading) return "Loading...";

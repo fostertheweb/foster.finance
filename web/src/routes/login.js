@@ -1,59 +1,77 @@
 import React, { useState } from "react";
-import { Button, FormGroup, H3, InputGroup, Intent } from "@blueprintjs/core";
 import { Link, navigate } from "@reach/router";
 import Logo from "../components/logo";
 import { useAuth } from "../hooks/use-auth";
 import Image from "../images/savings.svg";
 
 export default function() {
-  const auth = useAuth();
+  const { signIn, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      await signIn(email, password);
+      navigate("/");
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
   return (
-    <div className="wrap">
-      <div className="left">
+    <div className="flex">
+      <div className="p-4 bg-purple-100">
         <Logo />
-        <div className="login-form">
-          <H3>Log In</H3>
+        <div className="my-8">
+          <h3 className="font-bold text-lg my-2">Log In</h3>
           <p>
-            Don't have an account? <Link to="/signup">Sign up</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-purple-600 underline">
+              Sign up
+            </Link>
           </p>
-          <form
-            style={{ marginTop: "2rem", width: "20rem" }}
-            onSubmit={e => {
-              e.preventDefault();
-              auth.signIn(email, password);
-              navigate("/");
-            }}>
-            <FormGroup label="Email" labelFor="email">
-              <InputGroup
+          <form onSubmit={handleSubmit} className="block my-8">
+            <div className="block my-4">
+              <label className="block my-1" htmlFor="email">
+                Email
+              </label>
+              <input
+                className="p-2 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline"
+                type="text"
+                name="email"
                 id="email"
-                placeholder=""
                 value={email}
-                onChange={event => setEmail(event.target.value)}
-                large
+                onChange={e => setEmail(e.target.value)}
               />
-            </FormGroup>
-            <FormGroup label="Password" labelFor="password">
-              <InputGroup
-                id="password"
+            </div>
+            <div className="block my-4">
+              <label className="block my-1" htmlFor="password">
+                Password
+              </label>
+              <input
+                className="p-2 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline"
                 type="password"
+                name="password"
+                id="password"
                 value={password}
-                onChange={event => setPassword(event.target.value)}
-                large
+                onChange={e => setPassword(e.target.value)}
               />
-            </FormGroup>
-            <FormGroup>
-              <Button type="submit" intent={Intent.PRIMARY} large disabled={!email || !password}>
-                Log In
-              </Button>
-            </FormGroup>
+            </div>
+            <div>
+              <input
+                className="p-2 font-bold text-white border border-blue-500 bg-blue-400 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+                disabled={!email || !password || user.loading}
+                value="Log In"
+              />
+            </div>
           </form>
         </div>
       </div>
-      <div className="right">
-        <img src={Image} alt="person with piggy bank" />
+      <div className="flex justify-center">
+        <img className="p-6 max-w-full max-h-screen" src={Image} alt="person with piggy bank" />
       </div>
     </div>
   );

@@ -3,7 +3,9 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { Router } from "@reach/router";
 import { Button, Intent } from "@blueprintjs/core";
-import CreateProfile from "./routes/create-profile";
+
+import SetupCredentials from "./components/signup/setup-credentials";
+import SetupProfile from "./components/signup/setup-profile";
 
 import Header from "./components/header";
 import Accounts from "./routes/accounts";
@@ -24,13 +26,13 @@ const client = new ApolloClient({
 });
 
 function Home() {
-  const auth = useAuth();
+  const { signOut } = useAuth();
 
   return (
     <div>
       <Header />
       <div>Home</div>
-      <Button intent={Intent.PRIMARY} onClick={() => auth.signOut()}>
+      <Button intent={Intent.PRIMARY} onClick={() => signOut()}>
         Logout
       </Button>
     </div>
@@ -38,8 +40,8 @@ function Home() {
 }
 
 function Application({ children }) {
-  const auth = useAuth();
-  return auth.user ? children : <Login />;
+  const { user } = useAuth();
+  return user.data ? children : <Login />;
 }
 
 function App() {
@@ -54,8 +56,10 @@ function App() {
               <Accounts path="accounts" />
             </Application>
             <Login path="login" />
-            <Signup path="signup" />
-            <CreateProfile path="create-profile" />
+            <Signup path="signup">
+              <SetupCredentials path="/" />
+              <SetupProfile path="profile" />
+            </Signup>
           </Router>
         </AuthProvider>
       </ApolloProvider>
