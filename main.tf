@@ -114,21 +114,6 @@ resource "aws_s3_bucket" "client" {
   bucket = "foster.finance"
   acl    = "public-read"
 
-  policy = <<EOF
-{
-  "Version":"2012-10-17",
-  "Statement":[
-    {
-      "Sid":"PublicRead",
-      "Effect":"Allow",
-      "Principal": "*",
-      "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::foster.finance/*"]
-    }
-  ]
-}
-EOF
-
   website {
     index_document = "index.html"
     error_document = "index.html"
@@ -149,16 +134,55 @@ resource "aws_s3_bucket_object" "client" {
   depends_on = [aws_s3_bucket.client]
 }
 
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    sid       = "PublicRead"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.client.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.access_identity.iam_arn]
+    }
+  }
+
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.client.arn]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.access_identity.iam_arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = "${aws_s3_bucket.client.id}"
+  policy = "${data.aws_iam_policy_document.s3_policy.json}"
+}
+
 #Cloudfront
 resource "aws_cloudfront_distribution" "cdn" {
   enabled = true
   bucket  = "foster.finance"
 
+  origin {
+    origin_id   = "foster.finance-bucket"
+    domain_name = aws_s3_bucket.client.bucket_regional_domain_name
+
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.access_identity.cloudfront_access_identity_path
+    }
+  }
+
+  tags = local.common_tags
+
   depends_on = [aws_s3_bucket.client]
 }
 
 resource "aws_cloudfront_origin_access_identity" "access_identity" {
-
+  comment = "foster-finance-access-identity"
 }
 
 # Route53
