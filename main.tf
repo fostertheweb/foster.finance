@@ -112,7 +112,6 @@ resource "aws_lambda_function" "api" {
 # Client
 resource "aws_s3_bucket" "client" {
   bucket = "foster.finance"
-  acl    = "public-read"
 
   website {
     index_document = "index.html"
