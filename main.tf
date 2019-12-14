@@ -88,7 +88,7 @@ resource "aws_lambda_function" "api" {
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "exports.handler"
   source_code_hash = filebase64sha256("./server/lambda.zip")
-  runtime          = "nodejs12.x"
+  runtime          = "nodejs10.x"
 
   environment {
     variables = {
@@ -164,8 +164,10 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 
 #Cloudfront
 resource "aws_cloudfront_distribution" "cdn" {
-  enabled = true
-  bucket  = "foster.finance"
+  enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "foster-finance-cdn"
+  default_root_object = "index.html"
 
   origin {
     origin_id   = "foster.finance-bucket"
@@ -174,6 +176,36 @@ resource "aws_cloudfront_distribution" "cdn" {
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.access_identity.cloudfront_access_identity_path
     }
+  }
+
+  aliases = ["foster.finance", "www.foster.finance"]
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "foster.finance-bucket"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn      = aws_acm_certificate.cert.arn
+    minimum_protocol_version = "TLSv1.1_2016"
+    ssl_support_method       = "sni-only"
   }
 
   tags = local.common_tags
