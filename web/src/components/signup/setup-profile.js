@@ -16,39 +16,34 @@ const CREATE_USER = gql`
 export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER);
   const { user } = useAuth();
-
-  console.log(data);
 
   return (
     <>
-      <H2>Create your user profile</H2>
+      <h2 className="text-lg font-bold">Create your user profile</h2>
       <p>
         It's so great to meet you! If you would like, you can tell us your name and pick an emoji
         for your user profile.
       </p>
       <form
-        className="create-user-form"
         onSubmit={e => {
           e.preventDefault();
           const input = { user_id: user.sub, email: user.email, name, emoji };
           createUser({ variables: { input } });
         }}>
         <EmojiInput onChange={setEmoji} />
-        <div className="form-controls">
+        <div>
           <FormGroup label="Name" labelFor="name">
             <InputGroup
               id="name"
               placeholder="What should we call you?"
-              large
               onChange={event => setName(event.target.value)}
+              large
             />
           </FormGroup>
           <FormGroup>
-            <Button minimal={true} style={{ marginRight: "1rem" }}>
-              Skip for now
-            </Button>
+            <Button minimal={true}>Skip for now</Button>
             <Button
               type="submit"
               intent={error ? Intent.DANGER : Intent.PRIMARY}

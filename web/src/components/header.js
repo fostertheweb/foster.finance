@@ -16,6 +16,14 @@ import Logo from "./logo";
 //   }
 // `;
 
+export function MinimalHeader() {
+  return (
+    <div className="p-4">
+      <Logo />
+    </div>
+  );
+}
+
 export default function() {
   // const { user } = useAuth();
   // const { data, loading, error } = useQuery(GET_USER, { variables: { uid: user.username } });

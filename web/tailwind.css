@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input {
+  @apply shadow-inner;
+}
+
+.link {
+  @apply underline;
+}
+
+.h2 {
+  color: #094067;
+  @apply text-lg font-bold;
+}
+
+.p {
+  color: #5f6c7b;
+}
+
+.btn {
+  background: #3da9fc;
+  color: #fffffe;
+}
+
+.secondary {
+  background: #90b4ce;
+}
+
+body {
+  background: #fffffe;
+}

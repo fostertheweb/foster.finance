@@ -1,13 +1,11 @@
 import React from "react";
-import Logo from "../components/logo";
+import { MinimalHeader } from "../components/header";
 
 export default function({ children }) {
   return (
     <>
-      <div className="header">
-        <Logo />
-      </div>
-      <div className="s-wrap">{children}</div>
+      <MinimalHeader />
+      {children}
     </>
   );
 }

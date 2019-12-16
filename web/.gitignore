@@ -10,3 +10,4 @@ node_modules/
 aws-exports.js
 awsconfiguration.json
 *.zip
+src/style.css
