@@ -7,6 +7,7 @@ export default function() {
       <Icon icon="envelope" size={64} />
       <h2>Email verification required</h2>
       <p>Click the link sent to your email address.</p>
+      <button className="btn btn-primary">Resend Email</button>
     </div>
   );
 }

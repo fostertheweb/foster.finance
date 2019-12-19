@@ -610,6 +610,47 @@ video {
   }
 }
 
+.input {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.link {
+  color: #3da9fc;
+  text-decoration: underline;
+}
+
+h2 {
+  color: #094067;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+p {
+  color: #5f6c7b;
+}
+
+.btn {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.25rem;
+}
+
+.btn-primary {
+  background: #3da9fc;
+  color: #fffffe;
+}
+
+.btn-secondary {
+  background: #90b4ce;
+}
+
+body {
+  background: #fffffe;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

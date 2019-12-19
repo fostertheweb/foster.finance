@@ -1,80 +1,78 @@
 import React, { useState } from "react";
-import { Button, FormGroup, InputGroup, Intent, Tooltip } from "@blueprintjs/core";
-import { useAuth } from "../../hooks/use-auth";
+// import { useAuth } from "../../hooks/use-auth";
 import { Link } from "@reach/router";
-import Image from "../../images/money.svg";
 import VerifyCredentials from "./verify-credentials";
 
 export default function() {
-  const auth = useAuth();
+  // const auth = useAuth();
+  const [auth, setAuth] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const showPasswordButton = (
-    <Tooltip content={`${showPassword ? "Hide" : "Show"} Password`}>
-      <Button
-        icon={showPassword ? "eye-open" : "eye-off"}
-        onClick={() => setShowPassword(!showPassword)}
-        minimal={true}
-      />
-    </Tooltip>
+    <button
+      icon={showPassword ? "eye-open" : "eye-off"}
+      onClick={() => setShowPassword(!showPassword)}
+      minimal={true}
+    />
   );
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    const user = auth.signUp(email, password);
-    console.log({ signUp: user });
+    setAuth(true);
+    // auth.signUp(email, password);
   }
 
   return (
-    <div className="flex items-center justify-center w-9/12 mx-auto my-10">
-      <div className="p-4 w-9/12">
-        <img src={Image} alt="man making it rain with dollar bills" />
-      </div>
-      <div className="p-4 w-1/2">
-        {auth.user.data && !auth.user.error ? (
+    <div className="flex justify-center my-4">
+      <div className="lg:w-1/3 md:w-1/2 w-3/4">
+        {/* {auth.user.data && !auth.user.error ? ( */}
+        {auth ? (
           <VerifyCredentials />
         ) : (
           <>
-            <h2 className="my-2 text-lg font-bold">Get started</h2>
-            <p className="my-2">
+            <h2 className="my-0 text-xl">Get started</h2>
+            <p className="block my-4">
               After creating an account you will connect to your bank so we can view your
               transactions and help you save more money.
             </p>
             <p className="my-4">
-              Already have an account? <Link to="/login">Log in</Link>
+              Already have an account?{" "}
+              <Link to="/login" className="link">
+                Log in
+              </Link>
             </p>
             <form onSubmit={e => handleSubmit(e)} className="my-4">
-              <FormGroup label="Email" labelFor="email">
-                <InputGroup
+              <div className="my-6">
+                <label htmlFor="email" className="font-bold block my-1">
+                  Email
+                </label>
+                <input
+                  className="text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
                   id="email"
                   placeholder="Email address"
                   onChange={e => setEmail(e.target.value)}
-                  large
                 />
-              </FormGroup>
-              <FormGroup label="Password" labelFor="password">
-                <InputGroup
+              </div>
+              <div className="my-6">
+                <label htmlFor="password" className="font-bold block my-1">
+                  Password
+                </label>
+                <input
+                  className="text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create your password..."
                   onChange={e => setPassword(e.target.value)}
-                  rightElement={showPasswordButton}
-                  large
                 />
-              </FormGroup>
-              <FormGroup>
-                <Button
-                  type="submit"
-                  intent={Intent.SUCCESS}
-                  loading={auth.loading}
-                  disabled={!email || !password || auth.loading}
-                  large>
-                  Sign Up
-                </Button>
-              </FormGroup>
+              </div>
+              <input
+                value="Sign Up"
+                type="submit"
+                disabled={!email || !password || auth.loading}
+                className="btn btn-primary font-bold my-2"
+              />
             </form>
           </>
         )}
