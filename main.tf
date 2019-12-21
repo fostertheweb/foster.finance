@@ -49,6 +49,12 @@ resource "aws_cognito_user_pool_client" "client" {
   user_pool_id = aws_cognito_user_pool.pool.id
 }
 
+resource "aws_cognito_user_pool_domain" "main" {
+  domain          = "foster.finance"
+  certificate_arn = aws_acm_certificate.cert.arn
+  user_pool_id    = aws_cognito_user_pool.pool.id
+}
+
 # Database
 resource "aws_db_instance" "users_db" {
   allocated_storage = 20
