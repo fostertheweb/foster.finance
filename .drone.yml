@@ -22,8 +22,6 @@ steps:
     commands:
       - yarn
       - yarn run build
-
-steps:
   - name: release
     image: hashicorp/terraform
     environment:
