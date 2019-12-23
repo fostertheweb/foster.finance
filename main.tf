@@ -88,7 +88,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 EOF
 }
 
-resource "archive" "lambda" {
+resource "archive_file" "lambda" {
   type        = "zip"
   source_dir  = "./server/dist"
   output_path = "./server/lambda.zip"
@@ -99,7 +99,7 @@ resource "aws_lambda_function" "api" {
   function_name    = "foster-finance-api"
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "exports.handler"
-  source_code_hash = archive.lambda.output_base64sha256
+  source_code_hash = archive_file.lambda.output_base64sha256
   runtime          = "nodejs10.x"
 
   environment {
