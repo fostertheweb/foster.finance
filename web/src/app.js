@@ -6,6 +6,7 @@ import { Button, Intent } from "@blueprintjs/core";
 
 import SetupCredentials from "./components/signup/setup-credentials";
 import SetupProfile from "./components/signup/setup-profile";
+import LoginForm from "./components/login/form";
 
 import Header from "./components/header";
 import Accounts from "./routes/accounts";
@@ -55,7 +56,9 @@ function App() {
               <Expenses path="expenses" />
               <Accounts path="accounts" />
             </Application>
-            <Login path="login" />
+            <Login path="login">
+              <LoginForm path="/" />
+            </Login>
             <Signup path="signup">
               <SetupCredentials path="/" />
               <SetupProfile path="profile" />

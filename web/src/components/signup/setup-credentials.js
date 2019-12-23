@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import { useAuth } from "../../hooks/use-auth";
 import { Link } from "@reach/router";
 import VerifyCredentials from "./verify-credentials";
+import CreditCardImage from "../../images/credit-card";
 
 export default function() {
   // const auth = useAuth();
@@ -25,8 +26,9 @@ export default function() {
   }
 
   return (
-    <div className="flex justify-center my-4">
-      <div className="lg:w-1/3 md:w-1/2 w-3/4">
+    <div className="flex flex-col md:flex-row items-center justify-center my-4">
+      <CreditCardImage classes="lg:w-1/4 md:w-1/3 w-1/2 mx-4" />
+      <div className="lg:w-1/3 md:w-1/2 w-3/4 md:-ml-12">
         {/* {auth.user.data && !auth.user.error ? ( */}
         {auth ? (
           <VerifyCredentials />
@@ -60,7 +62,7 @@ export default function() {
                   Password
                 </label>
                 <input
-                  className="text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
+                  className="text-md p-3 border-gray-400 border-2 rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
                   id="password"
                   type={false ? "text" : "password"}
                   placeholder="Create your password..."
@@ -68,10 +70,10 @@ export default function() {
                 />
               </div>
               <input
-                value="Sign Up"
+                value="Sign up"
                 type="submit"
                 disabled={!email || !password || auth.loading}
-                className="btn btn-primary font-bold my-2"
+                className="block rounded font-bold bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-2 py-2 px-4"
               />
             </form>
           </>
