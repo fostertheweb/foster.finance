@@ -24,3 +24,5 @@ yarn-error.log*
 .terraform/
 **/*.zip
 *.tfvars
+web/src/styles.css
+web/build
