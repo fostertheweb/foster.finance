@@ -8,15 +8,15 @@ export default function() {
   const [auth, setAuth] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
-  const showPasswordButton = (
-    <button
-      icon={showPassword ? "eye-open" : "eye-off"}
-      onClick={() => setShowPassword(!showPassword)}
-      minimal={true}
-    />
-  );
+  // const showPasswordButton = (
+  //   <button
+  //     icon={showPassword ? "eye-open" : "eye-off"}
+  //     onClick={() => setShowPassword(!showPassword)}
+  //     minimal={true}
+  //   />
+  // );
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function() {
                 <input
                   className="text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={false ? "text" : "password"}
                   placeholder="Create your password..."
                   onChange={e => setPassword(e.target.value)}
                 />

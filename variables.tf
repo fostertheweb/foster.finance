@@ -1,34 +1,34 @@
 variable "application" {
   default = "foster-finance"
-  type    = "string"
+  type    = string
 }
 
 variable "db_name" {
-  type = "string"
+  type = string
 }
 
 variable "db_user" {
-  type = "string"
+  type = string
 }
 
 variable "db_pass" {
-  type = "string"
+  type = string
 }
 
 variable "plaid_client_id" {
-  type = "string"
+  type = string
 }
 
 variable "plaid_public_key" {
-  type = "string"
+  type = string
 }
 
 variable "plaid_secret" {
-  type = "string"
+  type = string
 }
 
 variable "plaid_env" {
-  type = "string"
+  type = string
 }
 
 variable "client_mime_types" {
