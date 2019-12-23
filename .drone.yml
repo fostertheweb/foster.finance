@@ -1,0 +1,11 @@
+---
+kind: pipeline
+type: docker
+name: build & release
+
+steps:
+  - name: install
+    image: node
+    commands:
+      - yarn
+      - yarn run build

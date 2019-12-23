@@ -49,7 +49,7 @@ export default function() {
                   Email
                 </label>
                 <input
-                  className="text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
+                  className="bg-white text-md p-3 border-gray-400 border-2 rounded shadow-inner focus:outline-none focus:shadow-outline w-full"
                   id="email"
                   placeholder="Email address"
                   onChange={e => setEmail(e.target.value)}
