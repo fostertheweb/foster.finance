@@ -3,6 +3,11 @@ variable "application" {
   type    = string
 }
 
+variable "domain_name" {
+  default = "foster.finance"
+  type    = string
+}
+
 variable "db_name" {
   type = string
 }

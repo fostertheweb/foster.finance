@@ -5,7 +5,7 @@ terraform {
     organization = "Family"
 
     workspaces {
-      name = "foster-finance"
+      name = var.application
     }
   }
 }
@@ -17,13 +17,13 @@ provider "aws" {
 
 locals {
   common_tags = {
-    project = "foster-finance"
+    project = var.application
   }
 }
 
 # Cognito
 resource "aws_cognito_user_pool" "pool" {
-  name                     = "foster-finance"
+  name                     = var.application
   auto_verified_attributes = ["email"]
   username_attributes      = ["email"]
 
@@ -45,12 +45,12 @@ resource "aws_cognito_user_pool" "pool" {
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  name         = " foster-finance-client"
+  name         = "${var.application}-client"
   user_pool_id = aws_cognito_user_pool.pool.id
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
-  domain          = "auth.foster.finance"
+  domain          = "auth.${var.domain_name}"
   certificate_arn = aws_acm_certificate.cert.arn
   user_pool_id    = aws_cognito_user_pool.pool.id
 }
@@ -69,7 +69,7 @@ resource "aws_db_instance" "users_db" {
 
 # Lambda
 resource "aws_iam_role" "iam_for_lambda" {
-  name = "foster-finance-lambda-role"
+  name = "${var.application}-lambda-role"
 
   assume_role_policy = <<EOF
 {
@@ -97,7 +97,7 @@ data "archive_file" "lambda" {
 
 resource "aws_lambda_function" "api" {
   filename         = "./server/lambda.zip"
-  function_name    = "foster-finance-api"
+  function_name    = "${var.application}-api"
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "exports.handler"
   source_code_hash = data.archive_file.lambda.output_base64sha256
@@ -124,7 +124,7 @@ resource "aws_lambda_function" "api" {
 
 # Client
 resource "aws_s3_bucket" "client" {
-  bucket = "foster.finance"
+  bucket = var.domain_name
 
   website {
     index_document = "index.html"
@@ -169,11 +169,11 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "foster-finance-cdn"
+  comment             = "${var.application}-cdn"
   default_root_object = "index.html"
 
   origin {
-    origin_id   = "foster.finance-bucket"
+    origin_id   = "${var.domain_name}-bucket"
     domain_name = aws_s3_bucket.client.bucket_regional_domain_name
 
     s3_origin_config {
@@ -181,12 +181,12 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  aliases = ["foster.finance", "www.foster.finance"]
+  aliases = ["${var.domain_name}", "www.${var.domain_name}"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "foster.finance-bucket"
+    target_origin_id = "${var.domain_name}-bucket"
 
     forwarded_values {
       query_string = false
@@ -217,12 +217,12 @@ resource "aws_cloudfront_distribution" "cdn" {
 }
 
 resource "aws_cloudfront_origin_access_identity" "access_identity" {
-  comment = "foster-finance-access-identity"
+  comment = "${var.application}-access-identity"
 }
 
 # Route53
 data "aws_route53_zone" "selected" {
-  name = "foster.finance."
+  name = "${var.domain_name}."
 }
 
 resource "aws_route53_record" "alias" {
@@ -241,7 +241,7 @@ resource "aws_route53_record" "alias" {
 
 #ACM
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "foster.finance"
+  domain_name       = var.domain_name
   validation_method = "DNS"
 
   lifecycle {
