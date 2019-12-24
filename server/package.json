@@ -9,8 +9,7 @@
     "dist": "run-s dist:clean dist:copy dist:install",
     "dist:clean": "rm -rf dist && rm -f lambda.zip",
     "dist:copy": "mkdir dist && cp -R src/** dist/ && cp package.json dist/",
-    "dist:install": "cd dist; yarn install --production",
-    "dist:zip": "cd dist; zip -r ../lambda.zip ."
+    "dist:install": "cd dist; yarn install --production"
   },
   "keywords": [],
   "author": "",

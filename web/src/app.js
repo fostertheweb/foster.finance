@@ -1,7 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { Router } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 import { Button, Intent } from "@blueprintjs/core";
 
 import SetupCredentials from "./components/signup/setup-credentials";
@@ -42,7 +42,17 @@ function Home() {
 
 function Application({ children }) {
   const { user } = useAuth();
-  return user.data ? children : <Login />;
+
+  if (user.loading) {
+    return null;
+  }
+
+  if (!user.data) {
+    navigate("/login");
+    return null;
+  }
+
+  return children;
 }
 
 function App() {

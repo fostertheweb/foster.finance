@@ -88,6 +88,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 EOF
 }
 
+# zip the api directory for lambda
 data "archive_file" "lambda" {
   type        = "zip"
   source_dir  = "./server/dist"
