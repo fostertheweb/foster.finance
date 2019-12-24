@@ -184,6 +184,11 @@ resource "aws_cloudfront_distribution" "cdn" {
   comment             = "${var.application}-cdn"
   default_root_object = "index.html"
 
+  custom_error_response {
+    error_code         = 403
+    response_page_path = "index.html"
+  }
+
   origin {
     origin_id   = "${var.domain_name}-bucket"
     domain_name = aws_s3_bucket.client.bucket_regional_domain_name
@@ -193,7 +198,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  aliases = ["${var.domain_name}", "www.${var.domain_name}"]
+  aliases = [var.domain_name, "www.${var.domain_name}"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
