@@ -70,7 +70,7 @@ export default function() {
           />
         </form>
       </div>
-      <SavingsImage classes="lg:w-1/3 md:w-1/2 w-3/4 mx-4 md:-ml-20 lg:-ml-40" />
+      <SavingsImage classes="lg:w-1/3 md:w-1/2 w-3/4 mx-4 md:-ml-20 lg:-ml-32" />
     </div>
   );
 }
