@@ -16,7 +16,7 @@ const CREATE_USER = gql`
 export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [createUser, { loading, error }] = useMutation(CREATE_USER);
+  const [createUser, { loading }] = useMutation(CREATE_USER);
   const { user } = useAuth();
 
   return (
