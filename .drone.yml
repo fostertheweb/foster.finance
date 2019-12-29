@@ -19,6 +19,8 @@ steps:
         from_secret: pool_id
       REACT_APP_AWS_USER_POOL_WEB_CLIENT_ID:
         from_secret: pool_client_id
+      FONTAWESOME_NPM_AUTH_TOKEN:
+        from_secret: font_awesome_token
     commands:
       - yarn
       - yarn run build
