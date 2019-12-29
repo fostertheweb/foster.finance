@@ -14,6 +14,7 @@ import Expenses from "./routes/expenses";
 import Login from "./routes/login";
 import Signup from "./routes/signup";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
+import VerifyCredentials from "./components/signup/verify-credentials";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
@@ -72,6 +73,7 @@ function App() {
             <Signup path="signup">
               <SetupCredentials path="/" />
               <SetupProfile path="profile" />
+              <VerifyCredentials path="verify" />
             </Signup>
           </Router>
         </AuthProvider>

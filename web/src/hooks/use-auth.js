@@ -65,6 +65,12 @@ function useAuthProvider() {
       });
   }
 
+  function resendSignUp(email) {
+    return Auth.resendSignUp(email)
+      .then(() => true)
+      .catch(() => false);
+  }
+
   function signOut() {
     setState({ ...state, loading: true });
     return Auth.signOut()
@@ -118,5 +124,6 @@ function useAuthProvider() {
     signIn,
     signUp,
     signOut,
+    resendSignUp,
   };
 }

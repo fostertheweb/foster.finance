@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Button, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
 import EmojiInput from "../emoji-input";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useAuth } from "../../hooks/use-auth";
+import Input, { Submit } from "../input";
 
 const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserRequest!) {
@@ -22,10 +22,10 @@ export default function() {
   return (
     <div className="flex justify-center my-4">
       <div className="lg:w-1/3 md:w-1/2 w-3/4">
-        <h2>Create your user profile</h2>
-        <p>
+        <h2 className="my-4">Create your user profile</h2>
+        <p className="mb-8">
           It's so great to meet you! If you would like, you can tell us your name and pick an emoji
-          for your user profile.
+          so things feel more personal around here.
         </p>
         <form
           onSubmit={e => {
@@ -33,26 +33,18 @@ export default function() {
             const input = { user_id: user.sub, email: user.email, name, emoji };
             createUser({ variables: { input } });
           }}>
-          <EmojiInput onChange={setEmoji} />
-          <div>
-            <FormGroup label="Name" labelFor="name">
-              <InputGroup
+          <div className="flex items-center mb-2">
+            <EmojiInput onChange={setEmoji} />
+            <div className="ml-6 w-full">
+              <Input
+                label="Name"
                 id="name"
                 placeholder="What should we call you?"
                 onChange={event => setName(event.target.value)}
-                large
               />
-            </FormGroup>
-            <FormGroup>
-              <Button
-                type="submit"
-                intent={error ? Intent.DANGER : Intent.PRIMARY}
-                loading={loading}
-                large>
-                Save Profile
-              </Button>
-            </FormGroup>
+            </div>
           </div>
+          <Submit text="Save Profile" loading={loading} />
         </form>
       </div>
     </div>

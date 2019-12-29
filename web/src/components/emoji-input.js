@@ -19,7 +19,7 @@ export default function({ onChange, placeholder }) {
   });
 
   return (
-    <div>
+    <div className="mb-4">
       <Popover position="right-top" isOpen={isOpen}>
         <div className="emoji-input" onClick={() => setOpen(true)}>
           <Emoji emoji={emoji} size={36} />
