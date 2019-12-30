@@ -243,7 +243,7 @@ data "aws_route53_zone" "selected" {
   name = "${var.domain_name}."
 }
 
-resource "aws_route53_record" "alias" {
+resource "aws_route53_record" "cloudfront" {
   zone_id = data.aws_route53_zone.selected.zone_id
   name    = data.aws_route53_zone.selected.name
   type    = "A"
@@ -255,6 +255,18 @@ resource "aws_route53_record" "alias" {
   }
 
   depends_on = [aws_cloudfront_distribution.cdn]
+}
+
+resource "aws_route53_record" "auth_subdomain" {
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name    = "auth.${var.domain_name}."
+  type    = "A"
+
+  alias {
+    name                   = data.aws_route53_zone.selected.name
+    zone_id                = data.aws_route53_zone.selected.zone_id
+    evaluate_target_health = false
+  }
 }
 
 #ACM
