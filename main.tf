@@ -47,8 +47,8 @@ resource "aws_cognito_user_pool" "pool" {
 resource "aws_cognito_user_pool_client" "client" {
   name                 = "${var.application}-client"
   user_pool_id         = aws_cognito_user_pool.pool.id
-  callback_urls        = ["${var.domain_name}/signup/profile"]
-  default_redirect_uri = "${var.domain_name}/signup/profile"
+  callback_urls        = ["https://${var.domain_name}/signup/profile"]
+  default_redirect_uri = "https://${var.domain_name}/signup/profile"
   explicit_auth_flows  = ["USER_PASSWORD_AUTH"]
 }
 
