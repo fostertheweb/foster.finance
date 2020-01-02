@@ -22,7 +22,7 @@ locals {
 }
 
 # Cognito
-resource "aws_cognito_user_pool" "pool" {
+resource "aws_cognito_user_pool" "users" {
   name                     = var.application
   auto_verified_attributes = ["email"]
   username_attributes      = ["email"]
@@ -41,19 +41,23 @@ resource "aws_cognito_user_pool" "pool" {
     email_sending_account = "COGNITO_DEFAULT"
   }
 
+  lambda_config {
+    custom_message = aws_lambda_function.email.arn
+  }
+
   tags = local.common_tags
 }
 
-resource "aws_cognito_user_pool_client" "client" {
-  name                = "${var.application}-client"
-  user_pool_id        = aws_cognito_user_pool.pool.id
+resource "aws_cognito_user_pool_client" "web" {
+  name                = "${var.application}-web"
+  user_pool_id        = aws_cognito_user_pool.users.id
   explicit_auth_flows = ["USER_PASSWORD_AUTH"]
 }
 
-resource "aws_cognito_user_pool_domain" "main" {
+resource "aws_cognito_user_pool_domain" "auth_subdomain" {
   domain          = "auth.${var.domain_name}"
   certificate_arn = aws_acm_certificate.cert.arn
-  user_pool_id    = aws_cognito_user_pool.pool.id
+  user_pool_id    = aws_cognito_user_pool.users.id
 }
 
 # Database
@@ -90,18 +94,36 @@ EOF
 }
 
 # zip the api directory for lambda
-data "archive_file" "lambda" {
+data "archive_file" "email" {
+  type        = "zip"
+  source_dir  = "./email"
+  output_path = "./email/lambda.zip"
+}
+
+resource "aws_lambda_function" "email" {
+  filename         = "./email/lambda.zip"
+  function_name    = "${var.application}-email"
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "exports.handler"
+  source_code_hash = data.archive_file.email.output_base64sha256
+  runtime          = "nodejs10.x"
+
+  tags = local.common_tags
+}
+
+# zip the api directory for lambda
+data "archive_file" "server" {
   type        = "zip"
   source_dir  = "./server/dist"
   output_path = "./server/lambda.zip"
 }
 
-resource "aws_lambda_function" "api" {
+resource "aws_lambda_function" "server" {
   filename         = "./server/lambda.zip"
-  function_name    = "${var.application}-api"
+  function_name    = "${var.application}-server"
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "exports.handler"
-  source_code_hash = data.archive_file.lambda.output_base64sha256
+  source_code_hash = data.archive_file.server.output_base64sha256
   runtime          = "nodejs10.x"
 
   environment {
@@ -124,7 +146,7 @@ resource "aws_lambda_function" "api" {
 }
 
 # Client
-resource "aws_s3_bucket" "client" {
+resource "aws_s3_bucket" "web" {
   bucket = var.domain_name
 
   website {
@@ -135,16 +157,16 @@ resource "aws_s3_bucket" "client" {
   tags = local.common_tags
 }
 
-resource "aws_s3_bucket_object" "client" {
+resource "aws_s3_bucket_object" "web_build" {
   for_each = fileset("./web/build", "**")
 
-  bucket       = aws_s3_bucket.client.id
+  bucket       = aws_s3_bucket.web.id
   key          = each.value
   source       = "./web/build/${each.value}"
   etag         = filemd5("./web/build/${each.value}")
   content_type = lookup(var.client_mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
 
-  depends_on = [aws_s3_bucket.client]
+  depends_on = [aws_s3_bucket.web]
 }
 
 data "aws_iam_policy_document" "s3_policy" {
@@ -152,7 +174,7 @@ data "aws_iam_policy_document" "s3_policy" {
     sid       = "1"
     effect    = "Allow"
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.client.arn}/*"]
+    resources = ["${aws_s3_bucket.web.arn}/*"]
 
     principals {
       type        = "AWS"
@@ -164,7 +186,7 @@ data "aws_iam_policy_document" "s3_policy" {
     sid       = "2"
     effect    = "Allow"
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.client.arn}/*"]
+    resources = ["${aws_s3_bucket.web.arn}/*"]
 
     principals {
       type        = "*"
@@ -174,7 +196,7 @@ data "aws_iam_policy_document" "s3_policy" {
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.client.id
+  bucket = aws_s3_bucket.web.id
   policy = data.aws_iam_policy_document.s3_policy.json
 }
 
@@ -193,7 +215,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   origin {
     origin_id   = "${var.domain_name}-bucket"
-    domain_name = aws_s3_bucket.client.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.web.bucket_regional_domain_name
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.access_identity.cloudfront_access_identity_path
@@ -232,7 +254,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   tags = local.common_tags
 
-  depends_on = [aws_s3_bucket.client]
+  depends_on = [aws_s3_bucket.web]
 }
 
 resource "aws_cloudfront_origin_access_identity" "access_identity" {
