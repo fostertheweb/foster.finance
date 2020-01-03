@@ -73,42 +73,7 @@ resource "aws_db_instance" "users_db" {
 }
 
 # Lambda
-data "aws_iam_policy_document" "email_lambda" {
-  statement {
-    sid     = "1"
-    effect  = "Allow"
-    actions = ["lambda:InvokeFunction"]
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:cognito-idp:us-east-1::userpool/*"]
-    }
-  }
-}
-
-resource "aws_iam_role" "email_lambda" {
-  name               = "${var.application}-email-fn-role"
-  assume_role_policy = data.aws_iam_policy_document.email_lambda.json
-}
-
-# zip the api directory for lambda
-data "archive_file" "email" {
-  type        = "zip"
-  source_dir  = "./email"
-  output_path = "./email/lambda.zip"
-}
-
-resource "aws_lambda_function" "email" {
-  filename         = "./email/lambda.zip"
-  function_name    = "${var.application}-email"
-  role             = aws_iam_role.email_lambda.arn
-  handler          = "exports.handler"
-  source_code_hash = data.archive_file.email.output_base64sha256
-  runtime          = "nodejs10.x"
-
-  tags = local.common_tags
-}
-
-data "aws_iam_policy_document" "server_lambda" {
+data "aws_iam_policy_document" "lambda" {
   statement {
     sid    = "1"
     effect = "Allow"
@@ -122,9 +87,34 @@ data "aws_iam_policy_document" "server_lambda" {
   }
 }
 
-resource "aws_iam_role" "server_lambda" {
-  name               = "${var.application}-server-fn-role"
-  assume_role_policy = data.aws_iam_policy_document.server_lambda.json
+resource "aws_iam_role" "lambda" {
+  name               = "${var.application}-lambda-role"
+  assume_role_policy = data.aws_iam_policy_document.lambda.json
+}
+
+# zip the api directory for lambda
+data "archive_file" "email" {
+  type        = "zip"
+  source_dir  = "./email"
+  output_path = "./email/lambda.zip"
+}
+
+resource "aws_lambda_function" "email" {
+  filename         = "./email/lambda.zip"
+  function_name    = "${var.application}-email"
+  role             = aws_iam_role.lambda.arn
+  handler          = "exports.handler"
+  source_code_hash = data.archive_file.email.output_base64sha256
+  runtime          = "nodejs10.x"
+
+  tags = local.common_tags
+}
+
+resource "aws_lambda_permission" "email" {
+  statement_id  = "AllowExecutionFromCognitoUserPool"
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.application}-email"
+  principal     = "lambda.amazonaws.com"
 }
 
 # zip the api directory for lambda
@@ -137,7 +127,7 @@ data "archive_file" "server" {
 resource "aws_lambda_function" "server" {
   filename         = "./server/lambda.zip"
   function_name    = "${var.application}-server"
-  role             = aws_iam_role.server_lambda.arn
+  role             = aws_iam_role.lambda.arn
   handler          = "exports.handler"
   source_code_hash = data.archive_file.server.output_base64sha256
   runtime          = "nodejs10.x"
