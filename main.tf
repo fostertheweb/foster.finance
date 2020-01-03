@@ -114,7 +114,7 @@ resource "aws_lambda_permission" "email" {
   statement_id  = "AllowExecutionFromCognitoUserPool"
   action        = "lambda:InvokeFunction"
   function_name = "${var.application}-email"
-  principal     = "lambda.amazonaws.com"
+  principal     = "cognito-idp.amazonaws.com"
 }
 
 # zip the api directory for lambda
