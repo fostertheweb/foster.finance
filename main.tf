@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "email_lambda" {
     actions = ["lambda:InvokeFunction"]
     principals {
       type        = "AWS"
-      identifiers = [aws_cognito_user_pool.users.arn]
+      identifiers = ["arn:aws:cognito-idp:us-east-1:*:userpool/*"]
     }
   }
 }
