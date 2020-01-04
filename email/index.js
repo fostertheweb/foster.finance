@@ -10,8 +10,14 @@ function handler(event, _context, callback) {
   const link =
     "<a href='https://foster.finance/signup/verify?token=" +
     hash.digest("hex") +
-    "'>Verify Email</a>";
-  const message = "Hello, click this link " + link + " please haha " + event.request.codeParameter;
+    "'>confirm email</a>";
+  const message =
+    "welcome to foster finance, let's confirm your email and go back to finish your profile." +
+    "<br />" +
+    link +
+    "<em style='display:none'>" +
+    event.request.codeParameter +
+    "</em>";
 
   switch (event.triggerSource) {
     case "CustomMessage_SignUp":
