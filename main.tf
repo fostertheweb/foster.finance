@@ -103,7 +103,7 @@ resource "aws_lambda_function" "email" {
   filename         = "./email/lambda.zip"
   function_name    = "${var.application}-email"
   role             = aws_iam_role.lambda.arn
-  handler          = "exports.handler"
+  handler          = "handler"
   source_code_hash = data.archive_file.email.output_base64sha256
   runtime          = "nodejs10.x"
 
