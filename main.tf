@@ -89,7 +89,7 @@ resource "aws_iam_role" "lambda" {
 # zip the api directory for lambda
 data "archive_file" "email" {
   type        = "zip"
-  source_dir  = "./email"
+  source_file = "./email/index.js"
   output_path = "./email/lambda.zip"
 }
 
