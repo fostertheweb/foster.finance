@@ -4,13 +4,14 @@ function handler(event, _context, callback) {
   const code = event.request.codeParameter;
   const email = event.request.usernameParameter;
   const hash = crypto.createHash("sha256");
+
+  hash.update(`${email}+${code}`);
+
   const domain = "https://foster.finance";
   const link = `<a href="${domain}/signup/verify?token=${hash.digest("hex")}">
     Verify Email
   </a>`;
   const message = `Hello, click this link ${link}`;
-
-  hash.update(`${email}+${code}`);
 
   switch (event.triggerSource) {
     case "CustomMessage_SignUp":
