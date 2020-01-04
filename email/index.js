@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 function encrypt(string) {
-  const cipher = crypto.createCipheriv("aes-128-ccm", "money", null);
+  const cipher = crypto.createCipheriv("aes-128-gcm", "money", null);
   return cipher.update(string, "utf8", "hex").final("hex");
 }
 
