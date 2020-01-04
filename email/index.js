@@ -1,16 +1,17 @@
 const crypto = require("crypto");
 
+function encrypt(string) {
+  const cipher = crypto.createCipheriv("aes-128-ccm", "money");
+  return cipher.update(string, "utf8", "hex").final("hex");
+}
+
 function handler(event, _context, callback) {
   const code = event.request.codeParameter;
   const email = event.request.usernameParameter;
-  const hash = crypto.createHash("sha256");
-
-  hash.update(`${email}+${code}`);
+  const hash = encrypt(`${email}:${code}`);
 
   const link =
-    "<a href='https://foster.finance/signup/verify?token=" +
-    hash.digest("hex") +
-    "'>confirm email</a>";
+    "<a href='https://foster.finance/signup/verify?token=" + hash + "'>confirm email</a>";
   const message =
     "welcome to foster finance, let's confirm your email and go back to finish your profile." +
     "<br />" +

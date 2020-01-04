@@ -1,15 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faEnvelopeOpenText } from "@fortawesome/pro-duotone-svg-icons";
+import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-duotone-svg-icons";
+import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
+import * as crypto from "crypto-js";
 
-export default function(props) {
+function Verify({ email }) {
   const { resendSignUp } = useAuth();
-  const email = props.location.search.split("=")[1];
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-8">
+    <>
       <div className="mx-4">
         <FontAwesomeIcon icon={faEnvelopeOpenText} size="6x" color="#5f6c7b" />
       </div>
@@ -24,6 +25,34 @@ export default function(props) {
           onClick={() => resendSignUp(email)}
         />
       </div>
+    </>
+  );
+}
+
+function Confirmed({ token }) {
+  const [email, code] = crypto.AES.decrypt(token, "money").toString(crypto.enc.Utf8);
+
+  console.log({ email, code });
+
+  return (
+    <>
+      <div className="mx-4">
+        <FontAwesomeIcon icon={faUserCheck} size="6x" color="#5f6c7b" />
+      </div>
+      <div className="lg:w-1/3 md:w-1/2 w-3/4 mx-4">
+        <h2>Email Verified</h2>
+        <p className="my-4">Wow thank you.</p>
+      </div>
+    </>
+  );
+}
+
+export default function(props) {
+  const query = parse(props.location.search);
+
+  return (
+    <div className="flex flex-col md:flex-row items-center justify-center my-8">
+      {query.token ? <Confirmed token={query.token} /> : <Verify email={query.email} />}
     </div>
   );
 }
