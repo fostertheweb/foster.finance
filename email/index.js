@@ -1,4 +1,7 @@
 const crypto = require("crypto");
+const message = `Hello, click this link <a href="https://foster.finance/signup/verify?token=${hash.digest(
+  "hex",
+)}">Verify Email</a>`;
 
 function handler(event, _context, callback) {
   const code = event.request.codeParameter;
@@ -9,16 +12,14 @@ function handler(event, _context, callback) {
 
   switch (event.triggerSource) {
     case "CustomMessage_SignUp":
+      event.response.smsMessage = message;
+      event.response.emailMessage = message;
       event.response.emailSubject = "is it you?";
-      event.response.emailMessage = `
-Hello, click this link <a href="https://foster.finance/signup/verify?token=${hash.digest(
-        "hex",
-      )}">Verify Email</a>
-      `;
       break;
     default:
-      event.response.emailSubject = "poggers";
+      event.response.smsMessage = "pog";
       event.response.emailMessage = "pog";
+      event.response.emailSubject = "poggers";
       break;
   }
 
