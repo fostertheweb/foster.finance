@@ -7,14 +7,15 @@ function handler(event, _context, callback) {
 
   hash.update(`${email}+${code}`);
 
-  const domain = "https://foster.finance";
-  const link = `<a href="${domain}/signup/verify?token=${hash.digest("hex")}">
-    Verify Email
-  </a>`;
-  const message = `Hello, click this link ${link}`;
+  const link =
+    "<a href='https://foster.finance/signup/verify?token=" +
+    hash.digest("hex") +
+    "'>Verify Email</a>";
+  const message = "Hello, click this link " + link;
 
   switch (event.triggerSource) {
     case "CustomMessage_SignUp":
+    case "CustomMessage_ResendCode":
       event.response.smsMessage = message;
       event.response.emailMessage = message;
       event.response.emailSubject = "foster finance sign up";
