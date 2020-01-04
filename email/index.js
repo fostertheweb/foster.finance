@@ -17,8 +17,12 @@ function handler(event, _context, callback) {
     case "CustomMessage_SignUp":
       event.response.smsMessage = message;
       event.response.emailMessage = message;
-      event.response.emailSubject = "is it you?";
+      event.response.emailSubject = "foster finance sign up";
       break;
+    case "CustomMessage_VerifyUserAttribute":
+      event.response.smsMessage = message;
+      event.response.emailMessage = message;
+      event.response.emailSubject = "foster finance verify email";
     default:
       event.response.smsMessage = "pog";
       event.response.emailMessage = "pog";

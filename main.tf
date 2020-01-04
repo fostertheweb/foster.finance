@@ -54,12 +54,6 @@ resource "aws_cognito_user_pool_client" "web" {
   explicit_auth_flows = ["USER_PASSWORD_AUTH"]
 }
 
-resource "aws_cognito_user_pool_domain" "auth_subdomain" {
-  domain          = "auth.${var.domain_name}"
-  certificate_arn = aws_acm_certificate.cert.arn
-  user_pool_id    = aws_cognito_user_pool.users.id
-}
-
 # Database
 resource "aws_db_instance" "users_db" {
   allocated_storage = 20
@@ -284,18 +278,6 @@ resource "aws_route53_record" "alias" {
   }
 
   depends_on = [aws_cloudfront_distribution.cdn]
-}
-
-resource "aws_route53_record" "auth_subdomain" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "auth.${var.domain_name}."
-  type    = "A"
-
-  alias {
-    name                   = data.aws_route53_zone.selected.name
-    zone_id                = data.aws_route53_zone.selected.zone_id
-    evaluate_target_health = false
-  }
 }
 
 #ACM
