@@ -1,12 +1,14 @@
 const crypto = require("crypto");
-const message = `Hello, click this link <a href="https://foster.finance/signup/verify?token=${hash.digest(
-  "hex",
-)}">Verify Email</a>`;
 
 function handler(event, _context, callback) {
   const code = event.request.codeParameter;
   const email = event.request.usernameParameter;
   const hash = crypto.createHash("sha256");
+  const domain = "https://foster.finance";
+  const link = `<a href="${domain}/signup/verify?token=${hash.digest("hex")}">
+    Verify Email
+  </a>`;
+  const message = `Hello, click this link ${link}`;
 
   hash.update(`${email}+${code}`);
 
