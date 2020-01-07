@@ -38,7 +38,9 @@ resource "aws_cognito_user_pool" "users" {
   }
 
   email_configuration {
-    email_sending_account = "COGNITO_DEFAULT"
+    reply_to_email_address = "hello@${var.domain_name}"
+    source_arn             = aws_ses_domain_identity.root.arn
+    email_sending_account  = "no-reply"
   }
 
   lambda_config {
