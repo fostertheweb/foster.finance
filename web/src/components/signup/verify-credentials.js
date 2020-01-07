@@ -4,7 +4,6 @@ import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-
 import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
-import * as crypto from "crypto-js";
 
 function Verify({ email }) {
   const { resendSignUp } = useAuth();
@@ -29,10 +28,12 @@ function Verify({ email }) {
   );
 }
 
-function Confirmed({ token }) {
-  const [email, code] = crypto.AES.decrypt(token, "money").toString(crypto.enc.Utf8);
+function Confirmed({ id }) {
+  const { confirmSignup } = useAuth();
+  const { email, code } = atob(id);
 
   console.log({ email, code });
+  confirmSignup(email, code);
 
   return (
     <>
@@ -52,7 +53,7 @@ export default function(props) {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-8">
-      {query.token ? <Confirmed token={query.token} /> : <Verify email={query.email} />}
+      {query.id ? <Confirmed id={query.id} /> : <Verify email={query.email} />}
     </div>
   );
 }

@@ -29,6 +29,24 @@ function useAuthProvider() {
     data: null,
   });
 
+  function confirmSignup(email, code) {
+    setState({ ...state, loading: true });
+    return Auth.confirmSignup(email, code)
+      .then(user => {
+        console.log({ response: user });
+        setState({
+          loading: false,
+          error: null,
+          data: user,
+        });
+        return user;
+      })
+      .catch(err => {
+        setState({ loading: false, error: err, data: null });
+        console.error(err);
+      });
+  }
+
   function signIn(email, password) {
     setState({ ...state, loading: true });
     return Auth.signIn(email, password)
@@ -121,6 +139,7 @@ function useAuthProvider() {
 
   return {
     user: state,
+    confirmSignup,
     signIn,
     signUp,
     signOut,
