@@ -11,7 +11,7 @@ resource "aws_route53_record" "ses_verification" {
 }
 
 resource "aws_ses_domain_identity_verification" "root" {
-  domain = "${aws_ses_domain_identity.root.id}"
+  domain = aws_ses_domain_identity.root.id
 
   depends_on = [aws_route53_record.ses_verification]
 }
@@ -35,4 +35,24 @@ resource "aws_ses_email_identity" "reply_to" {
 
 resource "aws_ses_email_identity" "from" {
   email = "no-reply@${var.domain_name}"
+}
+
+data "aws_iam_policy_document" "ses" {
+  statement {
+    sid       = "AllowUserPoolSendEmail"
+    effect    = "Allow"
+    actions   = ["ses:SendEmail", "ses:SendRawEmail"]
+    resources = [aws_ses_domain_identity.root.arn]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cognito-idp.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_ses_identity_policy" "send_email" {
+  identity = aws_ses_domain_identity.root.arn
+  name     = "${var.application}-ses-send-email"
+  policy   = data.aws_iam_policy_document.ses.json
 }
