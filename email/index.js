@@ -1,7 +1,7 @@
 function handler(event, _context, callback) {
   const code = event.request.codeParameter;
   const email = event.request.usernameParameter;
-  const buffer = new Buffer({ email, code });
+  const buffer = new Buffer([email, code]);
   const hash = buffer.toString("base64");
 
   const link = "<a href='https://foster.finance/signup/verify?id=" + hash + "'>confirm email</a>";
