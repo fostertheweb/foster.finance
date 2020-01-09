@@ -56,3 +56,11 @@ resource "aws_ses_identity_policy" "send_email" {
   name     = "${var.application}-ses-send-email"
   policy   = data.aws_iam_policy_document.ses.json
 }
+
+resource "aws_route53_record" "zoho" {
+  zone_id = data.aws_route53_zone.selected.id
+  name    = var.zoho_record_name
+  type    = "CNAME"
+  records = [var.zoho_record_value]
+  ttl     = 300
+}

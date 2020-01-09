@@ -36,6 +36,14 @@ variable "plaid_env" {
   type = string
 }
 
+variable "zoho_record_name" {
+  type = string
+}
+
+variable "zoho_record_value" {
+  type = string
+}
+
 variable "client_mime_types" {
   default = {
     html  = "text/html"
