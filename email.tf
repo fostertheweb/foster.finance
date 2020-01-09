@@ -80,3 +80,11 @@ resource "aws_route53_record" "zoho_spf" {
   records = ["v=spf1 include:zoho.com ~all"]
   ttl     = 600
 }
+
+resource "aws_route53_record" "zoho_dkim" {
+  zone_id = data.aws_route53_zone.selected.id
+  name    = "zoho._domainkey.${var.domain_name}"
+  type    = "TXT"
+  records = ["${var.zoho_dkim_1}\"\"${var.zoho_dkim_2}"]
+  ttl     = 600
+}
