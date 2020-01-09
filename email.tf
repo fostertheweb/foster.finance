@@ -67,7 +67,7 @@ resource "aws_route53_record" "zoho" {
 
 resource "aws_route53_record" "zoho_mx" {
   zone_id = data.aws_route53_zone.selected.id
-  name    = ""
+  name    = "@"
   type    = "MX"
   records = ["10 mx.zoho.com", "20 mx2.zoho.com", "50 mx3.zoho.com"]
   ttl     = 3600
