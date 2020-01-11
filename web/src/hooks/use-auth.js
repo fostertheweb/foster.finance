@@ -29,9 +29,9 @@ function useAuthProvider() {
     data: null,
   });
 
-  function confirmSignup(email, code) {
+  function confirmSignUp(email, code) {
     setState({ ...state, loading: true });
-    return Auth.confirmSignup(email, code)
+    return Auth.confirmSignUp(email, code)
       .then(user => {
         console.log({ response: user });
         setState({
@@ -139,7 +139,7 @@ function useAuthProvider() {
 
   return {
     user: state,
-    confirmSignup,
+    confirmSignUp,
     signIn,
     signUp,
     signOut,
