@@ -30,7 +30,7 @@ function Verify({ email }) {
 
 function Confirmed({ id }) {
   const { confirmSignup } = useAuth();
-  const [email, code] = atob(id);
+  const [email, code] = atob(id).split(":");
 
   console.log({ email, code });
   confirmSignup(email, code);

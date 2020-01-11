@@ -45,13 +45,11 @@ variable "zoho_record_value" {
 }
 
 variable "zoho_dkim_1" {
-  type    = string
-  default = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEnNdwbAw9v7YOqnyCJ2ZBw7jLPrLoyAwHqyjzJ+w8B0wMjE66CLFiZ"
+  type = string
 }
 
 variable "zoho_dkim_2" {
-  type    = string
-  default = "+vl62qYUYNi9z6IsS5NQNyPyOJ8CoHYd4sJ/bp1x18aaM/99bim2N6yFO6FTOyXjwT7NT0vX6yihKwXmFt76+1kM1lfA5sMSuMu9aD53+dh+FNzCEh3iQIDAQAB"
+  type = string
 }
 
 variable "client_mime_types" {
