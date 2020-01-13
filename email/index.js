@@ -1,10 +1,10 @@
 function handler(event, _context, callback) {
-  const code = event.request.codeParameter;
-  const email = event.request.usernameParameter;
-  const buffer = Buffer.from(`${email}:${code}`);
+  const { codeParameter } = event.request;
+  const { email } = event.request.userAttributes;
+  const buffer = Buffer.from(`${email}:${codeParameter}`);
   const hash = buffer.toString("base64");
-
-  const link = "<a href='https://foster.finance/signup/verify?id=" + hash + "'>confirm email</a>";
+  const url = "https://foster.finance/signup/verify";
+  const link = `<a href="${url}?id=${hash}">confirm email</a>`;
   const message =
     "welcome to foster finance, let's confirm your email and go back to finish your profile." +
     "<br />" +

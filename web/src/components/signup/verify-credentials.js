@@ -28,12 +28,19 @@ function Verify({ email }) {
   );
 }
 
-function Confirmed({ id }) {
-  const { confirmSignUp } = useAuth();
+async function Confirmed({ id }) {
+  const {
+    user: { loading, error, data },
+    confirmSignUp,
+  } = useAuth();
   const [email, code] = atob(id).split(":");
 
   console.log({ email, code });
+
   confirmSignUp(email, code);
+
+  if (loading) return <h1>loading...</h1>;
+  if (error) return <h1>error</h1>;
 
   return (
     <>
@@ -43,6 +50,7 @@ function Confirmed({ id }) {
       <div className="lg:w-1/3 md:w-1/2 w-3/4 mx-4">
         <h2>Email Verified</h2>
         <p className="my-4">Wow thank you.</p>
+        <pre>{data}</pre>
       </div>
     </>
   );

@@ -30,79 +30,53 @@ function useAuthProvider() {
   });
 
   function confirmSignUp(email, code) {
-    setState({ ...state, loading: true });
     return Auth.confirmSignUp(email, code)
       .then(user => {
         console.log({ response: user });
-        setState({
-          loading: false,
-          error: null,
-          data: user,
-        });
         return user;
       })
-      .catch(err => {
-        setState({ loading: false, error: err, data: null });
-        console.error(err);
-      });
+      .catch(handleError);
   }
 
   function signIn(email, password) {
-    setState({ ...state, loading: true });
     return Auth.signIn(email, password)
       .then(user => {
         console.log({ response: user });
-        setState({
-          loading: false,
-          error: null,
-          data: user,
-        });
         return user;
       })
-      .catch(err => {
-        setState({ loading: false, error: err, data: null });
-        console.error(err);
-      });
+      .catch(handleError);
   }
 
   function signUp(email, password) {
-    setState({ ...state, loading: true });
     return Auth.signUp(email, password)
       .then(user => {
         console.log({ response: user });
-        setState({
-          loading: false,
-          error: null,
-          data: user,
-        });
         return user;
       })
-      .catch(err => {
-        setState({ loading: false, error: err, data: null });
-        console.error(err);
-      });
+      .catch(handleError);
   }
 
   function resendSignUp(email) {
     return Auth.resendSignUp(email)
       .then(() => true)
-      .catch(() => false);
+      .catch(handleError);
   }
 
   function signOut() {
-    setState({ ...state, loading: true });
     return Auth.signOut()
       .then(response => {
-        setState({ loading: false, error: null, data: null });
         console.log({ response });
       })
-      .catch(err => {
-        setState({ loading: false, error: err, data: null });
-        console.error(err);
-      });
+      .catch(handleError);
+  }
+
+  function handleError(err) {
+    console.log({ err });
+    setState({ data: null, loading: false, error: err });
   }
 
   function handleAuthChange({ payload: { event, data } }) {
+    setState({ ...state, loading: true });
     switch (event) {
       case "signUp":
       case "signIn":
@@ -127,15 +101,12 @@ function useAuthProvider() {
         setState({ loading: false, error: null, data: user });
         console.log({ user });
       })
-      .catch(err => {
-        setState({ loading: false, error: err, data: null });
-        console.log({ err });
-      });
+      .catch(handleError);
 
     Hub.listen("auth", handleAuthChange);
 
     return () => Hub.remove("auth", handleAuthChange);
-  }, []);
+  });
 
   return {
     user: state,
