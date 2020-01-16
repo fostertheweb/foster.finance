@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-duotone-svg-icons";
 import { parse } from "query-string";
@@ -28,16 +28,14 @@ function Verify({ email }) {
   );
 }
 
-async function Confirmed({ id }) {
-  const {
-    user: { loading, error, data },
-    confirmSignUp,
-  } = useAuth();
-  const [email, code] = atob(id).split(":");
-
+async function Confirmed({ id, code }) {
+  const { loading, error, user, confirmSignUp } = useAuth();
+  const email = atob(id);
   console.log({ email, code });
 
-  confirmSignUp(email, code);
+  useEffect(() => {
+    confirmSignUp(email, code);
+  }, []);
 
   if (loading) return <h1>loading...</h1>;
   if (error) return <h1>error</h1>;
@@ -61,7 +59,7 @@ export default function(props) {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-8">
-      {query.id ? <Confirmed id={query.id} /> : <Verify email={query.email} />}
+      {query.id ? <Confirmed id={query.id} code={query.code} /> : <Verify email={query.email} />}
     </div>
   );
 }

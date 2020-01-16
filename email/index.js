@@ -1,18 +1,15 @@
 function handler(event, _context, callback) {
   const { codeParameter } = event.request;
   const { email } = event.request.userAttributes;
-  const buffer = Buffer.from(`${email}:${codeParameter}`);
+  const buffer = Buffer.from(email);
   const hash = buffer.toString("base64");
   const url = "https://foster.finance/signup/verify";
-  const link = `<a href="${url}?id=${hash}">confirm email</a>`;
+  const link = `<a href="${url}?id=${hash}&code=${codeParameter}">confirm email</a>`;
   const message =
     "welcome to foster finance, let's confirm your email and go back to finish your profile." +
     "<br />" +
     "<br />" +
-    link +
-    "<em style='display:none'>" +
-    event.request.codeParameter +
-    "</em>";
+    link;
 
   switch (event.triggerSource) {
     case "CustomMessage_SignUp":

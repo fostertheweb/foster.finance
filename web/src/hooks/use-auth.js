@@ -23,17 +23,13 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
-  const [state, setState] = useState({
-    loading: false,
-    error: null,
-    data: null,
-  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   function confirmSignUp(email, code) {
     return Auth.confirmSignUp(email, code)
-      .then(user => {
-        console.log({ response: user });
-        return user;
+      .then(() => {
+        return true;
       })
       .catch(handleError);
   }
@@ -42,7 +38,6 @@ function useAuthProvider() {
     return Auth.signIn(email, password)
       .then(user => {
         console.log({ response: user });
-        return user;
       })
       .catch(handleError);
   }
@@ -51,7 +46,6 @@ function useAuthProvider() {
     return Auth.signUp(email, password)
       .then(user => {
         console.log({ response: user });
-        return user;
       })
       .catch(handleError);
   }
@@ -71,45 +65,46 @@ function useAuthProvider() {
   }
 
   function handleError(err) {
-    console.log({ err });
-    setState({ data: null, loading: false, error: err });
+    if (process.env.NODE_ENV === "development") {
+      console.error(err);
+    }
+
+    setError(err);
+  }
+
+  function user() {
+    return Auth.currentAuthenticatedUser()
+      .then(user => user)
+      .catch(handleError);
   }
 
   function handleAuthChange({ payload: { event, data } }) {
-    setState({ ...state, loading: true });
     switch (event) {
       case "signUp":
       case "signIn":
-        console.log({ event, data });
-        setState({ loading: false, error: null, data });
         break;
       case "signUp_failure":
       case "signIn_failure":
-        console.log({ event, data });
-        setState({ loading: false, error: data, data: null });
         break;
       default:
-        console.log({ event, data });
-        setState({ loading: false, error: null, data });
         break;
     }
   }
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(user => {
-        setState({ loading: false, error: null, data: user });
-        console.log({ user });
-      })
+      .then(() => true)
       .catch(handleError);
 
     Hub.listen("auth", handleAuthChange);
 
     return () => Hub.remove("auth", handleAuthChange);
-  });
+  }, []);
 
   return {
-    user: state,
+    loading,
+    error,
+    user,
     confirmSignUp,
     signIn,
     signUp,
