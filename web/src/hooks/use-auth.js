@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import Amplify, { Auth, Hub } from "aws-amplify";
+import { Machine, send } from "xstate";
+import { useMachine } from "@xstate/react";
+
+const authMachine = Machine({
+  id: "auth",
+});
 
 Amplify.configure({
   Auth: {
@@ -23,6 +29,7 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -35,11 +42,11 @@ function useAuthProvider() {
   }
 
   function signIn(email, password) {
+    setLoading(true);
     return Auth.signIn(email, password)
-      .then(user => {
-        console.log({ response: user });
-      })
-      .catch(handleError);
+      .then(() => send("SIGN_IN"))
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signUp(email, password) {
@@ -93,7 +100,7 @@ function useAuthProvider() {
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(() => true)
+      .then(user => setUser(user))
       .catch(handleError);
 
     Hub.listen("auth", handleAuthChange);
