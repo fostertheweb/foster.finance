@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
 import { Link, navigate } from "@reach/router";
-import SavingsImage from "../../images/savings";
+import CreditCardImage from "../../images/credit-card";
 import Input, { Submit } from "../input";
 
 export default function() {
-  const { signIn, user } = useAuth();
+  const { signIn, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,26 +22,38 @@ export default function() {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-4">
-      <div className="lg:w-1/4 md:w-1/3 w-3/4 mx-4 z-10">
-        <h2 className="my-0 text-xl">Log In</h2>
-        <p className="block my-4">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-purple-600 underline">
-            Sign up
-          </Link>
-        </p>
-        <form onSubmit={e => handleSubmit(e)} className="my-4">
-          <Input id="email" label="Email" onChange={e => setEmail(e.target.value)} />
-          <Input
-            type="password"
-            id="password"
-            label="Password"
-            onChange={e => setPassword(e.target.value)}
-          />
-          <Submit text="Log in" disabled={!email || !password || user.loading} />
-        </form>
+      <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
+        <div className="w-1/3 absolute top-0 left-0 -ml-40">
+          <CreditCardImage />
+        </div>
+        <>
+          <h2 className="my-0 text-xl">Sign in</h2>
+          <p className="my-4">
+            Don't have an account?{" "}
+            <Link to="/signup" className="link">
+              Create account
+            </Link>
+          </p>
+          <form onSubmit={e => handleSubmit(e)} className="my-4">
+            <Input
+              id="email"
+              label="Email"
+              placeholder="iwant2savemoney@gmail.com"
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              id="password"
+              label="Password"
+              placeholder="not anything like 12345"
+              onChange={e => setPassword(e.target.value)}
+            />
+            <div className="flex align-items justify-end">
+              <Submit text="Sign in" loading={loading} disabled={!email || !password || loading} />
+            </div>
+          </form>
+        </>
       </div>
-      <SavingsImage classes="lg:w-1/3 md:w-1/2 w-3/4 mx-4 md:-ml-20 lg:-ml-32" />
     </div>
   );
 }

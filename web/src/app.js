@@ -42,13 +42,13 @@ function Home() {
 }
 
 function Application({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  if (user.loading) {
+  if (loading) {
     return null;
   }
 
-  if (!user.data) {
+  if (!user) {
     navigate("/login");
     return null;
   }

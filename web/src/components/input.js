@@ -7,19 +7,19 @@ export default function(props) {
 
   return (
     <div className="mb-6">
-      <label htmlFor={props.id} className="font-bold block my-1">
+      <label htmlFor={props.id} className="font-medium block my-1">
         {props.label}
       </label>
       <div className="relative">
         <input
           {...props}
           type={props.type === "password" && !showPassword ? "password" : "text"}
-          className="w-full bg-white text-md p-2 border-gray-400 border-2 rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal"
+          className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal"
         />
         {props.type && props.type === "password" ? (
           <button
             type="button"
-            className="absolute cursor-pointer top-0 right-0 p-3"
+            className="absolute cursor-pointer top-0 right-0 p-4 focus:outline-none focus:shadow-outline"
             onClick={() => setShowPassword(!showPassword)}>
             <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} color="gray" />
           </button>
@@ -36,7 +36,7 @@ export function Submit(props) {
       {...props}
       loading={props.loading ? "true" : undefined}
       type="submit"
-      className="block rounded font-bold bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-2 py-2 px-4 shadow">
+      className="block border rounded font-medium bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-1 py-3 px-5">
       {props.loading ? (
         <FontAwesomeIcon icon={faSpinnerThird} spin />
       ) : (

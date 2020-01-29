@@ -48,7 +48,7 @@ async function Confirmed({ id, code }) {
       <div className="lg:w-1/3 md:w-1/2 w-3/4 mx-4">
         <h2>Email Verified</h2>
         <p className="my-4">Wow thank you.</p>
-        <pre>{data}</pre>
+        <pre>{user}</pre>
       </div>
     </>
   );

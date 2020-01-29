@@ -79,12 +79,6 @@ function useAuthProvider() {
     setError(err);
   }
 
-  function user() {
-    return Auth.currentAuthenticatedUser()
-      .then(user => user)
-      .catch(handleError);
-  }
-
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
       case "signUp":
