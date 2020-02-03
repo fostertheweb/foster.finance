@@ -28,24 +28,16 @@ function Layout() {
   return (
     <div>
       {user ? <Header /> : <MinimalHeader />}
-      <Outlet />
+      <div className="p-4">
+        <Outlet />
+      </div>
     </div>
   );
 }
 
 function Home() {
-  const { loading, user } = useAuth();
-  console.log(user);
-
-  if (user) {
-    return <h3>hello, {user.username}</h3>;
-  }
-
-  if (loading) {
-    return <b>loading...</b>;
-  }
-
-  return null;
+  const { user, loading } = useAuth();
+  return loading || !user ? <b>loading...</b> : <h3>hello, {user.username}</h3>;
 }
 
 function App() {

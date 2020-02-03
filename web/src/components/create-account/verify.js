@@ -36,6 +36,7 @@ function Confirmed({ id, code }) {
 
   useEffect(() => {
     confirmSignUp(email, code);
+    // eslint-disable-next-line
   }, []);
 
   if (loading) return <h1>loading...</h1>;

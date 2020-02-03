@@ -19,8 +19,22 @@ import { useAuth } from "../hooks/use-auth";
 
 export function MinimalHeader() {
   return (
-    <div className="p-4">
-      <Logo />
+    <div className="flex items-center justify-between p-2 font-medium">
+      <div>
+        <Logo color="#094067" />
+      </div>
+      <div className="flex">
+        <Link
+          to="/create-account"
+          className="ml-8 p-3 rounded hover:no-underline hover:text-gray-700 hover:bg-gray-200">
+          Create Account
+        </Link>
+        <Link
+          to="/signin"
+          className="ml-8 p-3 rounded hover:no-underline hover:text-gray-700 hover:bg-gray-200">
+          Sign in
+        </Link>
+      </div>
     </div>
   );
 }
@@ -48,16 +62,13 @@ function HeaderButton({ onClick, icon, children }) {
 }
 
 export default function() {
-  const { loading, user, signOut } = useAuth();
+  const { signOut } = useAuth();
   // const { data, loading, error } = useQuery(GET_USER, { variables: { uid: user.username } });
-
-  // if (loading) return "Loading...";
-  // if (error) return error.message;
 
   return (
     <div className="flex items-center justify-between p-2 bg-teal-500 text-white border-teal-600 border-b-2 font-medium">
       <div className="flex items-center">
-        <Link to="/" className="hover:no-underline hover:text-teal-200">
+        <Link to="/me" className="hover:no-underline hover:text-white">
           <Logo />
         </Link>
         <HeaderLink path="calendar" icon={faCalendar}>

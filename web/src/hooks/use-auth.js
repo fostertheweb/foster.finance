@@ -118,6 +118,7 @@ function useAuthProvider() {
     Hub.listen("auth", handleAuthChange);
 
     return () => Hub.remove("auth", handleAuthChange);
+    // eslint-disable-next-line
   }, []);
 
   return {
