@@ -64,7 +64,7 @@ function useAuthProvider() {
   function signOut() {
     setLoading(true);
     Auth.signOut()
-      .then(handleSuccess)
+      .then(() => true)
       .catch(handleError)
       .finally(() => setLoading(false));
   }
@@ -89,19 +89,21 @@ function useAuthProvider() {
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
       case "signIn":
+        setUser(data);
         navigate("/me");
         setError(null);
         setLoading(false);
         break;
       case "signOut":
+        navigate("/signin");
         setError(null);
         setLoading(false);
         setUser(null);
-        navigate("/signin");
         break;
       case "signUp_failure":
-      case "signIn_failure":
-        handleError(data);
+        setError(data);
+        setUser(null);
+        setLoading(false);
         break;
       default:
         console.log({ event, data });

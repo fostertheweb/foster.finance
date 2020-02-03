@@ -44,7 +44,7 @@ export default function() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex items-center justify-end">
-              {error ? <Alert intent="error" message={error} /> : null}
+              {error ? <Alert intent="error" message={error.message || error} /> : null}
               <Submit
                 text="Create Account"
                 loading={loading}

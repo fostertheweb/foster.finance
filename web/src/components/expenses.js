@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Divider, HTMLSelect } from "@blueprintjs/core";
 import { Calendar } from "./calendar";
-import Header from "./header";
 import * as luxon from "luxon";
 
 export default function() {
@@ -15,34 +14,31 @@ export default function() {
   const years = [2019, 2018, 2017];
 
   return (
-    <>
-      <Header />
-      <div className="expenses">
-        <div className="sidebar">
-          <div className="controls">
-            <HTMLSelect
-              value={month}
-              options={months}
-              onChange={event => setMonth(Number(event.currentTarget.value))}
-            />
-            <Divider />
-            <HTMLSelect
-              value={year}
-              options={years}
-              onChange={event => setYear(Number(event.currentTarget.value))}
-            />
-          </div>
+    <div className="expenses">
+      <div className="sidebar">
+        <div className="controls">
+          <HTMLSelect
+            value={month}
+            options={months}
+            onChange={event => setMonth(Number(event.currentTarget.value))}
+          />
           <Divider />
-          <div>Income this month:</div>
-          <Divider />
-          <div>Spent this month:</div>
-          <Divider />
-          <div>Upcoming expenses:</div>
+          <HTMLSelect
+            value={year}
+            options={years}
+            onChange={event => setYear(Number(event.currentTarget.value))}
+          />
         </div>
-        <div className="content">
-          <Calendar year={year} month={month} />
-        </div>
+        <Divider />
+        <div>Income this month:</div>
+        <Divider />
+        <div>Spent this month:</div>
+        <Divider />
+        <div>Upcoming expenses:</div>
       </div>
-    </>
+      <div className="content">
+        <Calendar year={year} month={month} />
+      </div>
+    </div>
   );
 }

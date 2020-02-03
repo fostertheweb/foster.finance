@@ -1,9 +1,9 @@
 import React from "react";
 import PlaidLink from "react-plaid-link";
-import { Classes } from "@blueprintjs/core";
-import classNames from "classnames";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPiggyBank } from "@fortawesome/pro-duotone-svg-icons";
 
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
 const env = process.env.REACT_APP_PLAID_ENVIRONMENT;
@@ -35,7 +35,7 @@ export default function() {
   return (
     <PlaidLink
       style={{}}
-      className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY, "bp3-icon-bank-account")}
+      className="block border-2 rounded bg-gray-300 hover:bg-gray-200 cursor-pointer text-gray-700 border-gray-400 border-1 py-3 px-5"
       clientName="Outlay"
       env={env}
       product={product}
@@ -44,7 +44,8 @@ export default function() {
       onSuccess={token => {
         exchangePublicToken({ variables: { token } });
       }}>
-      Connect to Bank
+      <FontAwesomeIcon icon={faPiggyBank} size="lg" color="#666666" />
+      <span className="ml-2 font-medium">Connect to Bank</span>
     </PlaidLink>
   );
 }

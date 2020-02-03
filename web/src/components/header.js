@@ -21,9 +21,9 @@ const GET_USER = gql`
 export function MinimalHeader() {
   return (
     <div className="flex items-center justify-between p-2 font-medium">
-      <div>
+      <Link to="/" className="hover:no-underline">
         <Logo color="#094067" />
-      </div>
+      </Link>
       <div className="flex">
         <Link
           to="/create-account"
@@ -54,7 +54,7 @@ function HeaderLink({ path, icon, children }) {
 function HeaderButton({ onClick, icon, children }) {
   return (
     <button
-      className="ml-8 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded"
+      className="ml-4 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded"
       onClick={onClick}>
       <FontAwesomeIcon icon={icon} />
       <span className="ml-2">{children}</span>
@@ -66,15 +66,15 @@ function UserButton({ emoji, name }) {
   return (
     <Link
       to="/me"
-      className="ml-8 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded inline-flex items-center">
+      className="ml-4 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded inline-flex items-center">
       <Emoji emoji={emoji} size={18} />
       <span className="ml-2">{name}</span>
     </Link>
   );
 }
 
-export default function({ user }) {
-  const { signOut } = useAuth();
+export default function() {
+  const { user, signOut } = useAuth();
   const { data, loading, error } = useQuery(GET_USER, {
     variables: { uid: user.attributes.sub },
   });
@@ -84,14 +84,14 @@ export default function({ user }) {
   }
 
   if (loading) {
-    return <b>loading...</b>;
+    return <b>loading header</b>;
   }
 
   return (
     <div className="flex items-center justify-between p-2 bg-teal-500 text-white border-teal-600 border-b-2 font-medium">
       <div className="flex items-center">
         <Link to="/me" className="hover:no-underline hover:text-white">
-          <Logo />
+          <Logo dark />
         </Link>
         <HeaderLink path="calendar" icon={faCalendar}>
           Calendar
