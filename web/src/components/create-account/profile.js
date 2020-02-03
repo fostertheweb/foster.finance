@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useAuth } from "../../hooks/use-auth";
 import Input, { Submit } from "../input";
+import Alert from "../alert";
 
 const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserRequest!) {
@@ -16,8 +17,17 @@ const CREATE_USER = gql`
 export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [createUser, { loading }] = useMutation(CREATE_USER);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER);
   const { user } = useAuth();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const {
+      attributes: { sub, email },
+    } = user;
+    const input = { user_id: sub, email, name, emoji };
+    createUser({ variables: { input } });
+  }
 
   return (
     <div className="flex justify-center my-4">
@@ -27,12 +37,7 @@ export default function() {
           It's so great to meet you! If you would like, you can tell us your name and pick an emoji
           so things feel more personal around here.
         </p>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            const input = { user_id: user.sub, email: user.email, name, emoji };
-            createUser({ variables: { input } });
-          }}>
+        <form onSubmit={handleSubmit}>
           <div className="flex items-center mb-2">
             <EmojiInput onChange={setEmoji} />
             <div className="ml-6 w-full">
@@ -44,7 +49,10 @@ export default function() {
               />
             </div>
           </div>
-          <Submit text="Save Profile" loading={loading} />
+          <div className="flex items-center justify-end">
+            {error ? <Alert intent="error" message={error} /> : null}
+            <Submit text="Save Profile" loading={loading} />
+          </div>
         </form>
       </div>
     </div>

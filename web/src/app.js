@@ -27,7 +27,7 @@ function Layout() {
 
   return (
     <div>
-      {user ? <Header /> : <MinimalHeader />}
+      {user ? <Header user={user} /> : <MinimalHeader />}
       <div className="p-4">
         <Outlet />
       </div>
@@ -36,8 +36,7 @@ function Layout() {
 }
 
 function Home() {
-  const { user, loading } = useAuth();
-  return loading || !user ? <b>loading...</b> : <h3>hello, {user.username}</h3>;
+  return <h1>hello</h1>;
 }
 
 function App() {
