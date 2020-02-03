@@ -22,10 +22,9 @@ export default function({ intent, message }) {
   }
 
   return (
-    <div
-      className={`flex block w-full align-items rounded p-3 bg-${color}-200 text-${color}-700 border border-${color}-500 absolute -mt-16 shadow`}>
+    <div className={`flex items-center flex-grow text-${color}-700`}>
       <FontAwesomeIcon size="2x" icon={icon} />
-      <p className={`ml-2 p-1 text-${color}-800`}>{message}</p>
+      <div className={`ml-2 mb-0 text-${color}-800`}>{message}</div>
     </div>
   );
 }

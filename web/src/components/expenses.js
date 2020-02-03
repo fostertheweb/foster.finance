@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Divider, HTMLSelect } from "@blueprintjs/core";
-import { Calendar } from "../components/calendar";
-import Header from "../components/header";
+import { Calendar } from "./calendar";
+import Header from "./header";
 import * as luxon from "luxon";
 
 export default function() {

@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import Amplify, { Auth, Hub } from "aws-amplify";
-import { Machine, send } from "xstate";
-import { useMachine } from "@xstate/react";
-
-const authMachine = Machine({
-  id: "auth",
-});
+import { useNavigate } from "react-router-dom";
 
 Amplify.configure({
   Auth: {
@@ -32,43 +27,46 @@ function useAuthProvider() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   function confirmSignUp(email, code) {
-    return Auth.confirmSignUp(email, code)
-      .then(() => {
-        return true;
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.confirmSignUp(email, code)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signIn(email, password) {
     setLoading(true);
-    return Auth.signIn(email, password)
-      .then(() => send("SIGN_IN"))
+    Auth.signIn(email, password)
+      .then(handleSuccess)
       .catch(handleError)
       .finally(() => setLoading(false));
   }
 
   function signUp(email, password) {
-    return Auth.signUp(email, password)
-      .then(user => {
-        console.log({ response: user });
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.signUp(email, password)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function resendSignUp(email) {
-    return Auth.resendSignUp(email)
-      .then(() => true)
-      .catch(handleError);
+    setLoading(true);
+    Auth.resendSignUp(email)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signOut() {
-    return Auth.signOut()
-      .then(response => {
-        console.log({ response });
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.signOut()
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function handleError(err) {
@@ -79,23 +77,43 @@ function useAuthProvider() {
     setError(err);
   }
 
+  function handleSuccess(response) {
+    setError(null);
+
+    if (process.env.NODE_ENV === "development") {
+      console.log(response);
+    }
+  }
+
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
-      case "signUp":
       case "signIn":
+        navigate("/me");
+        setLoading(false);
+        setError(null);
+        break;
+      case "signOut":
+        setLoading(false);
+        setError(null);
+        setUser(null);
+        navigate("/signin");
         break;
       case "signUp_failure":
       case "signIn_failure":
+        handleError(data);
         break;
       default:
+        console.log({ event, data });
         break;
     }
   }
 
   useEffect(() => {
+    setLoading(true);
     Auth.currentAuthenticatedUser()
       .then(user => setUser(user))
-      .catch(handleError);
+      .catch(handleError)
+      .finally(() => setLoading(false));
 
     Hub.listen("auth", handleAuthChange);
 

@@ -4,9 +4,10 @@ import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-
 import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
+import { useLocation } from "react-router-dom";
 
 function Verify({ email }) {
-  const { resendSignUp } = useAuth();
+  const { resendSignUp, loading } = useAuth();
 
   return (
     <>
@@ -19,6 +20,7 @@ function Verify({ email }) {
           You should have received an email from us with a link to verify your email address.
         </p>
         <Button
+          loading={loading}
           text="Send the email again"
           icon={faPaperPlane}
           onClick={() => resendSignUp(email)}
@@ -28,10 +30,9 @@ function Verify({ email }) {
   );
 }
 
-async function Confirmed({ id, code }) {
+function Confirmed({ id, code }) {
   const { loading, error, user, confirmSignUp } = useAuth();
   const email = atob(id);
-  console.log({ email, code });
 
   useEffect(() => {
     confirmSignUp(email, code);
@@ -54,12 +55,13 @@ async function Confirmed({ id, code }) {
   );
 }
 
-export default function(props) {
-  const query = parse(props.location.search);
+export default function() {
+  const location = useLocation();
+  const { id, code, email } = parse(location.search);
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-8">
-      {query.id ? <Confirmed id={query.id} code={query.code} /> : <Verify email={query.email} />}
+      {id ? <Confirmed id={id} code={code} /> : <Verify email={email} />}
     </div>
   );
 }

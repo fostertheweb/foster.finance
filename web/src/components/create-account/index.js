@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
-import { Link, navigate } from "@reach/router";
-import CreditCardImage from "../../images/credit-card";
+import { Link, useNavigate } from "react-router-dom";
 import Input, { Submit } from "../input";
+import Alert from "../alert";
 
 export default function() {
-  const { signIn, loading, error } = useAuth();
+  const { signUp, user, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-
-    try {
-      await signIn(email, password);
-      navigate("/");
-    } catch (err) {
-      console.log({ err });
-    }
+    signUp(email, password);
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-4">
+    <div className="flex flex-col md:flex-row items-center justify-center my-6">
       <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
-        <div className="w-1/3 absolute top-0 left-0 -ml-40">
-          <CreditCardImage />
-        </div>
         <>
-          <h2 className="my-0 text-xl">Sign in</h2>
+          <h2 className="my-0 text-xl">Get started</h2>
+          <p className="block my-4">
+            After creating an account you will connect to your bank so we can view your transactions
+            and help you save more money.
+          </p>
           <p className="my-4">
-            Don't have an account?{" "}
-            <Link to="/signup" className="link">
-              Create account
+            Already have an account?{" "}
+            <Link to="/signin" className="link">
+              Sign in
             </Link>
           </p>
           <form onSubmit={e => handleSubmit(e)} className="my-4">
@@ -48,8 +43,13 @@ export default function() {
               placeholder="not anything like 12345"
               onChange={e => setPassword(e.target.value)}
             />
-            <div className="flex align-items justify-end">
-              <Submit text="Sign in" loading={loading} disabled={!email || !password || loading} />
+            <div className="flex items-center justify-end">
+              {error ? <Alert intent="error" message={error} /> : null}
+              <Submit
+                text="Create Account"
+                loading={loading}
+                disabled={!email || !password || loading}
+              />
             </div>
           </form>
         </>

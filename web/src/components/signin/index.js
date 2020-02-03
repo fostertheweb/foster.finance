@@ -1,38 +1,37 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
-import { Link, navigate } from "@reach/router";
+import { Link, useNavigate } from "react-router-dom";
+import CreditCardImage from "../../images/credit-card";
 import Input, { Submit } from "../input";
 import Alert from "../alert";
 
 export default function() {
-  const { signUp, user, loading, error } = useAuth();
+  const { signIn, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    try {
-      await signUp(email, password);
-      navigate("/create-profile");
-    } catch (err) {
-      console.error(err);
-    }
+    signIn(email, password);
+  }
+
+  if (error && error.code === "UserNotConfirmedException") {
+    navigate(`/create-account/verify?email=${email}`);
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-6">
+    <div className="flex flex-col md:flex-row items-center justify-center my-4">
       <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
-        {error ? <Alert intent="error" message={error} /> : null}
+        <div className="w-1/3 absolute top-0 left-0 -ml-40">
+          <CreditCardImage />
+        </div>
         <>
-          <h2 className="my-0 text-xl">Get started</h2>
-          <p className="block my-4">
-            After creating an account you will connect to your bank so we can view your transactions
-            and help you save more money.
-          </p>
+          <h2 className="my-0 text-xl">Sign in</h2>
           <p className="my-4">
-            Already have an account?{" "}
-            <Link to="/signin" className="link">
-              Sign in
+            Don't have an account?{" "}
+            <Link to="/create-account" className="link">
+              Create account
             </Link>
           </p>
           <form onSubmit={e => handleSubmit(e)} className="my-4">
@@ -50,11 +49,8 @@ export default function() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex align-items justify-end">
-              <Submit
-                text="Create Account"
-                loading={loading}
-                disabled={!email || !password || loading}
-              />
+              {error ? <Alert intent="error" message={error.message || error} /> : null}
+              <Submit text="Sign in" loading={loading} disabled={!email || !password || loading} />
             </div>
           </form>
         </>
