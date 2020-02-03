@@ -79,6 +79,7 @@ function useAuthProvider() {
 
   function handleSuccess(response) {
     setError(null);
+    setUser(response);
 
     if (process.env.NODE_ENV === "development") {
       console.log(response);
@@ -89,12 +90,12 @@ function useAuthProvider() {
     switch (event) {
       case "signIn":
         navigate("/me");
-        setLoading(false);
         setError(null);
+        setLoading(false);
         break;
       case "signOut":
-        setLoading(false);
         setError(null);
+        setLoading(false);
         setUser(null);
         navigate("/signin");
         break;
@@ -111,7 +112,7 @@ function useAuthProvider() {
   useEffect(() => {
     setLoading(true);
     Auth.currentAuthenticatedUser()
-      .then(user => setUser(user))
+      .then(handleSuccess)
       .catch(handleError)
       .finally(() => setLoading(false));
 
