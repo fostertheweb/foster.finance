@@ -41,3 +41,7 @@ steps:
       - echo "$TFVARS" >> ./terraform.tfvars
       - terraform init -backend-config="token=$TF_CLOUD_TOKEN"
       - terraform apply -auto-approve=true
+
+trigger:
+  branch:
+    - master

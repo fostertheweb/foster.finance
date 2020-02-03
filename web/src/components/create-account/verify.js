@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-duotone-svg-icons";
 import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
+import { useLocation } from "react-router-dom";
 
 function Verify({ email }) {
-  const { resendSignUp } = useAuth();
+  const { resendSignUp, loading } = useAuth();
 
   return (
     <>
@@ -19,6 +20,7 @@ function Verify({ email }) {
           You should have received an email from us with a link to verify your email address.
         </p>
         <Button
+          loading={loading}
           text="Send the email again"
           icon={faPaperPlane}
           onClick={() => resendSignUp(email)}
@@ -28,16 +30,13 @@ function Verify({ email }) {
   );
 }
 
-async function Confirmed({ id }) {
-  const {
-    user: { loading, error, data },
-    confirmSignUp,
-  } = useAuth();
-  const [email, code] = atob(id).split(":");
+function Confirmed({ id, code }) {
+  const { loading, error, user, confirmSignUp } = useAuth();
+  const email = atob(id);
 
-  console.log({ email, code });
-
-  confirmSignUp(email, code);
+  useEffect(() => {
+    confirmSignUp(email, code);
+  }, []);
 
   if (loading) return <h1>loading...</h1>;
   if (error) return <h1>error</h1>;
@@ -50,18 +49,19 @@ async function Confirmed({ id }) {
       <div className="lg:w-1/3 md:w-1/2 w-3/4 mx-4">
         <h2>Email Verified</h2>
         <p className="my-4">Wow thank you.</p>
-        <pre>{data}</pre>
+        <pre>{user}</pre>
       </div>
     </>
   );
 }
 
-export default function(props) {
-  const query = parse(props.location.search);
+export default function() {
+  const location = useLocation();
+  const { id, code, email } = parse(location.search);
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-8">
-      {query.id ? <Confirmed id={query.id} /> : <Verify email={query.email} />}
+      {id ? <Confirmed id={id} code={code} /> : <Verify email={email} />}
     </div>
   );
 }

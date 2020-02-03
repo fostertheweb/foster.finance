@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import Amplify, { Auth, Hub } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 
 Amplify.configure({
   Auth: {
@@ -23,93 +24,106 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
-  const [state, setState] = useState({
-    loading: false,
-    error: null,
-    data: null,
-  });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   function confirmSignUp(email, code) {
-    return Auth.confirmSignUp(email, code)
-      .then(user => {
-        console.log({ response: user });
-        return user;
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.confirmSignUp(email, code)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signIn(email, password) {
-    return Auth.signIn(email, password)
-      .then(user => {
-        console.log({ response: user });
-        return user;
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.signIn(email, password)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signUp(email, password) {
-    return Auth.signUp(email, password)
-      .then(user => {
-        console.log({ response: user });
-        return user;
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.signUp(email, password)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function resendSignUp(email) {
-    return Auth.resendSignUp(email)
-      .then(() => true)
-      .catch(handleError);
+    setLoading(true);
+    Auth.resendSignUp(email)
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function signOut() {
-    return Auth.signOut()
-      .then(response => {
-        console.log({ response });
-      })
-      .catch(handleError);
+    setLoading(true);
+    Auth.signOut()
+      .then(handleSuccess)
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }
 
   function handleError(err) {
-    console.log({ err });
-    setState({ data: null, loading: false, error: err });
+    if (process.env.NODE_ENV === "development") {
+      console.error(err);
+    }
+
+    setError(err);
+  }
+
+  function handleSuccess(response) {
+    setError(null);
+
+    if (process.env.NODE_ENV === "development") {
+      console.log(response);
+    }
   }
 
   function handleAuthChange({ payload: { event, data } }) {
-    setState({ ...state, loading: true });
     switch (event) {
-      case "signUp":
       case "signIn":
-        console.log({ event, data });
-        setState({ loading: false, error: null, data });
+        navigate("/me");
+        setLoading(false);
+        setError(null);
+        break;
+      case "signOut":
+        setLoading(false);
+        setError(null);
+        setUser(null);
+        navigate("/signin");
         break;
       case "signUp_failure":
       case "signIn_failure":
-        console.log({ event, data });
-        setState({ loading: false, error: data, data: null });
+        handleError(data);
         break;
       default:
         console.log({ event, data });
-        setState({ loading: false, error: null, data });
         break;
     }
   }
 
   useEffect(() => {
+    setLoading(true);
     Auth.currentAuthenticatedUser()
-      .then(user => {
-        setState({ loading: false, error: null, data: user });
-        console.log({ user });
-      })
-      .catch(handleError);
+      .then(user => setUser(user))
+      .catch(handleError)
+      .finally(() => setLoading(false));
 
     Hub.listen("auth", handleAuthChange);
 
     return () => Hub.remove("auth", handleAuthChange);
-  });
+  }, []);
 
   return {
-    user: state,
+    loading,
+    error,
+    user,
     confirmSignUp,
     signIn,
     signUp,

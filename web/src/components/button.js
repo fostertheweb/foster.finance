@@ -9,7 +9,7 @@ export default function(props) {
       {...props}
       loading={props.loading ? "true" : undefined}
       type="button"
-      className="block rounded font-bold bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-2 py-2 px-4 shadow">
+      className="block border rounded bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-1 py-3 px-5">
       {props.loading ? (
         <FontAwesomeIcon icon={faSpinnerThird} spin />
       ) : (

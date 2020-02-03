@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
-import { Link, navigate } from "@reach/router";
-import CreditCardImage from "../../images/credit-card";
+import { Link, useNavigate } from "react-router-dom";
 import Input, { Submit } from "../input";
+import Alert from "../alert";
 
 export default function() {
-  const { signUp, user } = useAuth();
+  const { signUp, user, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,14 +14,9 @@ export default function() {
     signUp(email, password);
   }
 
-  if (user.data && !user.error) {
-    navigate(`/signup/verify?email=${email}`);
-  }
-
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-4">
-      <CreditCardImage classes="lg:w-1/4 md:w-1/3 w-1/2 mx-4" />
-      <div className="lg:w-1/3 md:w-1/2 w-3/4 md:-ml-12">
+    <div className="flex flex-col md:flex-row items-center justify-center my-6">
+      <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
         <>
           <h2 className="my-0 text-xl">Get started</h2>
           <p className="block my-4">
@@ -30,8 +25,8 @@ export default function() {
           </p>
           <p className="my-4">
             Already have an account?{" "}
-            <Link to="/login" className="link">
-              Log in
+            <Link to="/signin" className="link">
+              Sign in
             </Link>
           </p>
           <form onSubmit={e => handleSubmit(e)} className="my-4">
@@ -48,11 +43,14 @@ export default function() {
               placeholder="not anything like 12345"
               onChange={e => setPassword(e.target.value)}
             />
-            <Submit
-              text="Sign up"
-              loading={user.loading}
-              disabled={!email || !password || user.loading}
-            />
+            <div className="flex items-center justify-end">
+              {error ? <Alert intent="error" message={error} /> : null}
+              <Submit
+                text="Create Account"
+                loading={loading}
+                disabled={!email || !password || loading}
+              />
+            </div>
           </form>
         </>
       </div>
