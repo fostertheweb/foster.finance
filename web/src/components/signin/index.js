@@ -6,7 +6,7 @@ import Input, { Submit } from "../input";
 import Alert from "../alert";
 
 export default function() {
-  const { signIn, loading, error } = useAuth();
+  const { signIn, loading, error, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,6 +14,10 @@ export default function() {
   function handleSubmit(e) {
     e.preventDefault();
     signIn(email, password);
+  }
+
+  if (user && !loading) {
+    navigate("/app/home");
   }
 
   if (error && error.code === "UserNotConfirmedException") {

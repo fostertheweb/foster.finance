@@ -4,9 +4,9 @@ import { faPaperPlane, faEnvelopeOpenText, faUserCheck } from "@fortawesome/pro-
 import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function Verify({ email }) {
+function CheckEmail({ email }) {
   const { resendSignUp, loading } = useAuth();
 
   return (
@@ -31,26 +31,32 @@ function Verify({ email }) {
 }
 
 function Confirmed({ id, code }) {
-  const { loading, error, user, confirmSignUp } = useAuth();
+  const { loading, error, confirmSignUp } = useAuth();
   const email = atob(id);
+  const navigate = useNavigate();
 
   useEffect(() => {
     confirmSignUp(email, code);
+    setTimeout(() => {
+      navigate("/signin");
+    }, 1000);
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <h1>loading...</h1>;
-  if (error) return <h1>error</h1>;
+  if (loading) return <b>loading confirm...</b>;
+  if (error && error.code === "NotAuthorizedException") {
+    navigate("/signin");
+  }
+  if (error) return <b>user confirmation error</b>;
 
   return (
     <>
       <div className="mx-4">
-        <FontAwesomeIcon icon={faUserCheck} size="6x" color="#5f6c7b" />
+        <FontAwesomeIcon icon={faUserCheck} size="5x" color="#5f6c7b" />
       </div>
       <div className="lg:w-1/3 md:w-1/2 w-3/4 mx-4">
         <h2>Email Verified</h2>
         <p className="my-4">Wow thank you.</p>
-        <pre>{user}</pre>
       </div>
     </>
   );
@@ -62,7 +68,7 @@ export default function() {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-8">
-      {id ? <Confirmed id={id} code={code} /> : <Verify email={email} />}
+      {id ? <Confirmed id={id} code={code} /> : <CheckEmail email={email} />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { Routes, Route, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import SignIn from "./components/signin";
 import CreateAccount from "./components/create-account";
@@ -18,15 +18,30 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_API_ENDPOINT,
 });
 
-function Layout() {
-  const { loading, user } = useAuth();
-  const location = useLocation();
+function ApplicationLayout() {
+  const { user, loading, error } = useAuth();
+  const navigate = useNavigate();
 
-  if (loading) return <b>loading layout</b>;
+  if (loading) return <b>loading application...</b>;
+  if (error) return <pre className="text-red-600">auth error</pre>;
+  if (!user) {
+    navigate("/signin");
+  }
 
   return (
     <div>
-      {user ? <Header /> : <MinimalHeader />}
+      <Header />
+      <Outlet />
+    </div>
+  );
+}
+
+function PublicLayout() {
+  const location = useLocation();
+
+  return (
+    <div>
+      <MinimalHeader />
       <div className="p-4">{location.pathname === "/" ? <PublicHome /> : <Outlet />}</div>
     </div>
   );
@@ -42,14 +57,16 @@ function App() {
       <ApolloProvider client={client}>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="me" element={<PersonalHome />} />
+            <Route path="/" element={<PublicLayout />}>
               <Route path="signin" element={<SignIn />} />
               <Route path="create-account" element={<CreateAccount />} />
               <Route path="create-account/profile" element={<CreateAccountProfile />} />
               <Route path="create-account/verify" element={<CreateAccountVerify />} />
-              <Route path="calendar" element={<Expenses />} />
+            </Route>
+            <Route path="app" element={<ApplicationLayout />}>
+              <Route path="home" element={<PersonalHome />} />
               <Route path="banks" element={<AccountList />} />
+              <Route path="calendar" element={<Expenses />} />
             </Route>
           </Routes>
         </AuthProvider>

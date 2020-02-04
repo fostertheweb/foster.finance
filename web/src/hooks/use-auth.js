@@ -25,61 +25,62 @@ export const useAuth = () => {
 
 function useAuthProvider() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newUser, setNewUser] = useState(null);
   const navigate = useNavigate();
 
   function confirmSignUp(email, code) {
     setLoading(true);
     Auth.confirmSignUp(email, code)
       .then(handleSuccess)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .catch(handleError);
   }
 
   function signIn(email, password) {
     setLoading(true);
     Auth.signIn(email, password)
-      .then(handleSuccess)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .then(user => {
+        setUser(user);
+        handleSuccess(user);
+      })
+      .catch(handleError);
   }
 
   function signUp(email, password) {
     setLoading(true);
     Auth.signUp(email, password)
       .then(handleSuccess)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .catch(handleError);
   }
 
   function resendSignUp(email) {
     setLoading(true);
     Auth.resendSignUp(email)
       .then(handleSuccess)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .catch(handleError);
   }
 
   function signOut() {
     setLoading(true);
     Auth.signOut()
-      .then(() => true)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .then(handleSuccess)
+      .catch(handleError);
   }
 
   function handleError(err) {
+    setError(err);
+    setUser(null);
+    setLoading(false);
+
     if (process.env.NODE_ENV === "development") {
       console.error(err);
     }
-
-    setError(err);
   }
 
   function handleSuccess(response) {
     setError(null);
-    setUser(response);
+    setLoading(false);
 
     if (process.env.NODE_ENV === "development") {
       console.log(response);
@@ -89,21 +90,15 @@ function useAuthProvider() {
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
       case "signIn":
-        setUser(data);
-        navigate("/me");
-        setError(null);
-        setLoading(false);
+        navigate("/app/home");
         break;
       case "signOut":
+        setUser(null);
         navigate("/signin");
-        setError(null);
-        setLoading(false);
-        setUser(null);
         break;
-      case "signUp_failure":
-        setError(data);
-        setUser(null);
-        setLoading(false);
+      case "signUp":
+        setNewUser(data);
+        navigate("/create-account/profile");
         break;
       default:
         console.log({ event, data });
@@ -112,11 +107,20 @@ function useAuthProvider() {
   }
 
   useEffect(() => {
-    setLoading(true);
     Auth.currentAuthenticatedUser()
-      .then(handleSuccess)
-      .catch(handleError)
-      .finally(() => setLoading(false));
+      .then(user => {
+        setUser(user);
+        setLoading(false);
+      })
+      .catch(err => {
+        if (err === "not authenticated") {
+          setError(null);
+          setUser(null);
+          setLoading(false);
+        } else {
+          handleError(err);
+        }
+      });
 
     Hub.listen("auth", handleAuthChange);
 
@@ -128,6 +132,7 @@ function useAuthProvider() {
     loading,
     error,
     user,
+    newUser,
     confirmSignUp,
     signIn,
     signUp,

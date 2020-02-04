@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input, { Submit } from "../input";
 import Alert from "../alert";
 
 export default function() {
-  const { signUp, loading, error } = useAuth();
+  const { signUp, loading, error, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  if (user && !loading) {
+    navigate("/app/home");
+  }
 
   function handleSubmit(e) {
     e.preventDefault();

@@ -4,7 +4,6 @@ import { faCalendar, faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Link } from "react-router-dom";
 import { Emoji } from "emoji-mart";
 import Logo from "./logo";
-import Alert from "./alert";
 import { useAuth } from "../hooks/use-auth";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -43,7 +42,7 @@ export function MinimalHeader() {
 function HeaderLink({ path, icon, children }) {
   return (
     <Link
-      to={`/${path}`}
+      to={`/app/${path}`}
       className="ml-8 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded">
       <FontAwesomeIcon icon={icon} />
       <span className="ml-2">{children}</span>
@@ -65,7 +64,7 @@ function HeaderButton({ onClick, icon, children }) {
 function UserButton({ emoji, name }) {
   return (
     <Link
-      to="/me"
+      to="/app/home"
       className="ml-4 hover:no-underline hover:text-white hover:bg-teal-600 p-2 rounded inline-flex items-center">
       <Emoji emoji={emoji} size={18} />
       <span className="ml-2">{name}</span>
@@ -74,31 +73,36 @@ function UserButton({ emoji, name }) {
 }
 
 export default function() {
-  const { user, signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { data, loading, error } = useQuery(GET_USER, {
     variables: { uid: user.attributes.sub },
   });
 
   if (error) {
-    return <Alert intent="error" message={error} />;
+    console.error(error);
   }
 
   if (loading) {
-    return <b>loading header</b>;
+    return <b>loading header...</b>;
   }
 
   return (
     <div className="flex items-center justify-between p-2 bg-teal-500 text-white border-teal-600 border-b-2 font-medium">
       <div className="flex items-center">
-        <Link to="/me" className="hover:no-underline hover:text-white">
+        <Link to="/app/home" className="hover:no-underline hover:text-white">
           <Logo dark />
         </Link>
-        <HeaderLink path="calendar" icon={faCalendar}>
-          Calendar
-        </HeaderLink>
+        {data ? (
+          <HeaderLink path="calendar" icon={faCalendar}>
+            Calendar
+          </HeaderLink>
+        ) : null}
       </div>
       <div className="flex items-center">
-        <UserButton emoji={data.getUser.emoji} name={data.getUser.name} />
+        <UserButton
+          emoji={data ? data.getUser.emoji : "hatching_chick"}
+          name={data ? data.getUser.name : user.attributes.email}
+        />
         <HeaderButton onClick={() => signOut()} icon={faSignOut}>
           Sign out
         </HeaderButton>

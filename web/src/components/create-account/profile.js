@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import EmojiInput from "../emoji-input";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -9,7 +10,7 @@ import Alert from "../alert";
 const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserRequest!) {
     createUser(input: $input) {
-      name
+      user_id
     }
   }
 `;
@@ -17,15 +18,17 @@ const CREATE_USER = gql`
 export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [createUser, { loading, error }] = useMutation(CREATE_USER);
-  const { user } = useAuth();
+  const [createUser, { loading, error, called }] = useMutation(CREATE_USER);
+  const { newUser } = useAuth();
+  const navigate = useNavigate();
+
+  if (called && !error) {
+    navigate(`/create-account/verify?email=${newUser.user.username}`);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {
-      attributes: { sub, email },
-    } = user;
-    const input = { user_id: sub, email, name, emoji };
+    const input = { user_id: newUser.userSub, email: newUser.user.username, name, emoji };
     createUser({ variables: { input } });
   }
 
@@ -50,7 +53,7 @@ export default function() {
             </div>
           </div>
           <div className="flex items-center justify-end">
-            {error ? <Alert intent="error" message={error} /> : null}
+            {error ? <Alert intent="error" message={error.message || error} /> : null}
             <Submit text="Save Profile" loading={loading} />
           </div>
         </form>
