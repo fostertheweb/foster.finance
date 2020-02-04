@@ -152,6 +152,7 @@ resource "aws_lambda_permission" "server" {
   action        = "lambda:InvokeFunction"
   function_name = "${var.application}-server"
   principal     = "apigateway.amazonaws.com"
+  source_arn    = "arn:aws:execute-api:us-east-1:131015488807:c1vrom6fl2/*/*/foster-finance-server"
 }
 
 # Client
