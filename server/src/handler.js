@@ -6,6 +6,6 @@ const server = new ApolloServer({
   context,
 });
 
-const handler = server.createHandler();
+const graphql = server.createHandler();
 
-module.exports = { handler };
+module.exports = { graphql };
