@@ -81,6 +81,17 @@ data "aws_iam_policy_document" "lambda" {
       identifiers = ["lambda.amazonaws.com"]
     }
   }
+
+  statement {
+    sid    = "2"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role" "lambda" {
