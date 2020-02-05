@@ -81,8 +81,11 @@ data "aws_iam_policy_document" "lambda" {
     }
   }
 
+}
+
+data "aws_iam_policy_document" "cloudwatch" {
   statement {
-    sid = "2"
+    sid = "1"
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
@@ -97,6 +100,12 @@ data "aws_iam_policy_document" "lambda" {
 resource "aws_iam_role" "lambda" {
   name               = "${var.application}-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
+}
+
+resource "aws_iam_role_policy" "cloudwatch_lambda" {
+  name   = "${var.application}-cloudwatch-lambda"
+  role   = aws_iam_role.lambda.id
+  policy = data.aws_iam_policy_document.cloudwatch.json
 }
 
 # zip the api directory for lambda
