@@ -6,6 +6,11 @@ const server = new ApolloServer({
   context,
 });
 
-const graphql = server.createHandler();
+const graphql = server.createHandler({
+  cors: {
+    origin: "*",
+    credentials: true,
+  }
+});
 
 module.exports = { graphql };
