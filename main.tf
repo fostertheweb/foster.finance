@@ -71,8 +71,7 @@ resource "aws_db_instance" "users_db" {
 # Lambda
 data "aws_iam_policy_document" "lambda" {
   statement {
-    sid    = "1"
-    effect = "Allow"
+    sid = "1"
     actions = [
       "sts:AssumeRole"
     ]
@@ -83,14 +82,15 @@ data "aws_iam_policy_document" "lambda" {
   }
 
   statement {
-    sid    = "2"
-    effect = "Allow"
+    sid = "2"
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
     ]
-    resources = ["*"]
+    resources = [
+      "arn:aws:logs:*:*:*"
+    ]
   }
 }
 
