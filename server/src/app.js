@@ -18,10 +18,9 @@ const schema = makeSchema({
   },
 });
 
-async function context({ req }) {
+async function context() {
   return {
     plaid: client,
-    authz: req.headers.Authorization,
     db: await database,
   };
 }
