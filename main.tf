@@ -144,7 +144,7 @@ resource "aws_lambda_function" "server" {
   filename         = "./server/lambda.zip"
   function_name    = "${var.application}-server"
   role             = aws_iam_role.lambda.arn
-  handler          = "exports.handler"
+  handler          = "handler.handler"
   source_code_hash = data.archive_file.server.output_base64sha256
   runtime          = "nodejs10.x"
 
