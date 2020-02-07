@@ -20,9 +20,9 @@ module.exports = (async function() {
         documentPkType: "uuid",
       },
     );
+    return database;
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    throw err;
   }
-
-  return database;
 })();

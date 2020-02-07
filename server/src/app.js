@@ -19,9 +19,12 @@ const schema = makeSchema({
 });
 
 async function context({ context }) {
-  context.callbackWaitsForEmptyEventLoop = false;
+  if (context) {
+    context.callbackWaitsForEmptyEventLoop = false;
+  }
+
   const db = await database;
-  
+
   return {
     plaid: client,
     db,
