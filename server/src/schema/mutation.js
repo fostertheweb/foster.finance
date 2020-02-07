@@ -14,6 +14,7 @@ const Mutation = objectType({
         }),
       },
       async resolve(_root, { input }, { db }) {
+        console.log({ mutation: "createUser", input });
         return await db.saveDoc("users", input);
       },
     });
