@@ -19,9 +19,9 @@ const schema = makeSchema({
 });
 
 async function context({ context }) {
-  // if (context) {
-  //   context.callbackWaitsForEmptyEventLoop = false;
-  // }
+  if (context) {
+    context.callbackWaitsForEmptyEventLoop = false;
+  }
 
   return {
     plaid: client,
