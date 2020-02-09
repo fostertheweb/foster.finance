@@ -6,11 +6,23 @@ const server = new ApolloServer({
   context,
 });
 
-const graphql = server.createHandler({
-  cors: {
-    origin: true,
-    credentials: true,
-  }
-});
+function run(event, context, handler) {
+  return new Promise((resolve, reject) => {
+    const callback = (error, body) => (error ? reject(error) : resolve(body));
+    handler(event, context, callback);
+  });
+}
+
+async function graphql(event, context) {
+  const handler = server.createHandler({
+    cors: {
+      origin: true,
+      credentials: true,
+    },
+  });
+  const response = await run(event, context, handler);
+
+  return response;
+}
 
 module.exports = { graphql };

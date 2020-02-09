@@ -1,10 +1,10 @@
 const path = require("path");
 const { makeSchema } = require("nexus");
-const plaid = require("plaid");
+const Plaid = require("plaid");
 const types = require("./schema");
 const database = require("./database");
 
-const client = new plaid.Client(
+const plaid = new Plaid.Client(
   process.env.PLAID_CLIENT_ID,
   process.env.PLAID_SECRET,
   process.env.PLAID_PUBLIC_KEY,
@@ -18,15 +18,18 @@ const schema = makeSchema({
   },
 });
 
-async function context({ context }) {
+async function context({ event, context }) {
   if (context) {
     context.callbackWaitsForEmptyEventLoop = false;
   }
 
-  return {
-    plaid: client,
-    db: await database,
-  };
+  if (event) {
+    console.log(event);
+  }
+
+  const db = await database;
+
+  return { plaid, db };
 }
 
 module.exports = { schema, context };
