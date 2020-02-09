@@ -167,13 +167,13 @@ resource "aws_lambda_function" "server" {
   tags = local.common_tags
 }
 
-resource "aws_lambda_permission" "server" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = "${var.application}-server"
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:us-east-1:131015488807:c1vrom6fl2/*/*/foster-finance-server"
-}
+# resource "aws_lambda_permission" "server" {
+#   statement_id  = "AllowExecutionFromAPIGateway"
+#   action        = "lambda:InvokeFunction"
+#   function_name = "${var.application}-server"
+#   principal     = "apigateway.amazonaws.com"
+#   source_arn    = "arn:aws:execute-api:us-east-1:131015488807:c1vrom6fl2/*/*/foster-finance-server"
+# }
 
 # Client
 resource "aws_s3_bucket" "web" {
