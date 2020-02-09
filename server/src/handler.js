@@ -1,10 +1,6 @@
 const { ApolloServer } = require("apollo-server-lambda");
-const { schema, context } = require("./app");
-
-const server = new ApolloServer({
-  schema,
-  context,
-});
+const { schema, buildContext } = require("./app");
+const database = require("./database");
 
 function run(event, context, handler) {
   return new Promise((resolve, reject) => {
@@ -14,6 +10,11 @@ function run(event, context, handler) {
 }
 
 async function graphql(event, context) {
+  const db = await database;
+  const server = new ApolloServer({
+    schema,
+    context: buildContext(db),
+  });
   const handler = server.createHandler({
     cors: {
       origin: true,
