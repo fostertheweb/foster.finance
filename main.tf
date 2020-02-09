@@ -168,7 +168,7 @@ resource "aws_lambda_function" "server" {
 }
 
 resource "aws_lambda_permission" "server" {
-  statement_id  = "AllowExecutionFromApiGateway"
+  statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = "${var.application}-server"
   principal     = "apigateway.amazonaws.com"
