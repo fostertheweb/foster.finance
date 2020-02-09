@@ -18,15 +18,7 @@ const schema = makeSchema({
 });
 
 function buildContext(db) {
-  return function({ event, context }) {
-    if (context) {
-      context.callbackWaitsForEmptyEventLoop = false;
-    }
-
-    if (event) {
-      console.log(event);
-    }
-
+  return function() {
     return { plaid, db };
   };
 }

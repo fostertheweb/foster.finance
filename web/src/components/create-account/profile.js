@@ -22,7 +22,7 @@ export default function() {
   const { newUser } = useAuth();
   const navigate = useNavigate();
 
-  if (called && !error) {
+  if (called && !loading && !error) {
     navigate(`/create-account/verify?email=${newUser.user.username}`);
   }
 
