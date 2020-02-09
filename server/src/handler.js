@@ -29,6 +29,8 @@ async function graphql(event, context) {
   });
   const response = await run(event, context, handler);
 
+  console.log(response);
+
   return response;
 }
 
