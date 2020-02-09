@@ -11,10 +11,8 @@ function run(event, context, handler) {
 
 async function graphql(event, context) {
   console.log(event);
-
-  context.callbackWaitsForEmptyEventLoop = false;
-
   const db = await database;
+  console.log(db);
   const server = new ApolloServer({
     schema,
     context: buildContext(db),
