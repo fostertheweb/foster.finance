@@ -7,15 +7,12 @@ async function graphql(event, context) {
   const db = await database;
   console.log(db);
   const server = new ApolloServer({
+    cors: true,
     schema,
     context: buildContext(db),
   });
-  return server.createHandler({
-    cors: {
-      origin: true,
-      credentials: true,
-    },
-  });
+
+  return server.createHandler();
 }
 
 module.exports = { graphql };
