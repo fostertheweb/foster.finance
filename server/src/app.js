@@ -29,6 +29,8 @@ async function context({ event, context }) {
 
   const db = await database;
 
+  console.log(db);
+
   return { plaid, db };
 }
 
