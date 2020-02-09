@@ -3,6 +3,7 @@ const { schema, buildContext } = require("./app");
 const database = require("./database");
 
 async function graphql(event, context) {
+  context.callbackWaitsForEmptyEventLoop = false;
   console.log(event);
   const db = await database;
   console.log(db);
