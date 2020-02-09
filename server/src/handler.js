@@ -20,9 +20,10 @@ async function graphql(event, context) {
   });
   const handler = server.createHandler({
     cors: {
+      origin: true,
       credentials: true,
-      origin: "*",
-      methods: "*",
+      maxAge: 3600,
+      methods: ["GET", "POST", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Origin", "Accept", "Authorization"],
     },
   });
