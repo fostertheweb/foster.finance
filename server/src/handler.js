@@ -22,8 +22,8 @@ async function graphql(event, context) {
     cors: {
       origin: true,
       credentials: true,
-      methods: ["POST"],
-      allowedHeaders: ["Content-Type", "Origin", "Accept"],
+      methods: ["OPTIONS", "GET", "POST"],
+      allowedHeaders: ["Content-Type", "Origin", "Accept", "Authorization"],
     },
   });
   const response = await run(event, context, handler);
