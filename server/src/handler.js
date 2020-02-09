@@ -18,7 +18,14 @@ async function graphql(event, context) {
     schema,
     context: buildContext(db),
   });
-  const handler = server.createHandler({ cors: { origin: true, credentials: true } });
+  const handler = server.createHandler({
+    cors: {
+      origin: true,
+      credentials: true,
+      methods: "POST",
+      allowedHeaders: ["Content-Type", "Origin", "Accept"],
+    },
+  });
   const response = await run(event, context, handler);
 
   return response;
