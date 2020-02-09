@@ -8,7 +8,7 @@ const plaid = new Plaid.Client(
   process.env.PLAID_CLIENT_ID,
   process.env.PLAID_SECRET,
   process.env.PLAID_PUBLIC_KEY,
-  plaid.environments[process.env.PLAID_ENV],
+  Plaid.environments[process.env.PLAID_ENV],
 );
 
 const schema = makeSchema({
