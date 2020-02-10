@@ -167,14 +167,6 @@ resource "aws_lambda_function" "server" {
   tags = local.common_tags
 }
 
-resource "aws_lambda_permission" "server" {
-  statement_id  = "AllowExecutionFromApiGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = "${var.application}-server"
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:us-east-1:131015488807:40t4tmuudb/*/*/*"
-}
-
 # Client
 resource "aws_s3_bucket" "web" {
   bucket = var.domain_name
