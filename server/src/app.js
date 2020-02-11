@@ -18,12 +18,9 @@ const schema = makeSchema({
   },
 });
 
-async function buildContext(db) {
+async function context() {
   const db = await database;
-
-  return function() {
-    return { plaid, db };
-  };
+  return { plaid, db };
 }
 
-module.exports = { schema, buildContext };
+module.exports = { schema, context };

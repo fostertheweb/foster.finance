@@ -1,15 +1,11 @@
 const { ApolloServer } = require("apollo-server-lambda");
-const { schema, buildContext } = require("./app");
-// const database = require("./database");
+const { schema, context } = require("./app");
 
 async function graphql(event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false;
-  console.log(event);
-  const db = await database;
-  console.log(db);
   const server = new ApolloServer({
     schema,
-    context: buildContext(db),
+    context,
   });
   const handler = server.createHandler({
     cors: {
@@ -20,21 +16,9 @@ async function graphql(event, context, callback) {
     },
   });
 
-  return handler(event, context, callback);
+  const response = handler(event, context, callback);
+  console.log(response);
+  return response;
 }
-
-const server = new ApolloServer({
-  schema,
-  context: buildContext(db),
-});
-
-const handler = server.createHandler({
-  cors: {
-    origin: true,
-    credentials: true,
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Origin", "Accept", "Authorization"],
-  },
-});
 
 module.exports = { graphql: handler };
