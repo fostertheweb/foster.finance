@@ -21,4 +21,4 @@ async function graphql(event, context, callback) {
   return response;
 }
 
-module.exports = { graphql: handler };
+module.exports = { graphql };
