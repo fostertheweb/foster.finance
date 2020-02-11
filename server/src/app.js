@@ -2,6 +2,7 @@ const path = require("path");
 const { makeSchema } = require("nexus");
 const Plaid = require("plaid");
 const types = require("./schema");
+const database = require("./database");
 
 const plaid = new Plaid.Client(
   process.env.PLAID_CLIENT_ID,
@@ -17,7 +18,9 @@ const schema = makeSchema({
   },
 });
 
-function buildContext(db) {
+async function buildContext(db) {
+  const db = await database;
+
   return function() {
     return { plaid, db };
   };
