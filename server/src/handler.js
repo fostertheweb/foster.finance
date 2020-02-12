@@ -6,8 +6,10 @@ const createHandler = async () => {
   const db = await database;
   const server = new ApolloServer({
     schema,
-    context: { db, plaid },
+    context: () => ({ db, plaid }),
   });
+
+  console.log(db);
 
   return server.createHandler({
     cors: {
