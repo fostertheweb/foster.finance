@@ -4,7 +4,7 @@ const database = require("./database");
 
 const server = new ApolloServer({
   schema,
-  context: async () => ({ db: await database, plaid }),
+  context: () => ({ plaid }),
 });
 
 const graphql = server.createHandler({
