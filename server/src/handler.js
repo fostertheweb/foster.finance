@@ -6,18 +6,9 @@ const server = new ApolloServer({
   context: () => ({ plaid }),
 });
 
-function run(event, context, handler) {
-  return new Promise((resolve, reject) => {
-    function callback(error, body) {
-      return error ? reject(error) : resolve(body);
-    }
-    
-    handler(event, context, callback);
-  });
-}
-
-async function graphql(event, context) {
+function graphql(event, context) {
   context.callbackWaitsForEmptyEventLoop = false;
+  
   const handler = server.createHandler({
     cors: {
       origin: true,
@@ -27,7 +18,7 @@ async function graphql(event, context) {
     },
   });
 
-  return await run(event, context, handler);
+  return handler(event, context);
 }
 
 module.exports = { graphql };
