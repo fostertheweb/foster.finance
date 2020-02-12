@@ -3,22 +3,20 @@ const { schema, plaid } = require("./app");
 
 const server = new ApolloServer({
   schema,
-  context: () => ({ plaid }),
+  context({ event, context }) {
+    context.callbackWaitsForEmptyEventLoop = false;
+    
+    return { plaid, headers: event.headers };
+  },
 });
 
-function graphql(event, context) {
-  context.callbackWaitsForEmptyEventLoop = false;
-  
-  const handler = server.createHandler({
-    cors: {
-      origin: true,
-      credentials: true,
-      methods: ["GET", "POST"],
-      allowedHeaders: ["Content-Type", "Origin", "Accept", "Authorization"],
-    },
-  });
-
-  return handler(event, context);
-}
+const graphql = server.createHandler({
+  cors: {
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Origin", "Accept", "Authorization"],
+  },
+});
 
 module.exports = { graphql };
