@@ -20,7 +20,7 @@ const createHandler = async () => {
 };
 
 const graphql = (event, context, callback) => {
-  // context.callbackWaitsForEmptyEventLoop = false;
+  context.callbackWaitsForEmptyEventLoop = false;
   createHandler().then(handler => handler(event, context, callback));
 };
 
