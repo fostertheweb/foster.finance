@@ -165,7 +165,7 @@ resource "aws_lambda_function" "server" {
   role             = aws_iam_role.lambda.arn
   handler          = "handler.graphql"
   source_code_hash = data.archive_file.server.output_base64sha256
-  runtime          = "nodejs10.x"
+  runtime          = "nodejs12.x"
 
   environment {
     variables = {
