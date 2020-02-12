@@ -52,6 +52,14 @@ variable "zoho_dkim_2" {
   type = string
 }
 
+variable "subnets" {
+  type = list(string)
+}
+
+variable "security_groups" {
+  type = list(string)
+}
+
 variable "client_mime_types" {
   default = {
     html  = "text/html"

@@ -80,7 +80,6 @@ data "aws_iam_policy_document" "lambda" {
       identifiers = ["lambda.amazonaws.com"]
     }
   }
-
 }
 
 data "aws_iam_policy_document" "cloudwatch" {
@@ -97,6 +96,20 @@ data "aws_iam_policy_document" "cloudwatch" {
   }
 }
 
+data "aws_iam_policy_document" "ec2" {
+  statement {
+    sid = "1"
+    actions = [
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+}
+
 resource "aws_iam_role" "lambda" {
   name               = "${var.application}-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
@@ -106,6 +119,12 @@ resource "aws_iam_role_policy" "cloudwatch_lambda" {
   name   = "${var.application}-cloudwatch-lambda"
   role   = aws_iam_role.lambda.id
   policy = data.aws_iam_policy_document.cloudwatch.json
+}
+
+resource "aws_iam_role_policy" "ec2_lambda" {
+  name   = "${var.application}-ec2-lambda"
+  role   = aws_iam_role.lambda.id
+  policy = data.aws_iam_policy_document.ec2.json
 }
 
 # zip the api directory for lambda
@@ -160,6 +179,11 @@ resource "aws_lambda_function" "server" {
       DB_USER          = var.db_user
       DB_PASS          = var.db_pass
     }
+  }
+
+  vpc_config {
+    subnet_ids         = var.subnets
+    security_group_ids = var.secruity_groups
   }
 
   depends_on = [aws_db_instance.users_db]
