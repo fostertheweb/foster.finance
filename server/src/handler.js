@@ -22,7 +22,8 @@ const createHandler = async () => {
 };
 
 const graphql = (event, context, callback) => {
-  createHandler().then(handler => handler(event, context, callback));
+  console.log({ event, context });
+  return createHandler().then(handler => handler(event, context, callback));
 };
 
 module.exports = { graphql };
