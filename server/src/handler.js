@@ -16,7 +16,7 @@ function run(event, context, handler) {
   });
 }
 
-export async function graphql(event, context) {
+async function graphql(event, context) {
   context.callbackWaitsForEmptyEventLoop = false;
   const handler = server.createHandler({
     cors: {
@@ -29,3 +29,5 @@ export async function graphql(event, context) {
 
   return await run(event, context, handler);
 }
+
+module.exports = { graphql };
