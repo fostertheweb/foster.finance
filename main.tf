@@ -183,7 +183,7 @@ resource "aws_lambda_function" "server" {
 
   vpc_config {
     subnet_ids         = var.subnets
-    security_group_ids = var.secruity_groups
+    security_group_ids = var.security_groups
   }
 
   depends_on = [aws_db_instance.users_db]
