@@ -13,44 +13,43 @@ const handlerOptions = {
   },
 };
 
-function createServer(db) {
-  return new ApolloServer({
-    schema,
-    context() {
-      return { plaid, db };
-    },
-  });
-}
-
-const func = (event, context) => {
-  context.callbackWaitsForEmptyEventLoop = false;
-
-  if (database) {
-    const server = createServer(database);
-    return server.createHandler(handlerOptions);
-  } else {
-    return massive(
-      {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-      },
-      {
-        documentPkType: "uuid",
-      },
-    )
-      .then(instance => {
-        database = instance;
-        const server = createServer(instance);
-        return server.createHandler(handlerOptions);
-      })
-      .catch(err => {
-        console.error(err);
-        throw err;
-      });
-  }
+const connectionOptions = {
+  conection: {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+  },
+  options: {
+    documentPkType: "uuid",
+  },
 };
 
-module.exports = { graphql: func };
+async function graphql(event, context) {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  try {
+    const { connection, options } = connectionOptions;
+    database = await (database ? database : massive(connection, options));
+    const server = new ApolloServer({
+      schema,
+      context() {
+        return { plaid, db: database, headers: event.headers };
+      },
+    });
+
+    return server.createHandler(handlerOptions);
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: err.statusCode || 500,
+      headers: { "Content-Type": "application/json" },
+      body: {
+        error: err,
+      },
+    };
+  }
+}
+
+module.exports = { graphql };
