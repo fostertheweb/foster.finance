@@ -2,6 +2,7 @@ const path = require("path");
 const { makeSchema } = require("nexus");
 const Plaid = require("plaid");
 const types = require("./schema");
+const database = require("./database");
 
 const plaid = new Plaid.Client(
   process.env.PLAID_CLIENT_ID,
@@ -17,4 +18,9 @@ const schema = makeSchema({
   },
 });
 
-module.exports = { schema, plaid };
+async function context({ req }) {
+  const db = await database();
+  return { plaid, db, headers: req.headers };
+}
+
+module.exports = { schema, context };

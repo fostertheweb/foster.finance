@@ -88,3 +88,67 @@ resource "aws_route53_record" "zoho_dkim" {
   records = ["${var.zoho_dkim_1}\"\"${var.zoho_dkim_2}"]
   ttl     = 600
 }
+
+# Lambda
+data "aws_iam_policy_document" "lambda" {
+  statement {
+    sid = "1"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "cloudwatch" {
+  statement {
+    sid = "1"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:*"
+    ]
+  }
+}
+
+resource "aws_iam_role" "lambda" {
+  name               = "${var.application}-lambda-role"
+  assume_role_policy = data.aws_iam_policy_document.lambda.json
+}
+
+resource "aws_iam_role_policy" "cloudwatch_lambda" {
+  name   = "${var.application}-cloudwatch-lambda"
+  role   = aws_iam_role.lambda.id
+  policy = data.aws_iam_policy_document.cloudwatch.json
+}
+
+# zip the api directory for lambda
+data "archive_file" "email" {
+  type        = "zip"
+  source_file = "./email/index.js"
+  output_path = "./email/lambda.zip"
+}
+
+resource "aws_lambda_function" "email" {
+  filename         = "./email/lambda.zip"
+  function_name    = "${var.application}-email"
+  role             = aws_iam_role.lambda.arn
+  handler          = "index.handler"
+  source_code_hash = data.archive_file.email.output_base64sha256
+  runtime          = "nodejs12.x"
+
+  tags = local.common_tags
+}
+
+resource "aws_lambda_permission" "email" {
+  statement_id  = "AllowExecutionFromCognitoUserPool"
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.application}-email"
+  principal     = "cognito-idp.amazonaws.com"
+}
