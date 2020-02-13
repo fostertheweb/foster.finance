@@ -31,6 +31,7 @@ async function graphql(event, context) {
 
   try {
     const { connection, options } = connectionOptions;
+    console.log(connectionOptions);
     database = await (database ? database : massive(connection, options));
     const server = new ApolloServer({
       schema,
@@ -43,6 +44,7 @@ async function graphql(event, context) {
   } catch (err) {
     console.log(err);
     return {
+      isBase64Encoded: false,
       statusCode: err.statusCode || 500,
       headers: { "Content-Type": "application/json" },
       body: {
