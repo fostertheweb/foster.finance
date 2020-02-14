@@ -11,21 +11,6 @@ variable "domain_name" {
 variable "db_endpoint" {
   type = string
 }
-# remove
-
-variable "db_name" {
-  type = string
-}
-
-variable "db_user" {
-  type = string
-}
-
-variable "db_pass" {
-  type = string
-}
-
-# remove
 
 variable "plaid_client_id" {
   type = string

@@ -21,7 +21,6 @@ locals {
   }
 }
 
-
 # Cognito
 resource "aws_cognito_user_pool" "users" {
   name                     = var.application

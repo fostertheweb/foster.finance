@@ -12,11 +12,10 @@ const Query = objectType({
         }),
       },
       async resolve(_root, { uid }, { db }) {
-        const users = await db.users.findDoc({
-          user_id: uid,
-        });
-        // findDoc returns array
-        return users[0];
+        return await db
+          .collection("users")
+          .where("user_id", "==", uid)
+          .get();
       },
     });
   },
