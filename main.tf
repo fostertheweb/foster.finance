@@ -56,18 +56,6 @@ resource "aws_cognito_user_pool_client" "web" {
   explicit_auth_flows = ["USER_PASSWORD_AUTH"]
 }
 
-# Database
-resource "aws_db_instance" "users_db" {
-  allocated_storage = 20
-  storage_type      = "gp2"
-  engine            = "postgres"
-  engine_version    = "11.5"
-  instance_class    = "db.t2.micro"
-  name              = var.db_name
-  username          = var.db_user
-  password          = var.db_pass
-}
-
 # Lambda
 data "aws_iam_policy_document" "lambda" {
   statement {
@@ -173,11 +161,6 @@ resource "aws_lambda_function" "server" {
       PLAID_SECRET     = var.plaid_secret
       PLAID_PUBLIC_KEY = var.plaid_public_key
       PLAID_ENV        = var.plaid_env
-      DB_HOST          = aws_db_instance.users_db.address
-      DB_PORT          = aws_db_instance.users_db.port
-      DB_NAME          = aws_db_instance.users_db.name
-      DB_USER          = var.db_user
-      DB_PASS          = var.db_pass
     }
   }
 
@@ -185,8 +168,6 @@ resource "aws_lambda_function" "server" {
     subnet_ids         = var.subnets
     security_group_ids = var.security_groups
   }
-
-  depends_on = [aws_db_instance.users_db]
 
   tags = local.common_tags
 }
