@@ -1,3 +1,27 @@
+data "archive_file" "email" {
+  type        = "zip"
+  source_file = "./email/index.js"
+  output_path = "./email/lambda.zip"
+}
+
+resource "aws_lambda_function" "email" {
+  filename         = "./email/lambda.zip"
+  function_name    = "${var.application}-email"
+  role             = aws_iam_role.lambda.arn
+  handler          = "index.handler"
+  source_code_hash = data.archive_file.email.output_base64sha256
+  runtime          = "nodejs10.x"
+
+  tags = local.common_tags
+}
+
+resource "aws_lambda_permission" "email" {
+  statement_id  = "AllowExecutionFromCognitoUserPool"
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.application}-email"
+  principal     = "cognito-idp.amazonaws.com"
+}
+
 resource "aws_ses_domain_identity" "root" {
   domain = var.domain_name
 }

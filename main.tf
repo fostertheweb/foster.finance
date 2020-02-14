@@ -116,31 +116,6 @@ resource "aws_iam_role_policy" "ec2_lambda" {
 }
 
 # zip the api directory for lambda
-data "archive_file" "email" {
-  type        = "zip"
-  source_file = "./email/index.js"
-  output_path = "./email/lambda.zip"
-}
-
-resource "aws_lambda_function" "email" {
-  filename         = "./email/lambda.zip"
-  function_name    = "${var.application}-email"
-  role             = aws_iam_role.lambda.arn
-  handler          = "index.handler"
-  source_code_hash = data.archive_file.email.output_base64sha256
-  runtime          = "nodejs10.x"
-
-  tags = local.common_tags
-}
-
-resource "aws_lambda_permission" "email" {
-  statement_id  = "AllowExecutionFromCognitoUserPool"
-  action        = "lambda:InvokeFunction"
-  function_name = "${var.application}-email"
-  principal     = "cognito-idp.amazonaws.com"
-}
-
-# zip the api directory for lambda
 data "archive_file" "server" {
   type        = "zip"
   source_dir  = "./server/dist"
@@ -161,6 +136,7 @@ resource "aws_lambda_function" "server" {
       PLAID_SECRET     = var.plaid_secret
       PLAID_PUBLIC_KEY = var.plaid_public_key
       PLAID_ENV        = var.plaid_env
+      DB_ENDPOINT      = var.db_endpoint
     }
   }
 
