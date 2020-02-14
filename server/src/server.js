@@ -5,7 +5,7 @@ const database = require("./database");
 const server = new ApolloServer({
   schema,
   context({ req }) {
-    return { plaid, db: database, headers: req.headers };
+    return { plaid, db: database(), headers: req.headers };
   },
 });
 
