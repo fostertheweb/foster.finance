@@ -1,9 +1,9 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("../../service-account.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://foster-finance-7c81a.firebaseio.com",
+  databaseURL: process.env.DB_URL,
 });
 
 module.exports = () => admin.firestore();

@@ -136,7 +136,7 @@ resource "aws_lambda_function" "server" {
       PLAID_SECRET     = var.plaid_secret
       PLAID_PUBLIC_KEY = var.plaid_public_key
       PLAID_ENV        = var.plaid_env
-      DB_ENDPOINT      = var.db_endpoint
+      DB_URL           = var.db_url
     }
   }
 
@@ -144,7 +144,7 @@ resource "aws_lambda_function" "server" {
     subnet_ids         = var.subnets
     security_group_ids = var.security_groups
   }
-  
+
   tags = local.common_tags
 }
 

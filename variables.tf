@@ -8,7 +8,7 @@ variable "domain_name" {
   type    = string
 }
 
-variable "db_endpoint" {
+variable "db_url" {
   type = string
 }
 
