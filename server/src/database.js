@@ -1,28 +1,25 @@
-const massive = require("massive");
+const admin = require("firebase-admin");
+const serviceAccount = require("./serviceAccountKey.json");
 
-let database;
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://foster-finance-7c81a.firebaseio.com"
+});
 
-module.exports = (async function() {
-  if (database) {
-    return database;
-  }
+module.exports = async function () {
+  const data = {
+    message: "Hello, world!",
+    timestamp: new Date()
+  };
 
-  try {
-    database = await massive(
-      {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-      },
-      {
-        documentPkType: "uuid",
-      },
-    );
-    return database;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-})();
+  db.collection('lambda-docs').add(data).then((ref) => {
+    // On a successful write, return an object
+    // containing the new doc id.
+    callback(null, {
+      id: ref.id
+    });
+  }).catch((err) => {
+    // Forward errors if the write fails
+    callback(err);
+  });
+}
