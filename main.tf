@@ -56,20 +56,6 @@ resource "aws_cognito_user_pool_client" "web" {
   explicit_auth_flows = ["USER_PASSWORD_AUTH"]
 }
 
-# Database
-resource "aws_dynamodb_table" "users_table" {
-  name         = "users"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "user_id"
-  
-  attribute {
-    name = "user_id"
-    type = "S"
-  }
-  
-  tags = local.common_tags
-}
-
 # Lambda
 data "aws_iam_policy_document" "lambda" {
   statement {
@@ -175,7 +161,6 @@ resource "aws_lambda_function" "server" {
       PLAID_SECRET     = var.plaid_secret
       PLAID_PUBLIC_KEY = var.plaid_public_key
       PLAID_ENV        = var.plaid_env
-      USERS_TABLE      = aws_dynamodb_table.users_table.id
     }
   }
 
@@ -184,8 +169,6 @@ resource "aws_lambda_function" "server" {
     security_group_ids = var.security_groups
   }
   
-  depends_on = [aws_dynamodb_table.users_table]
-
   tags = local.common_tags
 }
 
