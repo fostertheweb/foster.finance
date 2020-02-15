@@ -14,7 +14,7 @@ const Query = objectType({
       async resolve(_root, { uid }, { db }) {
         return await db
           .collection("users")
-          .where("user_id", "==", uid)
+          .doc(uid)
           .get();
       },
     });
