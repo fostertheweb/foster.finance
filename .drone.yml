@@ -42,7 +42,7 @@ steps:
       SERVICE_ACCOUNT:
         from_secret: service_account
     commands:
-      - echo "$SERVICE_ACCOUNT" >> ./server/src/service-account.json
+      - echo "$SERVICE_ACCOUNT" >> ./server/dist/service-account.json
       - echo "$TFVARS" >> ./terraform.tfvars
       - terraform init -backend-config="token=$TF_CLOUD_TOKEN"
       - terraform apply -auto-approve=true
