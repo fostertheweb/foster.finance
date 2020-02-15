@@ -19,6 +19,8 @@ const User = objectType({
     t.string("name", { nullable: true });
     t.string("email", { nullable: false });
     t.string("emoji", { nullable: true });
+    t.string("created", { nullable: true });
+    t.string("updated", { nullable: true });
   },
 });
 

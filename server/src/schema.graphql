@@ -184,9 +184,11 @@ enum TransactionType {
 
 type User {
   banks: [Bank]
+  created: String
   email: String!
   emoji: String
   name: String
   recurring_expenses: [RecurringExpense]
+  updated: String
   user_id: String!
 }

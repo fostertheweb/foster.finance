@@ -1,6 +1,9 @@
 const { arg, objectType, stringArg } = require("nexus");
 const { User, CreateUserRequest } = require("./user");
 const { ExchangePublicTokenResponse } = require("./plaid");
+const admin = require("firebase-admin");
+
+const timestamp = admin.firestore.FieldValue.serverTimestamp;
 
 const Mutation = objectType({
   name: "Mutation",
@@ -15,7 +18,20 @@ const Mutation = objectType({
       },
       async resolve(_root, { input }, { db }) {
         console.log({ mutation: "createUser", input });
-        return await db.collection("users").add(input);
+        try {
+          const uid = input.user_id;
+          await db
+            .collection("users")
+            .doc(uid)
+            .set({ ...input, created: timestamp() });
+          const doc = await db
+            .collection("users")
+            .doc(uid)
+            .get();
+          return doc.data();
+        } catch (err) {
+          console.log(err);
+        }
       },
     });
     t.field("exchangePublicToken", {
