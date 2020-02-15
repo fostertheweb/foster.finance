@@ -18,6 +18,6 @@ const options = {
   },
 };
 
-const graphql = server.createHandler(options);
+const graphql = server.createHandler();
 
 module.exports = { graphql };
