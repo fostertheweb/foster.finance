@@ -1,14 +1,5 @@
-const { ApolloServer } = require("apollo-server-lambda");
-const { schema, plaid } = require("./app");
-const database = require("./database");
+const lambda = require("aws-lambda-fastify");
+const app = require("./app");
+const handler = lambda(app);
 
-const server = new ApolloServer({
-  schema,
-  context({ event }) {
-    return { plaid, db: database(), headers: event.headers };
-  },
-});
-
-const graphql = server.createHandler();
-
-module.exports = { graphql };
+module.exports = handler;

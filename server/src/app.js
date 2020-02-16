@@ -1,20 +1,9 @@
-const path = require("path");
-const { makeSchema } = require("nexus");
-const Plaid = require("plaid");
-const types = require("./schema");
+const app = require("fastify")({ logger: true });
 
-const plaid = new Plaid.Client(
-  process.env.PLAID_CLIENT_ID,
-  process.env.PLAID_SECRET,
-  process.env.PLAID_PUBLIC_KEY,
-  Plaid.environments[process.env.PLAID_ENV],
-);
+app.register(require("./plugins/database"));
+app.register(require("./plugins/plaid"));
 
-const schema = makeSchema({
-  types,
-  outputs: {
-    schema: path.join(__dirname, "schema.graphql"),
-  },
-});
+app.register(require("./routes/users"), { prefix: "/users" });
+app.register(require("./routes/plaid"), { prefix: "/plaid" });
 
-module.exports = { schema, plaid };
+module.exports = app;

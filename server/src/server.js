@@ -1,14 +1,9 @@
-const { ApolloServer } = require("apollo-server");
-const { schema, plaid } = require("./app");
-const database = require("./database");
+const app = require("./app");
 
-const server = new ApolloServer({
-  schema,
-  context({ req }) {
-    return { plaid, db: database(), headers: req.headers };
-  },
-});
-
-server.listen().then(({ url }) => {
-  console.log(`Server ready at ${url}`);
+app.listen(4000, function(err, address) {
+  if (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+  app.log.info(`API server listening on ${address}`);
 });
