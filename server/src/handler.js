@@ -1,6 +1,7 @@
-const lambda = require("aws-lambda-fastify");
+// const lambda = require("aws-lambda-fastify");
+const serverless = require("serverless-http");
 const app = require("./app");
-const proxy = lambda(app);
+const proxy = serverless(app);
 
 module.exports.handler = async (event, context) => {
   // you can do other things here
