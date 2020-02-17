@@ -1,24 +1,16 @@
 import React from "react";
 import PlaidLink from "react-plaid-link";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank } from "@fortawesome/pro-duotone-svg-icons";
+import useFetch from "use-http";
 
+const url = process.env.REACT_APP_API_ENDPOINT;
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
 const env = process.env.REACT_APP_PLAID_ENVIRONMENT;
 const publicKey = process.env.REACT_APP_PLAID_PUBLIC_KEY;
 
-const EXCHANGE_PUBLIC_TOKEN = gql`
-  mutation ExchangePublicToken($token: String!) {
-    exchangePublicToken(token: $token) {
-      access_token
-    }
-  }
-`;
-
 function handleSuccess(token) {
-  localStorage.setItem("plaid_access_token", token);
+  console.log(token);
 }
 
 function handleExit() {
@@ -26,10 +18,10 @@ function handleExit() {
 }
 
 export default function() {
-  const [exchangePublicToken, { data }] = useMutation(EXCHANGE_PUBLIC_TOKEN);
+  const { post, data } = useFetch(url);
 
   if (data) {
-    handleSuccess(data.exchangePublicToken.access_token);
+    handleSuccess(data.access_token);
   }
 
   return (
@@ -41,8 +33,8 @@ export default function() {
       product={product}
       publicKey={publicKey}
       onExit={handleExit}
-      onSuccess={token => {
-        exchangePublicToken({ variables: { token } });
+      onSuccess={async token => {
+        await post("/plaid/exchange", { public_token: token });
       }}>
       <FontAwesomeIcon icon={faPiggyBank} size="lg" color="#666666" />
       <span className="ml-2 font-medium">Connect to Bank</span>

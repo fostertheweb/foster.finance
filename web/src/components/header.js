@@ -5,17 +5,9 @@ import { Link } from "react-router-dom";
 import { Emoji } from "emoji-mart";
 import Logo from "./logo";
 import { useAuth } from "../hooks/use-auth";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import useFetch from "use-http";
 
-const GET_USER = gql`
-  query getUser($uid: String!) {
-    getUser(uid: $uid) {
-      name
-      emoji
-    }
-  }
-`;
+const url = process.env.REACT_APP_API_ENDPOINT;
 
 export function MinimalHeader() {
   return (
@@ -74,9 +66,7 @@ function UserButton({ emoji, name }) {
 
 export default function() {
   const { signOut, user } = useAuth();
-  const { data, loading, error } = useQuery(GET_USER, {
-    variables: { uid: user.attributes.sub },
-  });
+  const { data, loading, error } = useFetch(`${url}/users/${user.attributes.sub}`);
 
   if (error) {
     console.error(error);
@@ -100,8 +90,8 @@ export default function() {
       </div>
       <div className="flex items-center">
         <UserButton
-          emoji={data ? data.getUser.emoji : "hatching_chick"}
-          name={data ? data.getUser.name : user.attributes.email}
+          emoji={data ? data.emoji : "hatching_chick"}
+          name={data ? data.name : user.attributes.email}
         />
         <HeaderButton onClick={() => signOut()} icon={faSignOut}>
           Sign out

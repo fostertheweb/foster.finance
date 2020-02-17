@@ -1,35 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import EmojiInput from "../emoji-input";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { useAuth } from "../../hooks/use-auth";
 import Input, { Submit } from "../input";
 import Alert from "../alert";
+import useFetch from "use-http";
 
-const CREATE_USER = gql`
-  mutation CreateUser($input: CreateUserRequest!) {
-    createUser(input: $input) {
-      user_id
-    }
-  }
-`;
+const url = process.env.REACT_APP_API_ENDPOINT;
 
 export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [createUser, { loading, error, called }] = useMutation(CREATE_USER);
+  const { post, loading, error } = useFetch(url);
   const { newUser } = useAuth();
   const navigate = useNavigate();
 
-  if (called && !loading && !error) {
-    navigate(`/create-account/verify?email=${newUser.user.username}`);
-  }
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const input = { user_id: newUser.userSub, email: newUser.user.username, name, emoji };
-    createUser({ variables: { input } });
+    const body = { user_id: newUser.userSub, email: newUser.user.username, name, emoji };
+    await post("/users", body);
+
+    if (!loading && !error) {
+      navigate(`/create-account/verify?email=${newUser.user.username}`);
+    }
   }
 
   return (
