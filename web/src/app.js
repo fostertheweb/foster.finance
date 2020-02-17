@@ -42,7 +42,16 @@ function PublicLayout() {
 }
 
 function PublicHome() {
-  return <h1>buy something from us</h1>;
+  return (
+    <div>
+      <h2>welcome</h2>;
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quo quod nulla cum
+        voluptatem vel magnam? Laborum veniam voluptatibus saepe temporibus eos, nemo doloribus
+        facilis nostrum aut et, doloremque possimus.
+      </p>
+    </div>
+  );
 }
 
 function App() {
