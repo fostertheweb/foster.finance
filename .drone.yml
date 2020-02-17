@@ -22,7 +22,7 @@ steps:
       FONTAWESOME_NPM_AUTH_TOKEN:
         from_secret: font_awesome_token
       REACT_APP_API_ENDPOINT:
-        from_secret: graphql_endpoint
+        from_secret: api_endpoint
     commands:
       - yarn
       - yarn run build
