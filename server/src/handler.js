@@ -1,5 +1,5 @@
 const lambda = require("aws-lambda-fastify");
 const app = require("./app");
-const handler = lambda(app);
+const proxy = lambda(app);
 
-module.exports = { handler };
+exports.handler = async (event, context) => proxy(event, context);
