@@ -1,6 +1,6 @@
 const fp = require("fastify-plugin");
 const admin = require("firebase-admin");
-const serviceAccount = require("../../service-account.json");
+const serviceAccount = require("../service-account.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
