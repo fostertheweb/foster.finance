@@ -1,7 +1,8 @@
 .calendar {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 52px);
+  border-left: 1px solid #ddd;
 }
 
 .month {

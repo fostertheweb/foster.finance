@@ -11,12 +11,12 @@ export default function() {
   }));
 
   const [year, setYear] = useState(luxon.DateTime.local().year);
-  const years = [2019, 2018, 2017];
+  const years = [2020, 2019, 2018, 2017];
 
   return (
-    <div className="expenses">
-      <div className="sidebar">
-        <div className="controls">
+    <div className="flex items-center">
+      <div className="py-2 px-4 self-start">
+        <div className="flex items-center">
           <HTMLSelect
             value={month}
             options={months}
@@ -29,14 +29,8 @@ export default function() {
             onChange={event => setYear(Number(event.currentTarget.value))}
           />
         </div>
-        <Divider />
-        <div>Income this month:</div>
-        <Divider />
-        <div>Spent this month:</div>
-        <Divider />
-        <div>Upcoming expenses:</div>
       </div>
-      <div className="content">
+      <div className="flex-grow">
         <Calendar year={year} month={month} />
       </div>
     </div>
