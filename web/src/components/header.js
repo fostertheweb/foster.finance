@@ -65,14 +65,18 @@ function UserButton({ emoji, name }) {
 }
 
 export default function() {
-  const { signOut, user } = useAuth();
-  const { data, loading, error } = useFetch(`${url}/users/${user.attributes.sub}`);
+  const { signOut, user, loading: isUserLoading } = useAuth();
+  const { data, loading, error } = useFetch(
+    `${url}/users/${user.attributes.sub}`,
+    { cachePolicy: "no-cache" },
+    [],
+  );
 
   if (error) {
     console.error(error);
   }
 
-  if (loading) {
+  if (loading || isUserLoading) {
     return <b>loading header...</b>;
   }
 

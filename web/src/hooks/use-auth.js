@@ -106,6 +106,10 @@ function useAuthProvider() {
     }
   }
 
+  async function currentUser() {
+    return Auth.currentAuthenticatedUser();
+  }
+
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(user => {
@@ -131,6 +135,7 @@ function useAuthProvider() {
   return {
     loading,
     error,
+    currentUser,
     user,
     newUser,
     confirmSignUp,
