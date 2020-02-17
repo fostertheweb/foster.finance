@@ -3,7 +3,7 @@ const app = require("fastify")({ logger: true });
 app.get("/ping", (_, reply) => reply.send("PONG"));
 
 app.register(require("fastify-cors"), {
-  origin: "https://foster.finance",
+  origin: ["https://foster.finance", "http://localhost:3000"],
   methods: ["GET", "POST", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

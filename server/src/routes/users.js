@@ -21,7 +21,7 @@ module.exports = function(fastify, _opts, done) {
         .db()
         .collection("users")
         .doc(uid)
-        .set({ ...body, created: timestamp() });
+        .set({ ...body, created: Date.UTC() });
       const doc = await fastify
         .db()
         .collection("users")
