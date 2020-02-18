@@ -1,5 +1,5 @@
 module.exports = function(fastify, _opts, done) {
-  fastify.get("/:id", async (request, reply) => {
+  fastify.get("/:id", async request => {
     fastify.log.info("in the route");
     try {
       fastify.log.info("fetching user");
@@ -14,11 +14,11 @@ module.exports = function(fastify, _opts, done) {
       return user;
     } catch (err) {
       fastify.log.error(err);
-      return reply.send(err);
+      return err;
     }
   });
 
-  fastify.post("/", async ({ body }, reply) => {
+  fastify.post("/", async ({ body }) => {
     try {
       const uid = body.user_id;
       await fastify
@@ -32,10 +32,10 @@ module.exports = function(fastify, _opts, done) {
         .doc(uid)
         .get();
       const user = doc.data();
-      return reply.send(user);
+      return user;
     } catch (err) {
       fastify.log.error(err);
-      return reply.send(err);
+      return err;
     }
   });
 
