@@ -7,7 +7,9 @@ admin.initializeApp({
   databaseURL: process.env.DB_URL,
 });
 
+let db;
+
 module.exports = fp(function(fastify, _opts, next) {
-  fastify.decorate("db", () => admin.firestore());
+  fastify.decorate("db", () => (db ? db : (db = admin.firestore())));
   next();
 });
