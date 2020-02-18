@@ -8,9 +8,10 @@ module.exports = function(fastify, _opts, done) {
         .collection("users")
         .doc(request.params.id)
         .get();
+      fastify.log.info(doc);
       const user = doc.data();
       fastify.log.info(user);
-      return reply.send(user);
+      return user;
     } catch (err) {
       fastify.log.error(err);
       return reply.send(err);
