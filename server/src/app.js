@@ -2,8 +2,10 @@ const app = require("fastify")({ logger: true });
 
 app.get("/ping", (_, reply) => reply.send("PONG"));
 
-app.register(require("./plugins/database"));
 app.register(require("./plugins/plaid"));
+app.register(require("fastify-mongodb"), {
+  url: process.env.DB_URL,
+});
 app.register(require("fastify-cors"), {
   origin: ["https://foster.finance", "http://localhost:3000"],
   methods: ["GET", "POST", "PATCH"],
