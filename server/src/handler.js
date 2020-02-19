@@ -11,11 +11,13 @@ const options = {
 async function handler(event, context) {
   if (client) {
     app.register(require("fastify-mongodb"), { client });
-    return lambda(app, options)(event, context);
+    const proxy = lambda(app, options);
+    return proxy(event, context);
   } else {
     client = await MongoClient.connect(process.env.DB_URL);
     app.register(require("fastify-mongodb"), { client });
-    return lambda(app, options)(event, context);
+    const proxy = lambda(app, options);
+    return proxy(event, context);
   }
 }
 
