@@ -1,9 +1,10 @@
 module.exports = function(app, _options, next) {
-  app.get("/:id", async request => {
+  app.get("/:id", async (request, reply) => {
     app.log.info(`GET /users/${request.params.id}`);
     try {
       app.log.info("Query for user");
-      return await app.mongo.db.collection("users").findOne({ user_id: request.params.id });
+      const user = await app.mongo.db.collection("users").findOne({ user_id: request.params.id });
+      return user ? user : reply.notFound();
     } catch (err) {
       app.log.error(err);
       return err;
