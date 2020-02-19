@@ -8,20 +8,15 @@ const options = {
   callbackWaitsForEmptyEventLoop: false,
 };
 
-async function handler(event, contect) {
+async function handler(event, context) {
   if (client) {
     app.register(require("fastify-mongodb"), { client });
-    return lambda(app, options);
+    return lambda(app, options)(event, context);
   } else {
     client = await MongoClient.connect(process.env.DB_URL);
     app.register(require("fastify-mongodb"), { client });
-    return lambda(app, options);
+    return lambda(app, options)(event, context);
   }
 }
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.log("Unhandled Rejection at:", promise, "reason:", reason);
-  throw new Error(reason);
-});
 
 module.exports = { handler };
