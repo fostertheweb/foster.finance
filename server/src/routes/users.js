@@ -1,18 +1,19 @@
-module.exports = function(fastify, _opts, next) {
-  fastify.get("/:id", async function(request) {
-    fastify.log.info(`GET /users/${request.params.id}`);
+module.exports = function(app, _options, next) {
+  app.get("/:id", async request => {
+    app.log.info(`GET /users/${request.params.id}`);
     try {
-      fastify.log.info("Fetching user");
-      console.log(this.mongo);
-      return await this.mongo.db.collection("users").findOne({ user_id: request.params.id });
+      app.log.info("Query for user");
+      return await app.mongo.db.collection("users").findOne({ user_id: request.params.id });
     } catch (err) {
-      fastify.log.error(err);
+      app.log.error(err);
       return err;
     }
   });
 
-  fastify.post("/", async function({ body }) {
-    return await this.mongo.db.collection("users").insertOne(body);
+  app.post("/", async ({ body }) => {
+    app.log.info("POST /users");
+    app.log.info(body);
+    return await app.mongo.db.collection("users").insertOne(body);
   });
 
   next();

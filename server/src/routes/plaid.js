@@ -1,13 +1,13 @@
-module.exports = function(fastify, _opts, done) {
-  fastify.post("/exchange", async (request, reply) => {
+module.exports = function(app, _options, next) {
+  app.post("/exchange", async ({ body }) => {
     try {
-      const response = await fastify.plaid().exchangePublicToken(request.body.public_token);
-      return response;
+      app.log.info("POST /plaid/exchange");
+      return await app.plaid().exchangePublicToken(body.public_token);
     } catch (err) {
-      fastify.log.error(err);
+      app.log.error(err);
       return err;
     }
   });
 
-  done();
+  next();
 };
