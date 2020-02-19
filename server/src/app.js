@@ -3,9 +3,10 @@ const app = require("fastify")({ logger: true });
 app.get("/ping", (_, reply) => reply.send("PONG"));
 
 // installed plugins
-app.register(require("fastify-mongodb"), {
-  url: process.env.DB_URL,
-});
+// app.register(require("fastify-mongodb"), {
+//   forceClose: true,
+//   url: process.env.DB_URL,
+// });
 app.register(require("fastify-cors"), {
   origin: true,
   methods: ["GET", "POST", "PATCH"],
