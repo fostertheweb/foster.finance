@@ -27,4 +27,4 @@ app.register(require("./plugins/plaid"));
 app.register(require("./routes/users"), { prefix: "/users" });
 app.register(require("./routes/plaid"), { prefix: "/plaid" });
 
-return app;
+module.exports = app;
