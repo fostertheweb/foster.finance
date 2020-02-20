@@ -1,5 +1,4 @@
-const init = require("./app");
-const app = init();
+const app = require("./app");
 
 app.listen(4000, function(err, address) {
   if (err) {
