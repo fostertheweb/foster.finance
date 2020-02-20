@@ -20,21 +20,19 @@ const client = new MongoClient(process.env.DB_URL, {
   useNewUrlParser: true,
 });
 
-let db;
-
 const createConnection = async () => {
   await client.connect();
-  db = client.db("test");
 };
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
   try {
-    if (db) {
-      return await db.collection("users").find({});
+    if (client.isConnected()) {
+      console.log("connected");
     } else {
+      console.log("not connected");
       await createConnection();
-      return await db.collection("users").find({});
+      console.log("connected");
     }
   } catch (err) {
     console.log(err);
