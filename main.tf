@@ -109,12 +109,6 @@ resource "aws_iam_role_policy" "cloudwatch_lambda" {
   policy = data.aws_iam_policy_document.cloudwatch.json
 }
 
-resource "aws_iam_role_policy" "ec2_lambda" {
-  name   = "${var.application}-ec2-lambda"
-  role   = aws_iam_role.lambda.id
-  policy = data.aws_iam_policy_document.ec2.json
-}
-
 # zip the api directory for lambda
 data "archive_file" "server" {
   type        = "zip"
@@ -138,11 +132,6 @@ resource "aws_lambda_function" "server" {
       PLAID_ENV        = var.plaid_env
       DB_URL           = var.db_url
     }
-  }
-
-  vpc_config {
-    subnet_ids         = var.subnets
-    security_group_ids = var.security_groups
   }
 
   tags = local.common_tags

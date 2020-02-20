@@ -8,7 +8,7 @@ const plaid = new Plaid.Client(
   Plaid.environments[process.env.PLAID_ENV],
 );
 
-module.exports = fp(function(fastify, _opts, next) {
+module.exports = fp(function(fastify, _options, next) {
   fastify.decorate("plaid", () => plaid);
   next();
 });
