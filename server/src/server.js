@@ -1,8 +1,5 @@
-const app = require("./app");
-
-app.register(require("fastify-mongodb"), {
-  url: process.env.DB_URL,
-});
+const init = require("./app");
+const app = init();
 
 app.listen(4000, function(err, address) {
   if (err) {
