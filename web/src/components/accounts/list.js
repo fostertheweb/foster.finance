@@ -2,7 +2,7 @@ import React from "react";
 
 export default function({ data }) {
   return (
-    <div className="p-4">
+    <div>
       <h2>Accounts</h2>
       {data.map(account => (
         <div
