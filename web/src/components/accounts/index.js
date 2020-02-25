@@ -8,7 +8,7 @@ const url = process.env.REACT_APP_API_ENDPOINT;
 
 export default function() {
   const { user } = useAuth();
-  const { post, data } = useFetch(url);
+  const { post, data, loading } = useFetch(url);
   const uid = user.attributes.sub;
   const items = JSON.parse(localStorage.getItem(uid)) || [];
 
@@ -19,6 +19,10 @@ export default function() {
 
     fetch();
   });
+
+  if (loading) {
+    return <b>loading accounts...</b>;
+  }
 
   return <div className="p-4">{data ? <AccountList data={data} /> : <AddBank />}</div>;
 }

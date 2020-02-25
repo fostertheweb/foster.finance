@@ -56,7 +56,7 @@ function PublicHome() {
 
 function PersonalHome() {
   return (
-    <div>
+    <div className="p-4">
       <h2>
         <span role="img" aria-label="hand waving">
           👋
