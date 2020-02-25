@@ -57,7 +57,12 @@ function PublicHome() {
 function PersonalHome() {
   return (
     <div>
-      <h2>👋 Hello, returning user!</h2>
+      <h2>
+        <span role="img" aria-label="hand waving">
+          👋
+        </span>{" "}
+        Hello, returning user!
+      </h2>
     </div>
   );
 }
