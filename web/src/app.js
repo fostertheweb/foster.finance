@@ -5,7 +5,6 @@ import SignIn from "./components/signin";
 import CreateAccount from "./components/create-account";
 import CreateAccountProfile from "./components/create-account/profile";
 import CreateAccountVerify from "./components/create-account/verify";
-import PersonalHome from "./components/accounts/add-bank";
 import Accounts from "./components/accounts";
 import Expenses from "./components/expenses";
 import Error from "./components/error";
@@ -51,6 +50,14 @@ function PublicHome() {
         voluptatem vel magnam? Laborum veniam voluptatibus saepe temporibus eos, nemo doloribus
         facilis nostrum aut et, doloremque possimus.
       </p>
+    </div>
+  );
+}
+
+function PersonalHome() {
+  return (
+    <div>
+      <h2>👋 Hello, returning user!</h2>
     </div>
   );
 }
