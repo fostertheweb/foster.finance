@@ -1,7 +1,7 @@
 const app = require("fastify")({ logger: true });
 
 // health check
-app.get("/ping", (_, reply) => reply.send("PONG"));
+app.get("/ping", () => "PONG");
 
 // installed plugins
 app.register(require("fastify-mongodb"), { url: process.env.DB_URL });

@@ -5,9 +5,10 @@ import SignIn from "./components/signin";
 import CreateAccount from "./components/create-account";
 import CreateAccountProfile from "./components/create-account/profile";
 import CreateAccountVerify from "./components/create-account/verify";
-import PersonalHome from "./components/account/home";
-import AccountList from "./components/account/account-list";
+import PersonalHome from "./components/accounts/add-bank";
+import Accounts from "./components/accounts";
 import Expenses from "./components/expenses";
+import Error from "./components/error";
 
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import Header, { MinimalHeader } from "./components/header";
@@ -64,10 +65,11 @@ function App() {
             <Route path="create-account" element={<CreateAccount />} />
             <Route path="create-account/profile" element={<CreateAccountProfile />} />
             <Route path="create-account/verify" element={<CreateAccountVerify />} />
+            <Route path="error" element={<Error />} />
           </Route>
           <Route path="app" element={<ApplicationLayout />}>
             <Route path="home" element={<PersonalHome />} />
-            <Route path="banks" element={<AccountList />} />
+            <Route path="accounts" element={<Accounts />} />
             <Route path="calendar" element={<Expenses />} />
           </Route>
         </Routes>

@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faSignOut } from "@fortawesome/pro-duotone-svg-icons";
+import { faCalendar, faSignOut, faPiggyBank } from "@fortawesome/pro-duotone-svg-icons";
 import { Link } from "react-router-dom";
 import { Emoji } from "emoji-mart";
 import Logo from "./logo";
@@ -87,9 +87,14 @@ export default function() {
           <Logo dark />
         </Link>
         {data ? (
-          <HeaderLink path="calendar" icon={faCalendar}>
-            Calendar
-          </HeaderLink>
+          <>
+            <HeaderLink path="calendar" icon={faCalendar}>
+              Calendar
+            </HeaderLink>
+            <HeaderLink path="accounts" icon={faPiggyBank}>
+              Accounts
+            </HeaderLink>
+          </>
         ) : null}
       </div>
       <div className="flex items-center">
