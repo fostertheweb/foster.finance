@@ -6,7 +6,7 @@ export default function(props) {
   return (
     <div className="flex">
       <FontAwesomeIcon icon={faExclamationSquare} size="2x" />
-      {props.message}
+      {props.error.message}
     </div>
   );
 }

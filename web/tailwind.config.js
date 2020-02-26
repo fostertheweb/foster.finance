@@ -1,7 +1,11 @@
 module.exports = {
   theme: {
-    extend: {}
+    extend: {},
   },
-  variants: {},
-  plugins: []
-}
+  variants: {
+    backgroundColor: ["group-hover"],
+    display: ["group-hover"],
+    maxWidth: ["responsive"],
+  },
+  plugins: [],
+};

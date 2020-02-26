@@ -80,3 +80,9 @@
   background: #ccc;
   cursor: pointer;
 }
+
+.ff-container {
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
+}

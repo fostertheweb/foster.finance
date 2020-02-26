@@ -8,6 +8,7 @@ import CreateAccountVerify from "./components/create-account/verify";
 import Accounts from "./components/accounts";
 import Expenses from "./components/expenses";
 import Error from "./components/error";
+import Loading from "./components/loading";
 
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import Header, { MinimalHeader } from "./components/header";
@@ -16,7 +17,7 @@ function ApplicationLayout() {
   const { user, loading, error } = useAuth();
   const navigate = useNavigate();
 
-  if (loading) return <b>loading application...</b>;
+  if (loading) return <Loading />;
   if (error) return <pre className="text-red-600">auth error</pre>;
   if (!user) {
     navigate("/signin");
@@ -43,9 +44,9 @@ function PublicLayout() {
 
 function PublicHome() {
   return (
-    <div>
-      <h2>welcome</h2>
-      <p>
+    <div className="mt-4">
+      <h2>Welcome</h2>
+      <p className="w-1/2">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quo quod nulla cum
         voluptatem vel magnam? Laborum veniam voluptatibus saepe temporibus eos, nemo doloribus
         facilis nostrum aut et, doloremque possimus.
@@ -56,13 +57,13 @@ function PublicHome() {
 
 function PersonalHome() {
   return (
-    <div className="p-4">
-      <h2>
+    <div className="ff-container py-4">
+      <p>
         <span role="img" aria-label="hand waving">
           👋
         </span>{" "}
-        Hello, returning user!
-      </h2>
+        Hello, again!
+      </p>
     </div>
   );
 }
@@ -82,7 +83,7 @@ function App() {
           <Route path="app" element={<ApplicationLayout />}>
             <Route path="home" element={<PersonalHome />} />
             <Route path="accounts" element={<Accounts />} />
-            <Route path="calendar" element={<Expenses />} />
+            <Route path="expenses" element={<Expenses />} />
           </Route>
         </Routes>
       </AuthProvider>
