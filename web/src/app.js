@@ -12,7 +12,6 @@ import Loading from "./components/loading";
 
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import Header, { MinimalHeader } from "./components/header";
-import SavingsImage from "./images/savings";
 
 function ApplicationLayout() {
   const { user, loading, error } = useAuth();
