@@ -12,6 +12,7 @@ import Loading from "./components/loading";
 
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import Header, { MinimalHeader } from "./components/header";
+import SavingsImage from "./images/savings";
 
 function ApplicationLayout() {
   const { user, loading, error } = useAuth();
@@ -44,9 +45,9 @@ function PublicLayout() {
 
 function PublicHome() {
   return (
-    <div className="mt-4">
+    <div className="ff-container mt-4">
       <h2>Welcome</h2>
-      <p className="w-1/2">
+      <p className="w-1/2 mt-2">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quo quod nulla cum
         voluptatem vel magnam? Laborum veniam voluptatibus saepe temporibus eos, nemo doloribus
         facilis nostrum aut et, doloremque possimus.

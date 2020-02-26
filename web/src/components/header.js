@@ -11,7 +11,7 @@ const url = process.env.REACT_APP_API_ENDPOINT;
 
 export function MinimalHeader() {
   return (
-    <div className="flex items-center justify-between p-2 font-medium">
+    <div className="ff-container flex items-center justify-between p-2 font-medium">
       <Link to="/" className="hover:no-underline">
         <Logo color="#094067" />
       </Link>
@@ -91,7 +91,9 @@ export default function() {
   if (loading || isUserLoading) {
     return (
       <div className="flex items-center justify-between p-2 bg-gray-700 text-white border-gray-800 border-b-2 font-medium w-full">
-        <Logo dark />
+        <div className="ff-container">
+          <Logo dark />
+        </div>
       </div>
     );
   }
