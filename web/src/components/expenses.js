@@ -8,18 +8,24 @@ import { Select } from "./input";
 const url = process.env.REACT_APP_API_ENDPOINT;
 
 export default function() {
+  // get user id and stored tokens
+  const { user } = useAuth();
+  const uid = user.attributes.sub;
+  const items = JSON.parse(localStorage.getItem(uid)) || [];
+
+  // local component state
   const [month, setMonth] = useState(luxon.DateTime.local().month);
+  const [year, setYear] = useState(luxon.DateTime.local().year);
+  const [dateRange, setDateRange] = useState(formatDateParams(year, month));
+
+  // setup dropdown options
+  const years = [2020, 2019, 2018, 2017];
   const months = luxon.Info.months().map((label, index) => ({
     label,
     value: index + 1,
   }));
-  const [year, setYear] = useState(luxon.DateTime.local().year);
-  const years = [2020, 2019, 2018, 2017];
-  const [dateRange, setDateRange] = useState(formatDateParams(year, month));
-  const { user } = useAuth();
+
   const { post, data, loading } = useFetch(url);
-  const uid = user.attributes.sub;
-  const items = JSON.parse(localStorage.getItem(uid)) || [];
 
   useEffect(() => {
     async function fetch() {
@@ -28,7 +34,7 @@ export default function() {
 
     fetch();
     // eslint-disable-next-line
-  }, [dateRange]);
+  }, [year, month]);
 
   return (
     <div className="ff-container flex items-center">

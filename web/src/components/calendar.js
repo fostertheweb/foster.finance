@@ -11,18 +11,25 @@ function Day({ number, isInCurrentMonth, isToday, data }) {
       className={classNames(
         ...day,
         isInCurrentMonth ? "bg-white" : "bg-gray-200",
-        isToday ? "bg-purple-100 text-purple-800 font-bold" : "",
+        isToday ? "bg-purple-100 text-purple-800 font-bold" : "text-gray-600",
       )}>
       <span className="float-right m-1">{number}</span>
       {data ? (
         <ul className="list-none m-2 float-left text-xs font-medium">
-          {data.map(t => (
-            <li key={t.transaction_id} className="mb-1">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
-                t.amount,
-              )}
-            </li>
-          ))}
+          {data.map(t => {
+            const amount = String(t.amount);
+            const isNegative = amount.charAt(0) === "-";
+            return (
+              <li
+                key={t.transaction_id}
+                className={`mb-1 ${isNegative ? "text-red-600" : "text-green-600"}`}>
+                {isNegative ? null : "+"}
+                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
+                  amount,
+                )}
+              </li>
+            );
+          })}
         </ul>
       ) : null}
     </div>
