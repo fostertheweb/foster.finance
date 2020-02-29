@@ -44,72 +44,60 @@ export function Calendar({ year, month, loading, data }) {
   let weeks = [];
   let key = 0;
   let number = 1;
-  let maxRows = 5;
+  let maxNumOfWeeks = 5;
 
   if (loading) {
     return <Loading />;
   }
 
   if (getFirstWeekday(year, month) === 7) {
-    maxRows = 6;
+    maxNumOfWeeks = 6;
   }
 
-  for (let row = 0; row < maxRows; row++) {
-    let week = [];
+  for (let week = 0; week < maxNumOfWeeks; week++) {
+    let days = [];
 
     for (let weekday = 1; weekday < 8; weekday++) {
-      if (row === 0 && weekday === 6 && weekday === getFirstWeekday(year, month)) {
+      if (week === 0 && weekday === 6 && weekday === getFirstWeekday(year, month)) {
         const calendarDate = luxon.DateTime.local(year, month, number);
         const transactions = data ? data.filter(t => compareDates(t.date, calendarDate)) : [];
-        week.push(
-          <Day
-            number={number}
-            isInCurrentMonth={true}
-            isToday={isToday(year, month, number)}
-            data={transactions}
-            key={key}
-          />,
-        );
+        const props = buildProps(number, true, isToday(year, month, number), transactions, key);
+        days.push(props);
         number++;
         key++;
-      } else if (row === 0 && weekday === 7 && weekday === getFirstWeekday(year, month)) {
+      } else if (week === 0 && weekday === 7 && weekday === getFirstWeekday(year, month)) {
         const calendarDate = luxon.DateTime.local(year, month, number);
         const transactions = data ? data.filter(t => compareDates(t.date, calendarDate)) : [];
-        week.push(
-          <Day
-            number={number}
-            isInCurrentMonth={true}
-            isToday={isToday(year, month, number)}
-            data={transactions}
-            key={key}
-          />,
-        );
+        const props = buildProps(number, true, isToday(year, month, number), transactions, key);
+        days.push(props);
         number++;
         key++;
-      } else if (row === 0 && weekday < getFirstWeekday(year, month)) {
-        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} key={key} />);
+      } else if (week === 0 && weekday < getFirstWeekday(year, month)) {
+        const props = buildProps("", false, false, null, key);
+        days.push(props);
         key++;
       } else if (number > getDaysInMonth(year, month)) {
-        week.push(<Day number={""} isInCurrentMonth={false} isToday={false} key={key} />);
+        const props = buildProps("", false, false, null, key);
+        days.push(props);
         key++;
       } else {
         const calendarDate = luxon.DateTime.local(year, month, number);
         const transactions = data ? data.filter(t => compareDates(t.date, calendarDate)) : [];
-        week.push(
-          <Day
-            number={number}
-            isInCurrentMonth={true}
-            isToday={isToday(year, month, number)}
-            data={transactions}
-            key={key}
-          />,
-        );
+        const props = buildProps(number, true, isToday(year, month, number), transactions, key);
+        days.push(props);
         number++;
         key++;
       }
     }
 
-    weeks.push(<Week days={week} key={row} />);
+    weeks.push(
+      <Week
+        days={days.map(props => (
+          <Day {...props} />
+        ))}
+        key={week}
+      />,
+    );
   }
 
   return (
@@ -161,4 +149,8 @@ function isToday(year, month, day) {
 
 function compareDates(transactionDate, calendarDate) {
   return transactionDate === calendarDate.toFormat("yyyy-MM-dd");
+}
+
+function buildProps(number, isInCurrentMonth, isToday, data, key) {
+  return { number, isInCurrentMonth, isToday, data, key };
 }
