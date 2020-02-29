@@ -24,5 +24,7 @@ export default function() {
     return <b>loading accounts...</b>;
   }
 
-  return <div className="p-4">{data ? <AccountList data={data} /> : <AddBank />}</div>;
+  return (
+    <div className="p-4">{data && data.length > 1 ? <AccountList data={data} /> : <AddBank />}</div>
+  );
 }

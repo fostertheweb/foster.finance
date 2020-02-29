@@ -1,5 +1,6 @@
 import React from "react";
 import * as luxon from "luxon";
+import classNames from "classnames";
 
 function getCurrentMonth() {
   return luxon.DateTime.local().month;
@@ -33,18 +34,24 @@ function isToday(year, month, day) {
 }
 
 function Day({ number, isInCurrentMonth, isToday }) {
+  const day = ["box-border border-gray-400 border-r border-b flex-1 relative"];
   return (
-    <div className={isInCurrentMonth ? "day current-month" : "day"}>
-      <span className={isToday ? "today" : ""}>{number}</span>
+    <div
+      className={classNames(
+        ...day,
+        isInCurrentMonth ? "bg-white" : "bg-gray-200",
+        isToday ? "bg-purple-100 text-purple-800 font-bold" : "",
+      )}>
+      <span className="float-right m-1">{number}</span>
     </div>
   );
 }
 
 function Week({ days }) {
-  return <div className="week">{days}</div>;
+  return <div className="flex flex-1">{days}</div>;
 }
 
-export function Calendar({ year, month }) {
+export function Calendar({ year, month, loading, data }) {
   let weeks = [];
   let key = 0;
   let number = 1;
@@ -104,8 +111,8 @@ export function Calendar({ year, month }) {
   }
 
   return (
-    <div className="calendar">
-      <div className="weekdays">
+    <div className="flex flex-col border-l border-gray-400 calendar">
+      <div className="flex justify-around border-b border-gray-400 bg-white text-gray-700 weekdays">
         <div>Sunday</div>
         <div>Monday</div>
         <div>Tuesday</div>

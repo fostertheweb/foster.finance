@@ -3,7 +3,7 @@ module.exports = {
     extend: {},
   },
   variants: {
-    backgroundColor: ["group-hover"],
+    backgroundColor: ["group-hover", "hover"],
     display: ["group-hover"],
     maxWidth: ["responsive"],
   },

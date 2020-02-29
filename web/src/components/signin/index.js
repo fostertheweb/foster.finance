@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
 import { Link, useNavigate } from "react-router-dom";
 import CreditCardImage from "../../images/credit-card";
-import Input, { Submit } from "../input";
+import Input from "../input";
 import Alert from "../alert";
+import Button from "../button";
 
 export default function() {
   const { signIn, loading, error, user } = useAuth();
@@ -54,7 +55,12 @@ export default function() {
             />
             <div className="flex align-items justify-end">
               {error ? <Alert intent="error" message={error.message || error} /> : null}
-              <Submit text="Sign in" loading={loading} disabled={!email || !password || loading} />
+              <Button
+                type="submit"
+                text="Sign in"
+                loading={loading}
+                disabled={!email || !password || loading}
+              />
             </div>
           </form>
         </>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
 import { Link, useNavigate } from "react-router-dom";
-import Input, { Submit } from "../input";
+import Input from "../input";
 import Alert from "../alert";
+import Button from "../button";
 
 export default function() {
   const { signUp, loading, error, user } = useAuth();
@@ -50,7 +51,8 @@ export default function() {
             />
             <div className="flex items-center justify-end">
               {error ? <Alert intent="error" message={error.message || error} /> : null}
-              <Submit
+              <Button
+                type="submit"
                 text="Create Account"
                 loading={loading}
                 disabled={!email || !password || loading}

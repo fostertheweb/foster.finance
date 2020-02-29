@@ -1,15 +1,29 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
+import classNames from "classnames";
+
+const button = classNames(
+  "block",
+  "py-3",
+  "px-5",
+  "cursor-pointer",
+  "rounded",
+  "font-medium",
+  "text-white",
+  "bg-blue-400",
+  "border",
+  "border-blue-500",
+  "hover:bg-blue-500",
+);
 
 export default function(props) {
-  // disabled, loading, error classes
   return (
     <button
       {...props}
       loading={props.loading ? "true" : undefined}
-      type="button"
-      className="block border rounded bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-1 py-3 px-5">
+      type={props.type || "button"}
+      className={button}>
       {props.loading ? (
         <FontAwesomeIcon icon={faSpinnerThird} spin />
       ) : (

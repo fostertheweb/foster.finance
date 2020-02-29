@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import EmojiInput from "../emoji-input";
 import { useAuth } from "../../hooks/use-auth";
-import Input, { Submit } from "../input";
+import Input from "../input";
 import Alert from "../alert";
 import useFetch from "use-http";
+import Button from "../button";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
@@ -47,7 +48,7 @@ export default function() {
           </div>
           <div className="flex items-center justify-end">
             {error ? <Alert intent="error" message={error.message || error} /> : null}
-            <Submit text="Save Profile" loading={loading} />
+            <Button type="submit" text="Save Profile" loading={loading} />
           </div>
         </form>
       </div>

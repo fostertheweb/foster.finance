@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/pro-duotone-svg-icons";
 
 export default function(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,22 +29,22 @@ export default function(props) {
   );
 }
 
-export function Submit(props) {
-  // disabled, loading, error classes
+export function Select(props) {
   return (
-    <button
-      {...props}
-      loading={props.loading ? "true" : undefined}
-      type="submit"
-      className="block border rounded font-medium bg-green-500 hover:bg-green-600 cursor-pointer text-white border-green-700 border-1 py-3 px-5">
-      {props.loading ? (
-        <FontAwesomeIcon icon={faSpinnerThird} spin />
-      ) : (
-        <div className="flex items-center">
-          {props.icon ? <FontAwesomeIcon icon={props.icon} /> : null}
-          {props.text}
-        </div>
-      )}
-    </button>
+    <select
+      className="bg-white border border-gray-400 rounded-sm px-2 py-1"
+      name={props.name}
+      id={props.id}
+      onChange={props.onChange}
+      value={props.value}>
+      {props.options.map(o => {
+        const option = typeof o === "object" ? o : { value: o };
+        return (
+          <option value={option.value} key={option.value}>
+            {option.label || option.value}
+          </option>
+        );
+      })}
+    </select>
   );
 }

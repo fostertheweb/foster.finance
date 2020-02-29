@@ -21,7 +21,9 @@ export default function({ onChange, placeholder }) {
   return (
     <div className="mb-4">
       <Popover position="right-top" isOpen={isOpen}>
-        <div className="emoji-input" onClick={() => setOpen(true)}>
+        <div
+          className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded-lg flex items-center justify-center emoji-input"
+          onClick={() => setOpen(true)}>
           <Emoji emoji={emoji} size={36} />
         </div>
         <Picker

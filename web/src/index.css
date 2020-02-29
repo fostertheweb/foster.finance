@@ -1,52 +1,5 @@
 .calendar {
-  display: flex;
-  flex-direction: column;
   height: calc(100vh - 52px);
-  border-left: 1px solid #ddd;
-}
-
-.month {
-  text-align: center;
-  font-size: 2rem;
-}
-
-.week {
-  display: flex;
-  flex: 1;
-}
-
-.day {
-  box-sizing: border-box;
-  background: #eee;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  flex: 1;
-  position: relative;
-}
-
-.day span {
-  float: right;
-  font-size: 0.8em;
-  margin: 0.2em;
-}
-
-.current-month {
-  background: white;
-}
-
-.day span.today {
-  color: orange;
-  font-weight: bold;
-  font-size: 1.3em;
-  margin: -0.1em 0.1em;
-}
-
-.weekdays {
-  display: flex;
-  justify-content: space-around;
-  border-bottom: 1px solid #ddd;
-  background: white;
-  color: #555;
 }
 
 .weekdays div {
@@ -67,22 +20,12 @@
 }
 
 .emoji-input {
-  background: #ddd;
-  border-radius: 100%;
   width: 64px;
   height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.emoji-input:hover {
-  background: #ccc;
-  cursor: pointer;
 }
 
 .ff-container {
-  width: 90%;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
 }
