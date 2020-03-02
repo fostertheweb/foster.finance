@@ -98,7 +98,7 @@ function useAuthProvider() {
         break;
       case "signUp":
         setNewUser(data);
-        navigate("/create-account/profile");
+        navigate("/verify");
         break;
       default:
         console.log({ event, data });
@@ -133,7 +133,6 @@ function useAuthProvider() {
     error,
     user,
     newUser,
-    setNewUser,
     confirmSignUp,
     signIn,
     signUp,

@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
 import { Link } from "react-router-dom";
 import Logo from "../logo";
 import { useAuth } from "../../hooks/use-auth";
-import useFetch from "use-http";
 import UserMenu from "./user-menu";
-import Error from "../error";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
@@ -22,18 +20,28 @@ function HeaderLink({ path, icon, children }) {
 }
 
 export default function() {
-  const { user, loading: isUserLoading } = useAuth();
-  const { data, loading, error } = useFetch(
-    `${url}/users/${user.attributes.sub}`,
-    { cachePolicy: "no-cache" },
-    [],
-  );
+  const { user, loading } = useAuth();
+  const [data, setData] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
-  if (error) {
-    return <Error message={error.message} />;
-  }
+  useEffect(() => {
+    async function getUserInfo() {
+      setFetching(true);
+      const response = await fetch(`${url}/users/${user.attributes.sub}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const info = await response.json();
+      setData(info);
+      setFetching(false);
+    }
 
-  if (loading || isUserLoading) {
+    getUserInfo();
+    // eslint-disable-next-line
+  }, []);
+
+  if (loading || fetching) {
     return (
       <div className="flex items-center justify-between p-2 bg-gray-700 text-white border-gray-800 border-b-2 font-medium w-full">
         <div className="ff-container">

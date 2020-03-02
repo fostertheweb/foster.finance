@@ -33,8 +33,8 @@ export default function({ emoji, name }) {
         <Link className={menuItem} to="/app/accounts">
           Manage Accounts
         </Link>
-        <Link className={menuItem} to="/app/profile">
-          Edit Profile
+        <Link className={menuItem} to="/app/settings">
+          User Settings
         </Link>
         <button className={menuItem} onClick={() => signOut()}>
           <FontAwesomeIcon icon={faSignOut} />

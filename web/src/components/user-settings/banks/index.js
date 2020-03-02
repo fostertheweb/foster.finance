@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../hooks/use-auth";
+import { useAuth } from "../../../hooks/use-auth";
 import AccountList from "./list";
-import Loading from "../loading";
+import Loading from "../../loading";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 

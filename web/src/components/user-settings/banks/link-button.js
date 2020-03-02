@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PlaidLink from "react-plaid-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
-import { useAuth } from "../../hooks/use-auth";
+import { useAuth } from "../../../hooks/use-auth";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
