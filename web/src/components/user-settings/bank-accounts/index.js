@@ -36,7 +36,7 @@ export default function() {
   }
 
   return (
-    <div className="p-4">
+    <div className="">
       <AccountList data={data} loading={loading} />
     </div>
   );

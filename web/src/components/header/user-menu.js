@@ -30,9 +30,6 @@ export default function({ emoji, name }) {
         <span className="ml-2">{name}</span>
       </Link>
       <div className="hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md">
-        <Link className={menuItem} to="/app/accounts">
-          Manage Accounts
-        </Link>
         <Link className={menuItem} to="/app/settings">
           User Settings
         </Link>

@@ -8,7 +8,7 @@ import Button from "../button";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
-export default function() {
+export default function({ editing }) {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,11 +38,15 @@ export default function() {
 
   return (
     <div className="">
-      <h2 className="my-4">Create your user profile</h2>
-      <p className="mb-8">
-        It's so great to meet you! If you would like, you can tell us your name and pick an emoji so
-        things feel more personal around here.
-      </p>
+      {editing ? null : (
+        <>
+          <h2 className="my-4">Create your user profile</h2>
+          <p className="mb-8">
+            It's so great to meet you! If you would like, you can tell us your name and pick an
+            emoji so things feel more personal around here.
+          </p>
+        </>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="flex items-center mb-2">
           <EmojiInput onChange={setEmoji} />

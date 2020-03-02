@@ -6,14 +6,14 @@ import Loading from "./components/loading";
 import Header from "./components/header";
 import PublicHeader from "./components/header/public-header";
 import SignIn from "./components/signin";
-// create account
+// sign up
 import CreateAccount from "./components/create-account";
 import CreateAccountVerify from "./components/create-account/verify";
 // user settings
 import Settings from "./components/user-settings";
 import Profile from "./components/user-settings/profile";
 import Recurring from "./components/user-settings/recurring";
-import Accounts from "./components/user-settings/banks";
+import BankAccounts from "./components/user-settings/bank-accounts";
 // application routes
 import Setup from "./components/setup";
 import Home from "./components/home";
@@ -57,17 +57,13 @@ function App() {
             <Route path="create-account/verify" element={<CreateAccountVerify />} />
           </Route>
           <Route path="app" element={<ApplicationLayout />}>
-            <Route path="home" element={<Home />} />
-            <Route path="settings" element={<Settings />}>
-              <Route path="profile" element={<Profile />} />
-              <Route path="accounts" element={<Accounts />} />
-              <Route path="recurring" element={<Recurring />} />
-            </Route>
             <Route path="setup" element={<Setup />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="accounts" element={<Accounts />} />
+              <Route path="bank-accounts" element={<BankAccounts />} />
               <Route path="recurring" element={<Recurring />} />
             </Route>
+            <Route path="home" element={<Home />} />
+            <Route path="settings" element={<Settings />} />
             <Route path="expenses" element={<Expenses />} />
           </Route>
         </Routes>
