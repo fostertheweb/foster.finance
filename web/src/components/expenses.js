@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "./calendar";
 import * as luxon from "luxon";
-import useFetch from "use-http";
 import { useAuth } from "../hooks/use-auth";
 import { Select } from "./input";
 
@@ -17,6 +16,8 @@ export default function() {
   const [month, setMonth] = useState(luxon.DateTime.local().month);
   const [year, setYear] = useState(luxon.DateTime.local().year);
   const [dateRange, setDateRange] = useState(formatDateParams(year, month));
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // setup dropdown options
   const years = [2020, 2019, 2018, 2017];
@@ -25,16 +26,23 @@ export default function() {
     value: index + 1,
   }));
 
-  const { post, data, loading } = useFetch(url);
-
   useEffect(() => {
-    async function fetch() {
-      await post("/plaid/transactions", { items, ...dateRange });
+    async function getTransactions() {
+      const response = await fetch(`${url}/plaid/transactions`, {
+        method: "POST",
+        body: JSON.stringify({ items, ...dateRange }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const transactions = await response.json();
+      setData(transactions);
+      setLoading(false);
     }
 
-    fetch();
+    getTransactions();
     // eslint-disable-next-line
-  }, [year, month]);
+  }, [dateRange]);
 
   return (
     <div className="ff-container flex items-center">

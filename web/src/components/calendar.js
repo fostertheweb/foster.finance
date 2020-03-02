@@ -44,28 +44,41 @@ export function Calendar({ year, month, loading, data }) {
   let weeks = [];
   let key = 0;
   let number = 1;
-  let maxNumOfWeeks = 5;
+  let weeksInMonth = 5;
+
+  const firstWeekOfMonth = 0;
+  const firstDayOfWeek = 1;
+  const lastDayOfWeek = 7;
+  const firstDayOfWeekend = 6;
 
   if (loading) {
     return <Loading />;
   }
 
-  if (getFirstWeekday(year, month) === 7) {
-    maxNumOfWeeks = 6;
+  if (getFirstWeekday(year, month) === lastDayOfWeek) {
+    weeksInMonth = 6;
   }
 
-  for (let week = 0; week < maxNumOfWeeks; week++) {
+  for (let week = firstWeekOfMonth; week < weeksInMonth; week++) {
     let days = [];
 
-    for (let weekday = 1; weekday < 8; weekday++) {
-      if (week === 0 && weekday === 6 && weekday === getFirstWeekday(year, month)) {
+    for (let weekday = firstDayOfWeek; weekday <= lastDayOfWeek; weekday++) {
+      if (
+        week === firstWeekOfMonth &&
+        weekday === firstDayOfWeekend &&
+        weekday === getFirstWeekday(year, month)
+      ) {
         const calendarDate = luxon.DateTime.local(year, month, number);
         const transactions = data ? data.filter(t => compareDates(t.date, calendarDate)) : [];
         const props = buildProps(number, true, isToday(year, month, number), transactions, key);
         days.push(props);
         number++;
         key++;
-      } else if (week === 0 && weekday === 7 && weekday === getFirstWeekday(year, month)) {
+      } else if (
+        week === firstWeekOfMonth &&
+        weekday === lastDayOfWeek &&
+        weekday === getFirstWeekday(year, month)
+      ) {
         const calendarDate = luxon.DateTime.local(year, month, number);
         const transactions = data ? data.filter(t => compareDates(t.date, calendarDate)) : [];
         const props = buildProps(number, true, isToday(year, month, number), transactions, key);

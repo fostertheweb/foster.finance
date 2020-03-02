@@ -7,13 +7,13 @@ export default function({ data }) {
       {data.map(account => (
         <div
           key={account.account_id}
-          className="flex justify-between items-center mt-2 p-4 bg-white hover:border-blue-500 rounded border-2 border-gray-300 cursor-pointer">
+          className="flex justify-between items-center mt-2 p-2 bg-white hover:border-blue-500 rounded-sm border border-gray-300 cursor-pointer">
           <div>
             <span className="mr-2">{account.official_name || account.name}</span>
             <span className="text-gray-500">*{account.mask}</span>
             <div className="mt-1 text-gray-500 capitalize">{account.subtype}</div>
           </div>
-          <div className="text-xl">
+          <div className="text-md">
             {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
               account.balances.current,
             )}
