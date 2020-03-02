@@ -10,7 +10,6 @@ export default function() {
   // get user id and stored tokens
   const { user } = useAuth();
   const uid = user.attributes.sub;
-  const items = JSON.parse(localStorage.getItem(uid)) || [];
 
   // local component state
   const [month, setMonth] = useState(luxon.DateTime.local().month);
@@ -28,6 +27,7 @@ export default function() {
 
   useEffect(() => {
     async function getTransactions() {
+      const items = JSON.parse(localStorage.getItem(uid)) || [];
       const response = await fetch(`${url}/plaid/transactions`, {
         method: "POST",
         body: JSON.stringify({ items, ...dateRange }),
@@ -42,7 +42,7 @@ export default function() {
 
     getTransactions();
     // eslint-disable-next-line
-  }, [dateRange]);
+  }, [uid, dateRange]);
 
   return (
     <div className="ff-container flex items-center">

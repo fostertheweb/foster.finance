@@ -13,7 +13,7 @@ export default function() {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
   const { post, loading, error } = useFetch(url);
-  const { newUser } = useAuth();
+  const { newUser, setNewUser } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -22,6 +22,7 @@ export default function() {
     await post("/users", body);
 
     if (!loading && !error) {
+      setNewUser(null);
       navigate(`/create-account/verify?email=${newUser.user.username}`);
     }
   }

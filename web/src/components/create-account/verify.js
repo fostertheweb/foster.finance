@@ -5,6 +5,8 @@ import { parse } from "query-string";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../button";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../loading";
+import Error from "../error";
 
 function CheckEmail({ email }) {
   const { resendSignUp, loading } = useAuth();
@@ -43,11 +45,11 @@ function Confirmed({ id, code }) {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <b>loading confirm...</b>;
+  if (loading) return <Loading />;
   if (error && error.code === "NotAuthorizedException") {
     navigate("/signin");
   }
-  if (error) return <b>user confirmation error</b>;
+  if (error) return <Error message={error.message} />;
 
   return (
     <>

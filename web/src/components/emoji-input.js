@@ -22,7 +22,7 @@ export default function({ onChange, placeholder }) {
     <div className="mb-4">
       <Popover position="right-top" isOpen={isOpen}>
         <div
-          className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded-lg flex items-center justify-center emoji-input"
+          className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded-full flex items-center justify-center emoji-input"
           onClick={() => setOpen(true)}>
           <Emoji emoji={emoji} size={36} />
         </div>

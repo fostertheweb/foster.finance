@@ -133,6 +133,7 @@ function useAuthProvider() {
     error,
     user,
     newUser,
+    setNewUser,
     confirmSignUp,
     signIn,
     signUp,
