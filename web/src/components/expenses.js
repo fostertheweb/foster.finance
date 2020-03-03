@@ -74,10 +74,9 @@ export default function() {
   );
 }
 
-function formatDateParams(year, month) {
-  const zeroPad = number => (number.toString().length === 1 ? `0${number}` : number);
-  const today = luxon.DateTime.local(year, month);
-  const startDate = `${today.year}-${zeroPad(today.month)}-01`;
-  const endDate = `${today.year}-${zeroPad(today.month)}-${today.daysInMonth}`;
+export function formatDateParams(year, month) {
+  const currentDate = luxon.DateTime.local(year, month);
+  const startDate = currentDate.toFormat("yyyy-MM-dd");
+  const endDate = luxon.DateTime.local(year, month, currentDate.daysInMonth).toFormat("yyyy-MM-dd");
   return { start_date: startDate, end_date: endDate };
 }

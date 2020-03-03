@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/use-auth";
 import AccountList from "./list";
-import Loading from "../../loading";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
@@ -31,13 +30,5 @@ export default function() {
     getAccounts();
   }, [uid]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <div className="">
-      <AccountList data={data} loading={loading} />
-    </div>
-  );
+  return <AccountList data={data} loading={loading} />;
 }

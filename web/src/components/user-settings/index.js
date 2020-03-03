@@ -24,8 +24,8 @@ export default function() {
   const [activeTab, setActiveTab] = useState(tabs[0].label);
 
   return (
-    <div className="flex items-start">
-      <div className="border-r border-gray-400 w-1/4 flex-grow-0">
+    <div className="flex items-stretch">
+      <div className="border-r border-gray-400 w-1/5 flex-grow-0">
         <h2 className="p-2">Settings</h2>
         <div className="mt-2">
           {tabs.map(tab => {
@@ -40,7 +40,7 @@ export default function() {
           })}
         </div>
       </div>
-      <div className="p-4">{tabs.find(tab => tab.label === activeTab).component}</div>
+      <div className="p-4 w-2/5">{tabs.find(tab => tab.label === activeTab).component}</div>
     </div>
   );
 }
