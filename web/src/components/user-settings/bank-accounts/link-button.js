@@ -24,7 +24,8 @@ export default function() {
         "Content-Type": "application/json",
       },
     });
-    const { item_id, access_token } = await response.json();
+    const item = await response.json();
+    const { item_id, access_token } = item;
     localStorage.setItem(
       uid,
       JSON.stringify([
