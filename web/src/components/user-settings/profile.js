@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import EmojiInput from "../emoji-input";
 import { useAuth } from "../../hooks/use-auth";
@@ -12,6 +12,7 @@ export default function({ editing }) {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function({ editing }) {
     const body = { user_id: user.attributes.sub, email: user.attributes.email, name, emoji };
     try {
       await fetch(`${url}/users`, {
-        method: "POST",
+        method: editing ? "PUT" : "POST",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
@@ -32,8 +33,29 @@ export default function({ editing }) {
       setError(err);
     } finally {
       setLoading(false);
-      navigate("/app/accounts");
+      if (!editing) navigate("/app/accounts");
     }
+  }
+
+  if (editing) {
+    useEffect(() => {
+      async function getUserInfo() {
+        setFetching(true);
+        const response = await fetch(`${url}/users/${user.attributes.sub}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const info = await response.json();
+        console.log(info);
+        setFetching(false);
+        setName(info.name);
+        setEmoji(info.emoji);
+      }
+
+      getUserInfo();
+      // eslint-disable-next-line
+    }, []);
   }
 
   return (
@@ -49,19 +71,26 @@ export default function({ editing }) {
       )}
       <form onSubmit={handleSubmit}>
         <div className="flex items-center mb-2">
-          <EmojiInput onChange={setEmoji} />
+          <EmojiInput colons={emoji} onChange={setEmoji} loading={fetching} />
           <div className="ml-6 w-full">
             <Input
+              value={name}
               label="Name"
               id="name"
               placeholder="What should we call you?"
               onChange={event => setName(event.target.value)}
+              loading={fetching}
             />
           </div>
         </div>
         <div className="flex items-center justify-end">
           {error ? <Alert intent="error" message={error.message || error} /> : null}
-          <Button type="submit" text="Save Profile" loading={loading} />
+          <Button
+            type="submit"
+            text="Save Profile"
+            loading={loading}
+            disabled={fetching || loading}
+          />
         </div>
       </form>
     </div>

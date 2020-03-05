@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/pro-duotone-svg-icons";
+import { faEye, faEyeSlash, faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
 
 export default function(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,11 +11,20 @@ export default function(props) {
         {props.label}
       </label>
       <div className="relative">
-        <input
-          {...props}
-          type={props.type === "password" && !showPassword ? "password" : "text"}
-          className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal"
-        />
+        {props.loading ? (
+          <div className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block fill-current">
+            <FontAwesomeIcon icon={faSpinnerThird} spin />
+          </div>
+        ) : (
+          <input
+            value={props.value}
+            id={props.id}
+            placeholder={props.placeholder}
+            onChange={props.onChange}
+            type={props.type === "password" && !showPassword ? "password" : "text"}
+            className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal"
+          />
+        )}
         {props.type && props.type === "password" ? (
           <button
             type="button"

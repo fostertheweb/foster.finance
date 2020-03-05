@@ -7,7 +7,7 @@ app.get("/ping", () => "PONG");
 app.register(require("fastify-mongodb"), { url: process.env.DB_URL });
 app.register(require("fastify-cors"), {
   origin: true,
-  methods: ["GET", "POST", "PATCH"],
+  methods: ["GET", "POST", "PUT", "PATCH"],
   allowedHeaders: [
     "Content-Type",
     "Authorization",
