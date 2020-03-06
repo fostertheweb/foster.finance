@@ -41,11 +41,15 @@ export default function() {
   return (
     <div className="p-4">
       <ul>
-        {Object.keys(data).map(dayOfMonth => (
-          <li key={dayOfMonth}>
-            {dayOfMonth} - {data[dayOfMonth].map(t => t.amount).join(", ")}
-          </li>
-        ))}
+        {data ? (
+          data.map((e, index) => (
+            <li key={index}>
+              <b>{e.day}</b> - {e.name}: {e.amount}
+            </li>
+          ))
+        ) : (
+          <li>None found</li>
+        )}
       </ul>
     </div>
   );

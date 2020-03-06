@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
 import { Link, useNavigate } from "react-router-dom";
-import CreditCardImage from "../../images/credit-card";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
@@ -28,9 +27,6 @@ export default function() {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center my-4">
       <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
-        <div className="w-1/3 absolute top-0 left-0 -ml-40">
-          <CreditCardImage />
-        </div>
         <>
           <h2 className="my-0 text-xl">Sign in</h2>
           <p className="my-4">

@@ -59,14 +59,30 @@ module.exports = function(app, _options, next) {
         return [...transactions, ...response.transactions];
       }, []);
       const expenses = transactions.reduce((expenses, transaction) => {
-        const dayOfMonth = transaction.date.slice(-2);
-        return {
-          ...expenses,
-          [dayOfMonth]: expenses[dayOfMonth]
-            ? [...expenses[dayOfMonth], transaction]
-            : [transaction],
+        const expense = {
+          day: transaction.date.slice(-2),
+          amount: transaction.amount,
+          name: transaction.name,
         };
-      }, {});
+
+        const count = transactions.filter(t => compareTransaction(t, expense)).length;
+
+        if (expenses.find(e => compareTransaction(e, expense))) {
+          console.log("Expense already found, return existing expenses array.");
+          return expenses;
+        }
+
+        if (count >= 2) {
+          console.log("Recurring Expense discovered, adding to expenses array.");
+          return [...expenses, expense];
+        }
+
+        console.log("Continue searching...");
+        return expenses;
+      }, []);
+
+      console.log({ expenses });
+
       return expenses;
     } catch (err) {
       app.log.error(err);
@@ -76,3 +92,15 @@ module.exports = function(app, _options, next) {
 
   next();
 };
+
+function compareTransaction(transaction, expense) {
+  const sameDay = transaction.day || transaction.date.slice(-2) === expense.day;
+  const sameAmount = transaction.amount === expense.amount;
+  const sameName = transaction.name === expense.name;
+
+  if (sameDay && sameAmount && sameName) {
+    return true;
+  }
+
+  return false;
+}
