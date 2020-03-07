@@ -1,5 +1,3 @@
-const luxon = require("luxon");
-
 module.exports = function(app, _options, next) {
   app.post("/exchange", async ({ body: { public_token } }) => {
     try {
@@ -64,24 +62,18 @@ module.exports = function(app, _options, next) {
           amount: transaction.amount,
           name: transaction.name,
         };
-
         const count = transactions.filter(t => compareTransaction(t, expense)).length;
 
         if (expenses.find(e => compareTransaction(e, expense))) {
-          console.log("Expense already found, return existing expenses array.");
           return expenses;
         }
 
         if (count >= 2) {
-          console.log("Recurring Expense discovered, adding to expenses array.");
           return [...expenses, expense];
         }
 
-        console.log("Continue searching...");
         return expenses;
       }, []);
-
-      console.log({ expenses });
 
       return expenses;
     } catch (err) {

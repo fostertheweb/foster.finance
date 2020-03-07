@@ -47,7 +47,6 @@ export default function({ editing }) {
           },
         });
         const info = await response.json();
-        console.log(info);
         setFetching(false);
         setName(info.name);
         setEmoji(info.emoji);
