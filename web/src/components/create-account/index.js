@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
+import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
+import { getRandomEmail } from "../../shared/placeholders";
 
 export default function() {
   const { signUp, loading, error, user } = useAuth();
@@ -39,14 +41,13 @@ export default function() {
             <Input
               id="email"
               label="Email"
-              placeholder="iwant2savemoney@gmail.com"
+              placeholder={getRandomEmail()}
               onChange={e => setEmail(e.target.value)}
             />
             <Input
               type="password"
               id="password"
               label="Password"
-              placeholder="not anything like 12345"
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex items-center justify-end">
@@ -54,6 +55,7 @@ export default function() {
               <Button
                 type="submit"
                 text="Create Account"
+                icon={faBullseyePointer}
                 loading={loading}
                 disabled={!email || !password || loading}
               />

@@ -6,15 +6,16 @@ import classNames from "classnames";
 const button = classNames(
   "block",
   "py-3",
-  "px-5",
+  "px-4",
   "cursor-pointer",
-  "rounded",
+  "rounded-sm",
   "font-medium",
-  "text-white",
-  "bg-blue-400",
   "border",
-  "border-blue-500",
-  "hover:bg-blue-500",
+  "bg-blue-100",
+  "hover:bg-blue-100",
+  "border-blue-300",
+  "hover:border-blue-400",
+  "text-blue-700",
 );
 
 export default function(props) {
@@ -24,14 +25,17 @@ export default function(props) {
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
       className={button}>
-      {props.loading ? (
-        <FontAwesomeIcon icon={faSpinnerThird} spin />
-      ) : (
-        <div className="flex items-center">
-          {props.icon ? <FontAwesomeIcon icon={props.icon} className="mr-2" /> : null}
-          {props.text}
-        </div>
-      )}
+      <div className="flex items-center">
+        {props.icon || props.loading ? (
+          <FontAwesomeIcon
+            icon={props.loading ? faSpinnerThird : props.icon}
+            spin={props.loading ? true : false}
+            size="lg"
+            className="mr-2"
+          />
+        ) : null}
+        {props.text}
+      </div>
     </button>
   );
 }

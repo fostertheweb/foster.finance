@@ -61,7 +61,7 @@ function App() {
             <Route path="settings" element={<Settings />}>
               <Route path="/" element={<Redirect to="profile" />} />
               <Route path="profile" element={<Profile editing={true} />} />
-              <Route path="link" element={<LinkAccounts />} />
+              <Route path="accounts" element={<LinkAccounts />} />
               <Route path="expenses" element={<Recurring />} />
             </Route>
             <Route path="setup" element={<Setup />}>

@@ -13,7 +13,7 @@ export default function() {
             Edit Profile
           </Link>
           <Link
-            to="link"
+            to="accounts"
             className={`px-4 py-2 w-full text-left block text-gray-700 hover:bg-gray-300`}>
             Linked Bank Accounts
           </Link>

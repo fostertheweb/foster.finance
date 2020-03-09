@@ -6,6 +6,7 @@
     "@blueprintjs/core": "^3.18.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/pro-duotone-svg-icons": "^5.12.0",
+    "@fortawesome/pro-light-svg-icons": "^5.12.1",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@fullhuman/postcss-purgecss": "^1.3.0",
     "autoprefixer": "^9.7.3",

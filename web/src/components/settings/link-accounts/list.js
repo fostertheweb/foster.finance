@@ -1,16 +1,17 @@
 import React from "react";
 import LinkButton from "./link-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
+import { faSpinnerThird, faCheckCircle, faLandmark } from "@fortawesome/pro-duotone-svg-icons";
+import { faCircle } from "@fortawesome/pro-light-svg-icons";
 
 export default function({ loading, data }) {
-  if (loading) {
-    return (
-      <>
-        <div className="flex items-center justify-between">
-          <h2>Accounts</h2>
-          <LinkButton />
-        </div>
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <h2>Accounts</h2>
+        <LinkButton />
+      </div>
+      {loading ? (
         <div className="flex justify-center items-center mt-2 p-4 bg-white rounded-sm border border-gray-300 w-full">
           <FontAwesomeIcon
             icon={faSpinnerThird}
@@ -19,37 +20,41 @@ export default function({ loading, data }) {
             size="lg"
           />
         </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <div className="flex items-center justify-between">
-        <h2>Accounts</h2>
-        <LinkButton />
-      </div>
-      {data.map(account => (
-        <div
-          key={account.account_id}
-          className="flex justify-between items-center mt-2 p-2 bg-white hover:border-blue-500 rounded-sm border border-gray-300 cursor-pointer">
-          <div>
-            <span className="mr-2">{account.official_name || account.name}</span>
-            <span className="text-gray-500">*{account.mask}</span>
+      ) : (
+        <>
+          <div className="mt-4 text-gray-600 text-lg font-medium p-2">
+            <FontAwesomeIcon icon={faLandmark} size="lg" className="mr-2" />
+            Plaid Bank of Canada
+          </div>
+          {data.map(account => (
             <div
-              className={`mt-1 text-gray-500 ${
-                account.subtype.length <= 3 ? "uppercase" : "capitalize"
-              }`}>
-              {account.subtype}
+              key={account.account_id}
+              className="flex items-center p-2 bg-white hover:bg-gray-100 rounded-sm border-t border-gray-300 cursor-pointer">
+              <FontAwesomeIcon
+                icon={account.selected ? faCheckCircle : faCircle}
+                size="lg"
+                color={!account.selected ? "#90b4ce" : "#3da9fc"}
+                className="mr-4"
+              />
+              <div>
+                <span className="mr-2">{account.official_name || account.name}</span>
+                <span className="text-gray-500">*{account.mask}</span>
+                <div
+                  className={`mt-1 text-gray-500 ${
+                    account.subtype.length <= 3 ? "uppercase" : "capitalize"
+                  }`}>
+                  {account.subtype}
+                </div>
+              </div>
+              <div className="text-md self-end">
+                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
+                  account.balances.current,
+                )}
+              </div>
             </div>
-          </div>
-          <div className="text-md">
-            {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
-              account.balances.current,
-            )}
-          </div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </>
   );
 }

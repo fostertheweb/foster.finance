@@ -26,7 +26,18 @@ export default function() {
           },
         });
         const accounts = await response.json();
-        setData(accounts);
+        const selectAccounts = accounts.map(account => {
+          if (account.subtype === "credit card") {
+            account.selected = true;
+          } else if (account.subtype === "checking") {
+            account.selected = true;
+          } else {
+            account.selected = false;
+          }
+
+          return account;
+        });
+        setData(selectAccounts);
       } catch (err) {
         setError(err);
       } finally {
