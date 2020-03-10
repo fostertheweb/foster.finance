@@ -6,6 +6,7 @@ import Alert from "../alert";
 import Button from "../button";
 import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
+import Logo from "../logo";
 
 export default function() {
   const { signUp, loading, error, user } = useAuth();
@@ -23,21 +24,14 @@ export default function() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-6">
-      <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
-        <>
-          <h2 className="my-0 text-xl">Get started</h2>
-          <p className="block my-4">
-            After creating an account you will connect to your bank so we can view your transactions
-            and help you save more money.
-          </p>
-          <p className="my-4">
-            Already have an account?{" "}
-            <Link to="/" className="ff-link">
-              Sign in
-            </Link>
-          </p>
-          <form onSubmit={e => handleSubmit(e)} className="my-4">
+    <div className="flex h-screen items-center justify-center">
+      <div className="flex items-stretch w-1/2 bg-white rounded shadow">
+        <div className="p-6 border-r border-gray-200 w-1/2">
+          <div className="flex items-center justify-start">
+            <Logo />
+            <h2 className="text-gray-500 font-normal text-lg ml-3 -mb-1">Get started</h2>
+          </div>
+          <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input
               id="email"
               label="Email"
@@ -51,8 +45,9 @@ export default function() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex items-center justify-end">
-              {error ? <Alert intent="error" message={error.message || error} /> : null}
               <Button
+                large
+                className="w-full"
                 type="submit"
                 text="Create Account"
                 icon={faBullseyePointer}
@@ -61,7 +56,23 @@ export default function() {
               />
             </div>
           </form>
-        </>
+          <p className="mt-4 text-center text-gray-500">
+            Already have an account?{" "}
+            <Link to="/" className="ff-link">
+              Sign in
+            </Link>
+          </p>
+        </div>
+        <div className="w-1/2 rounded-r bg-green-100 text-green-500 flex items-center justify-center">
+          {error ? (
+            <Alert intent="error" message={error.message || error} />
+          ) : (
+            <p className="block p-4">
+              After creating an account you will connect to your bank so we can view your
+              transactions and help you save more money.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

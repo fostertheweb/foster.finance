@@ -27,17 +27,11 @@ export default function() {
     <div className="flex h-screen items-center justify-center">
       <div className="flex items-stretch w-1/2 bg-white rounded shadow">
         <div className="p-6 border-r border-gray-200 w-1/2">
-          <div className="">
+          <div className="flex items-center justify-start">
             <Logo />
+            <h2 className="text-gray-500 font-normal text-lg ml-3 -mb-1">Sign in</h2>
           </div>
-          <h2 className="mt-6 text-lg">Sign in</h2>
-          <p className="mt-4">
-            Don't have an account?{" "}
-            <Link to="/create-account" className="ff-link">
-              Create account
-            </Link>
-          </p>
-          <form onSubmit={e => handleSubmit(e)} className="mt-4">
+          <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input
               id="email"
               label="Email"
@@ -51,9 +45,9 @@ export default function() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex align-items justify-end">
-              {error ? <Alert intent="error" message={error.message || error} /> : null}
               <Button
                 large
+                className="w-full"
                 type="submit"
                 text="Sign in"
                 icon={faSignIn}
@@ -62,9 +56,15 @@ export default function() {
               />
             </div>
           </form>
+          <p className="mt-4 text-center text-gray-500">
+            Don't have an account?{" "}
+            <Link to="/create-account" className="ff-link">
+              Create account
+            </Link>
+          </p>
         </div>
         <div className="w-1/2 rounded-r bg-green-100 text-green-500 text-center font-medium flex items-center justify-center">
-          welcome back
+          {error ? <Alert intent="error" message={error.message || error} /> : "welcome back"}
         </div>
       </div>
     </div>

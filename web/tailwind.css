@@ -51,4 +51,8 @@ body {
   border-color: var(--ff-bg-light);
 }
 
+.smallcaps {
+  font-variant: small-caps;
+}
+
 @tailwind utilities;
