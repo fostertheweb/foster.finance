@@ -9,7 +9,7 @@ import { getRandomEmail } from "../../shared/placeholders";
 import Logo from "../logo";
 
 export default function() {
-  const { signIn, loading, error, user } = useAuth();
+  const { signIn, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
