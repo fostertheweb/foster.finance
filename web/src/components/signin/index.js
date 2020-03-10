@@ -27,17 +27,17 @@ export default function() {
     <div className="flex h-screen items-center justify-center">
       <div className="flex items-stretch w-1/2 bg-white rounded shadow">
         <div className="p-6 border-r border-gray-200 w-1/2">
-          <div className="w-full mb-6">
+          <div className="">
             <Logo />
           </div>
-          <h2 className="my-0 text-lg">Sign in</h2>
-          <p className="my-4">
+          <h2 className="mt-6 text-lg">Sign in</h2>
+          <p className="mt-4">
             Don't have an account?{" "}
             <Link to="/create-account" className="ff-link">
               Create account
             </Link>
           </p>
-          <form onSubmit={e => handleSubmit(e)} className="my-4">
+          <form onSubmit={e => handleSubmit(e)} className="mt-4">
             <Input
               id="email"
               label="Email"
@@ -53,6 +53,7 @@ export default function() {
             <div className="flex align-items justify-end">
               {error ? <Alert intent="error" message={error.message || error} /> : null}
               <Button
+                large
                 type="submit"
                 text="Sign in"
                 icon={faSignIn}

@@ -5,16 +5,14 @@ import classNames from "classnames";
 
 const button = classNames(
   "block",
-  "py-3",
-  "px-5",
   "cursor-pointer",
   "rounded",
   "font-medium",
   "border",
   "border-transparent",
   "leading",
-  "bg-blue-600",
-  "hover:bg-blue-500",
+  "bg-gray-700",
+  "hover:bg-gray-600",
   "text-white",
   "shadow",
   "focus:outline-none",
@@ -25,23 +23,21 @@ const button = classNames(
 );
 
 export default function(props) {
+  const size = props.large ? "py-3 px-6 text-base" : "py-2 px-4";
   return (
     <button
       {...props}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
-      className={classNames(button)}>
-      <div className="flex items-center">
-        {props.icon || props.loading ? (
-          <FontAwesomeIcon
-            icon={props.loading ? faSpinnerThird : props.icon}
-            spin={props.loading ? true : false}
-            size="lg"
-            className="mr-2"
-          />
-        ) : null}
-        {props.text}
-      </div>
+      className={classNames(button, size, props.className ? props.className.split(" ") : "")}>
+      {props.icon || props.loading ? (
+        <FontAwesomeIcon
+          icon={props.loading ? faSpinnerThird : props.icon}
+          spin={props.loading ? true : false}
+          className="mr-2"
+        />
+      ) : null}
+      {props.text}
     </button>
   );
 }
