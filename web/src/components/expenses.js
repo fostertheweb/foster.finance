@@ -45,7 +45,7 @@ export default function() {
   }, [uid, dateRange]);
 
   return (
-    <div className="ff-container flex items-center">
+    <div className="ff-container ff-pt-header flex items-center">
       <div className="p-2 self-start">
         <div className="flex items-center">
           <Select

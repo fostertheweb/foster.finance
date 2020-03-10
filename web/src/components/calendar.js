@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Loading from "./loading";
 
 function Day({ number, isInCurrentMonth, isToday, data }) {
-  const day = ["box-border border-gray-400 border-r border-b flex-1 relative"];
+  const day = ["box-border border-gray-400 border-l border-t flex-1 relative"];
 
   return (
     <div
@@ -114,15 +114,15 @@ export function Calendar({ year, month, loading, data }) {
   }
 
   return (
-    <div className="flex flex-col border-l border-gray-400 calendar">
-      <div className="flex justify-around border-b border-gray-400 bg-white text-gray-700 weekdays">
-        <div>Sunday</div>
-        <div>Monday</div>
-        <div>Tuesday</div>
-        <div>Wednesday</div>
-        <div>Thursday</div>
-        <div>Friday</div>
-        <div>Saturday</div>
+    <div className="flex flex-col ff-h-full">
+      <div className="flex justify-around leading border-l border-gray-400 bg-white text-gray-700 weekdays">
+        <div className="py-1">Sunday</div>
+        <div className="py-1">Monday</div>
+        <div className="py-1">Tuesday</div>
+        <div className="py-1">Wednesday</div>
+        <div className="py-1">Thursday</div>
+        <div className="py-1">Friday</div>
+        <div className="py-1">Saturday</div>
       </div>
       {weeks}
     </div>

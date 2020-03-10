@@ -17,20 +17,23 @@ const menuItem = classNames(
   "hover:text-gray-900",
   "hover:no-underline",
   "font-normal",
+  "transition",
+  "duration-150",
+  "ease-in-out",
 );
 
 export default function({ emoji, name, loading, dark }) {
   const { signOut } = useAuth();
 
   const theme = dark
-    ? "hover:text-white group-hover:bg-gray-800 hover:bg-gray-800"
+    ? "text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700"
     : "text-gray-700 hover:text-gray-700 group-hover:bg-gray-200 hover:bg-gray-200";
 
   return (
     <div className="group relative">
       <Link
         to="/app/home"
-        className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center ${theme}`}>
+        className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out ${theme}`}>
         {loading ? (
           <FontAwesomeIcon icon={faSpinnerThird} spin className="fill-current" />
         ) : (

@@ -1,27 +1,30 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function() {
   return (
-    <div className="flex items-stretch">
+    <div className="flex items-stretch ff-pt-header">
       <div className="border-r border-gray-400 w-1/5 flex-grow-0">
-        <h2 className="p-2">Settings</h2>
+        <h2 className="p-4 text-lg">Settings</h2>
         <div className="mt-2">
-          <Link
+          <NavLink
             to="profile"
-            className={`px-4 py-2 w-full text-left block text-gray-700 hover:bg-gray-300`}>
+            activeClassName="font-bold"
+            className={`px-4 py-2 w-full hover:text-gray-800 hover:no-underline text-left block text-gray-700 hover:bg-gray-300`}>
             Edit Profile
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="accounts"
-            className={`px-4 py-2 w-full text-left block text-gray-700 hover:bg-gray-300`}>
+            activeClassName="font-bold"
+            className={`px-4 py-2 w-full hover:text-gray-800 hover:no-underline text-left block text-gray-700 hover:bg-gray-300`}>
             Linked Bank Accounts
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="expenses"
-            className={`px-4 py-2 w-full text-left block text-gray-700 hover:bg-gray-300`}>
+            activeClassName="font-bold"
+            className={`px-4 py-2 w-full hover:text-gray-800 hover:no-underline text-left block text-gray-700 hover:bg-gray-300`}>
             Expenses
-          </Link>
+          </NavLink>
         </div>
       </div>
       <div className="p-4 w-2/5">

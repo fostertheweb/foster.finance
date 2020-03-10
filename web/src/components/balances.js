@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function() {
-  return <div>Balances</div>;
+  return <div className="ff-pt-header">Balances</div>;
 }

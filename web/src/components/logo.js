@@ -2,8 +2,8 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandHoldingUsd } from "@fortawesome/pro-duotone-svg-icons";
 
-const LIGHT_THEME = "border-white hover:border-gray-500 text-gray-700 hover:text-gray-700";
-const DARK_THEME = "border-gray-700 hover:border-white text-white hover:text-white";
+const LIGHT_THEME = "ff-border-light hover:border-gray-500 text-gray-700 hover:text-gray-700";
+const DARK_THEME = "border-gray-800 hover:border-white text-white hover:text-white";
 
 export default function({ dark, color }) {
   return (

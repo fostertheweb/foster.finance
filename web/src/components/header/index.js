@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../logo";
 import { useAuth } from "../../hooks/use-auth";
 import UserMenu from "./user-menu";
@@ -10,13 +10,16 @@ const url = process.env.REACT_APP_API_ENDPOINT;
 
 function HeaderLink({ dark, path, icon, children }) {
   const theme = dark
-    ? "hover:text-white hover:bg-gray-800"
-    : "text-gray-700 hover:text-gray-700 hover:bg-gray-200";
+    ? "text-gray-300 hover:text-white hover:bg-gray-700 focus:bg-gray-700"
+    : "text-gray-700 hover:text-gray-700 hover:bg-gray-200 focus:bg-gray-200";
   return (
-    <Link to={`/app/${path}`} className={`ml-4 hover:no-underline  p-2 rounded ${theme}`}>
+    <NavLink
+      to={`/app/${path}`}
+      activeClassName="bg-gray-900"
+      className={`ml-4 hover:no-underline p-2 rounded transition duration-150 ease-in-out ${theme}`}>
       <FontAwesomeIcon icon={icon} />
       <span className="ml-2">{children}</span>
-    </Link>
+    </NavLink>
   );
 }
 
@@ -45,11 +48,11 @@ export default function({ dark }) {
   }, [user]);
 
   const light = "border-transparent";
-  const _dark = "bg-gray-700 text-white border-gray-800";
+  const _dark = "bg-gray-800 text-white border-gray-900";
 
   return (
-    <div className={`p-2 border-b-2 font-medium ${dark ? _dark : light}`}>
-      <div className="ff-container flex items-center justify-between">
+    <div className={`fixed w-full z-30 px-2 border-b-2 font-medium ${dark ? _dark : light}`}>
+      <div className="ff-container ff-h-header flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="hover:no-underline mr-4">
             <Logo dark={dark} />

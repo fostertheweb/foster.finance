@@ -3,8 +3,7 @@
 
 :root {
   --ff-max-width: 1440px;
-  --ff-h-header: 60px;
-  --ff-pt-header: calc(100vh - var(--ff-h-header));
+  --ff-h-header: 56px;
   --ff-bg-light: #f8fafb;
   --ff-text-link-blue: #3da9fc;
   --ff-text-body-dark: #5f6c7b;
@@ -13,7 +12,7 @@
 
 h2 {
   color: var(--ff-text-heading-dark);
-  @apply text-lg font-bold;
+  @apply font-bold;
 }
 
 p {
@@ -36,11 +35,20 @@ body {
 }
 
 .ff-pt-header {
-  padding-top: var(--ff-pt-header);
+  padding-top: var(--ff-h-header);
 }
 
 .ff-h-header {
-  height: var(--ff-h-header);
+  height: 54px;
+  /* border bottom 2px */
+}
+
+.ff-h-full {
+  height: calc(100vh - var(--ff-h-header));
+}
+
+.ff-border-light {
+  border-color: var(--ff-bg-light);
 }
 
 @tailwind utilities;

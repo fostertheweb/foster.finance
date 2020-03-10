@@ -1,7 +1,3 @@
-.calendar {
-  height: calc(100vh - 52px);
-}
-
 .weekdays div {
   border-right: 1px solid #ddd;
   flex: 1;
@@ -22,10 +18,4 @@
 .emoji-input {
   width: 64px;
   height: 64px;
-}
-
-.ff-container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
 }
