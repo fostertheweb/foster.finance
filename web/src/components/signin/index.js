@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
-import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignIn, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
 import Logo from "../logo";
 
@@ -25,11 +26,12 @@ export default function() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex items-stretch w-1/2 bg-white rounded shadow">
+      <div className="flex items-stretch w-full md:w-2/3 lg:w-1/2 bg-white rounded shadow">
         <div className="p-6 border-r border-gray-200 w-1/2">
           <div className="flex items-center justify-start">
             <Logo />
-            <h2 className="text-gray-500 font-normal text-lg ml-3 -mb-1">Sign in</h2>
+            <FontAwesomeIcon icon={faCaretRight} className="text-gray-500 fill-current" />
+            <h2 className="text-gray-500 font-medium text-base ml-4 -mb-1">Sign in</h2>
           </div>
           <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input
