@@ -8,22 +8,19 @@ import UserMenu from "./user-menu";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
-function HeaderLink({ dark, path, icon, children }) {
-  const theme = dark
-    ? "text-gray-300 hover:text-white hover:bg-gray-700 focus:bg-gray-700"
-    : "text-gray-700 hover:text-gray-700 hover:bg-gray-200 focus:bg-gray-200";
+function HeaderLink({ path, icon, children }) {
   return (
     <NavLink
       to={`/app/${path}`}
       activeClassName="bg-gray-900"
-      className={`ml-4 hover:no-underline p-2 rounded transition duration-150 ease-in-out ${theme}`}>
+      className={`ml-4 hover:no-underline p-2 rounded transition duration-150 ease-in-out text-gray-300 hover:text-white hover:bg-gray-700 focus:bg-gray-700`}>
       <FontAwesomeIcon icon={icon} />
       <span className="ml-2">{children}</span>
     </NavLink>
   );
 }
 
-export default function({ dark }) {
+export default function() {
   const { user, loading } = useAuth();
   const [data, setData] = useState(null);
   const [fetching, setFetching] = useState(true);
@@ -47,49 +44,31 @@ export default function({ dark }) {
     // eslint-disable-next-line
   }, [user]);
 
-  const light = "border-transparent";
-  const _dark = "bg-gray-800 text-white border-gray-900";
-
   return (
-    <div className={`fixed w-full z-30 px-2 border-b-2 font-medium ${dark ? _dark : light}`}>
+    <div
+      className={`fixed w-full z-30 px-2 border-b-2 font-medium bg-gray-800 text-white border-gray-900`}>
       <div className="ff-container ff-h-header flex items-center justify-between">
         <div className="flex items-center">
-          <Link to="/" className="hover:no-underline mr-4">
-            <Logo dark={dark} />
+          <Link to="/home" className="hover:no-underline mr-4">
+            <Logo dark={true} />
           </Link>
           {loading || fetching ? null : (
             <>
-              <HeaderLink path="expenses" icon={faCalendarAlt} dark={dark}>
+              <HeaderLink path="expenses" icon={faCalendarAlt}>
                 Expenses
               </HeaderLink>
-              <HeaderLink path="balances" icon={faCoins} dark={dark}>
+              <HeaderLink path="balances" icon={faCoins}>
                 Balances
               </HeaderLink>
             </>
           )}
         </div>
         <div className="flex items-center">
-          {user ? (
-            <UserMenu
-              dark={dark}
-              loading={loading || fetching}
-              emoji={data ? data.emoji : "hatching_chick"}
-              name={data ? data.name : user.attributes.email}
-            />
-          ) : (
-            <>
-              <Link
-                to="/create-account"
-                className="ml-8 p-3 rounded hover:no-underline hover:text-gray-700 hover:bg-gray-200">
-                Create Account
-              </Link>
-              <Link
-                to="/signin"
-                className="ml-8 p-3 rounded hover:no-underline hover:text-gray-700 hover:bg-gray-200">
-                Sign in
-              </Link>
-            </>
-          )}
+          <UserMenu
+            loading={loading || fetching}
+            emoji={data ? data.emoji : "hatching_chick"}
+            name={data ? data.name : user.attributes.email}
+          />
         </div>
       </div>
     </div>

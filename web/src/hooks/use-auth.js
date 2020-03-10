@@ -94,7 +94,7 @@ function useAuthProvider() {
         break;
       case "signOut":
         setUser(null);
-        navigate("/signin");
+        navigate("/");
         break;
       case "signUp":
         setNewUser(data);

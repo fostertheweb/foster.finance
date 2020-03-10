@@ -22,18 +22,14 @@ const menuItem = classNames(
   "ease-in-out",
 );
 
-export default function({ emoji, name, loading, dark }) {
+export default function({ emoji, name, loading }) {
   const { signOut } = useAuth();
-
-  const theme = dark
-    ? "text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700"
-    : "text-gray-700 hover:text-gray-700 group-hover:bg-gray-200 hover:bg-gray-200";
 
   return (
     <div className="group relative">
       <Link
         to="/app/home"
-        className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out ${theme}`}>
+        className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700`}>
         {loading ? (
           <FontAwesomeIcon icon={faSpinnerThird} spin className="fill-current" />
         ) : (

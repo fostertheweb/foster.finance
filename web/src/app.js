@@ -7,7 +7,7 @@ import Header from "./components/header";
 import SignIn from "./components/signin";
 // sign up
 import CreateAccount from "./components/create-account";
-import CreateAccountVerify from "./components/create-account/verify";
+import Verify from "./components/create-account/verify";
 // user settings
 import Settings from "./components/settings";
 import Profile from "./components/settings/profile";
@@ -19,19 +19,19 @@ import Home from "./components/home";
 import Expenses from "./components/expenses";
 import Balances from "./components/balances";
 
-function Layout({ needsUser, dark }) {
+function Layout({ needsUser }) {
   const { user, loading, error } = useAuth();
   const navigate = useNavigate();
 
   if (loading) return <Loading />;
   if (error) return <Error message={error.message} />;
   if (!user && needsUser) {
-    navigate("/signin");
+    navigate("/");
   }
 
   return (
     <div>
-      <Header dark={dark} />
+      <Header />
       <Outlet />
     </div>
   );
@@ -48,11 +48,9 @@ function App() {
     <div>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="signin" element={<SignIn />} />
-            <Route path="create-account" element={<CreateAccount />} />
-            <Route path="create-account/verify" element={<CreateAccountVerify />} />
-          </Route>
+          <Route path="/" element={<SignIn />} />
+          <Route path="create-account" element={<CreateAccount />} />
+          <Route path="verify" element={<Verify />} />
           {/* Application Routes - require authentication */}
           <Route path="app" element={<Layout dark needsUser />}>
             <Route path="home" element={<Home />} />

@@ -33,7 +33,7 @@ export default function() {
           </p>
           <p className="my-4">
             Already have an account?{" "}
-            <Link to="/signin" className="link">
+            <Link to="/" className="ff-link">
               Sign in
             </Link>
           </p>

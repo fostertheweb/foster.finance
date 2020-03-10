@@ -6,6 +6,7 @@ import Alert from "../alert";
 import Button from "../button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
+import Logo from "../logo";
 
 export default function() {
   const { signIn, loading, error, user } = useAuth();
@@ -18,22 +19,21 @@ export default function() {
     signIn(email, password);
   }
 
-  if (user && !loading) {
-    navigate("/app/home");
-  }
-
   if (error && error.code === "UserNotConfirmedException") {
-    navigate(`/create-account/verify?email=${email}`);
+    navigate(`/verify?email=${email}`);
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center my-4">
-      <div className="lg:w-1/3 md:w-1/2 w-3/4 relative">
-        <>
-          <h2 className="my-0 text-xl">Sign in</h2>
+    <div className="flex h-screen items-center justify-center">
+      <div className="flex items-stretch w-1/2 bg-white rounded shadow">
+        <div className="p-6 border-r border-gray-200 w-1/2">
+          <div className="w-full mb-6">
+            <Logo />
+          </div>
+          <h2 className="my-0 text-lg">Sign in</h2>
           <p className="my-4">
             Don't have an account?{" "}
-            <Link to="/create-account" className="link">
+            <Link to="/create-account" className="ff-link">
               Create account
             </Link>
           </p>
@@ -61,7 +61,10 @@ export default function() {
               />
             </div>
           </form>
-        </>
+        </div>
+        <div className="w-1/2 rounded-r bg-green-100 text-green-500 text-center font-medium flex items-center justify-center">
+          welcome back
+        </div>
       </div>
     </div>
   );

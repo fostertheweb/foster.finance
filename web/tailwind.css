@@ -3,7 +3,7 @@
 
 :root {
   --ff-max-width: 1440px;
-  --ff-h-header: 56px;
+  --ff-h-header: 54px;
   --ff-bg-light: #f8fafb;
   --ff-text-link-blue: #3da9fc;
   --ff-text-body-dark: #5f6c7b;
@@ -39,7 +39,7 @@ body {
 }
 
 .ff-h-header {
-  height: 54px;
+  height: 52px;
   /* border bottom 2px */
 }
 
