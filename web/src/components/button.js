@@ -6,20 +6,23 @@ import classNames from "classnames";
 const button = classNames(
   "block",
   "py-3",
-  "px-4",
+  "px-5",
   "cursor-pointer",
-  "rounded-sm",
+  "rounded",
   "font-medium",
   "border",
-  "bg-blue-100",
-  "hover:bg-blue-100",
-  "border-blue-300",
-  "hover:border-blue-400",
-  "text-blue-700",
+  "border-transparent",
+  "leading",
+  "bg-blue-600",
+  "hover:bg-blue-500",
+  "text-white",
+  "shadow",
+  "focus:outline-none",
+  "focus:shadow-outline",
+  "transition",
+  "duration-150",
+  "ease-in-out",
 );
-
-const xd =
-  "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center";
 
 export default function(props) {
   return (
@@ -27,7 +30,7 @@ export default function(props) {
       {...props}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
-      className={xd}>
+      className={classNames(button)}>
       <div className="flex items-center">
         {props.icon || props.loading ? (
           <FontAwesomeIcon
