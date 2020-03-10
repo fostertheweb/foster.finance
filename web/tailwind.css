@@ -1,39 +1,46 @@
 @tailwind base;
 @tailwind components;
 
-.input {
-  @apply shadow-inner;
-}
-
-.link {
-  color: #3da9fc;
-  @apply underline;
+:root {
+  --ff-max-width: 1440px;
+  --ff-h-header: 60px;
+  --ff-pt-header: calc(100vh - var(--ff-h-header));
+  --ff-bg-light: #f8fafb;
+  --ff-text-link-blue: #3da9fc;
+  --ff-text-body-dark: #5f6c7b;
+  --ff-text-heading-dark: #094067;
 }
 
 h2 {
-  color: #094067;
+  color: var(--ff-text-heading-dark);
   @apply text-lg font-bold;
 }
 
 p {
-  color: #5f6c7b;
-}
-
-.btn {
-  @apply block py-2 px-4 rounded;
-}
-
-.btn-primary {
-  background: #3da9fc;
-  color: #fffffe;
-}
-
-.btn-secondary {
-  background: #90b4ce;
+  color: var(--ff-text-body-dark);
 }
 
 body {
-  background: #fffffe;
+  background: var(--ff-bg-light);
+}
+
+.ff-container {
+  width: 100%;
+  max-width: var(--ff-max-width);
+  margin: 0 auto;
+}
+
+.ff-link {
+  color: var(--ff-text-link-blue);
+  @apply underline;
+}
+
+.ff-pt-header {
+  padding-top: var(--ff-pt-header);
+}
+
+.ff-h-header {
+  height: var(--ff-h-header);
 }
 
 @tailwind utilities;

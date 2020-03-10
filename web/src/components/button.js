@@ -18,13 +18,16 @@ const button = classNames(
   "text-blue-700",
 );
 
+const xd =
+  "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center";
+
 export default function(props) {
   return (
     <button
       {...props}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
-      className={button}>
+      className={xd}>
       <div className="flex items-center">
         {props.icon || props.loading ? (
           <FontAwesomeIcon
