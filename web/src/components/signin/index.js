@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
 import PanelTitle from "../panel-title";
