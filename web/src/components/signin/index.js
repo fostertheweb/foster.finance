@@ -5,7 +5,7 @@ import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignIn, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
+import { faSignIn, faLongArrowAltRight } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
 import Logo from "../logo";
 
@@ -30,8 +30,14 @@ export default function() {
         <div className="p-6 border-r border-gray-200 w-1/2">
           <div className="flex items-center justify-start">
             <Logo />
-            <FontAwesomeIcon icon={faCaretRight} size="lg" className="text-gray-500 fill-current ml-3 -mb-1" />
-            <h2 className="text-gray-500 font-medium text-base ml-3 -mb-1">Sign in</h2>
+            <FontAwesomeIcon
+              icon={faLongArrowAltRight}
+              size="lg"
+              className="text-gray-400 fill-current ml-2 -mb-2"
+            />
+            <h2 className="text-gray-500 tracking-wide font-normal smallcaps text-xl ml-2 -mb-1">
+              Sign in
+            </h2>
           </div>
           <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input

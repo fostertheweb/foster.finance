@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
-import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLongArrowAltRight, faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
 import Logo from "../logo";
 
 export default function() {
-  const { signUp, loading, error, user } = useAuth();
+  const { signUp, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  if (user && !loading) {
-    navigate("/app/home");
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -29,7 +25,14 @@ export default function() {
         <div className="p-6 border-r border-gray-200 w-1/2">
           <div className="flex items-center justify-start">
             <Logo />
-            <h2 className="text-gray-500 font-normal text-lg ml-3 -mb-1">Get started</h2>
+            <FontAwesomeIcon
+              icon={faLongArrowAltRight}
+              size="lg"
+              className="text-gray-400 fill-current ml-2 -mb-2"
+            />
+            <h2 className="text-gray-500 tracking-wide font-normal smallcaps text-xl ml-2 -mb-1">
+              Join
+            </h2>
           </div>
           <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input
