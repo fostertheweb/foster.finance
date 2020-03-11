@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLongArrowAltRight, faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
+import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
-import Logo from "../logo";
+import PanelTitle from "../panel-title";
 
 export default function() {
   const { signUp, loading, error } = useAuth();
@@ -23,17 +22,7 @@ export default function() {
     <div className="flex h-screen items-center justify-center">
       <div className="flex items-stretch w-1/2 bg-white rounded shadow">
         <div className="p-6 border-r border-gray-200 w-1/2">
-          <div className="flex items-center justify-start">
-            <Logo />
-            <FontAwesomeIcon
-              icon={faLongArrowAltRight}
-              size="lg"
-              className="text-gray-400 fill-current ml-2 -mb-2"
-            />
-            <h2 className="text-gray-500 tracking-wide font-normal smallcaps text-xl ml-2 -mb-1">
-              Join
-            </h2>
-          </div>
+          <PanelTitle title="Join" />
           <form onSubmit={e => handleSubmit(e)} className="mt-8">
             <Input
               id="email"
