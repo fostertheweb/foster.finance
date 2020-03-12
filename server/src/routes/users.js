@@ -4,7 +4,11 @@ module.exports = function(app, _options, next) {
     try {
       app.log.info("Query for user");
       const user = await app.mongo.db.collection("users").findOne({ user_id: request.params.id });
-      return user ? user : reply.notFound();
+      if (user) {
+        console.log(user);
+        return user;
+      }
+      throw reply.notFound();
     } catch (err) {
       app.log.error(err);
       return err;

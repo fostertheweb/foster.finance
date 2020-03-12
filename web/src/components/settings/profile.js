@@ -33,7 +33,7 @@ export default function({ editing }) {
       setError(err);
     } finally {
       setLoading(false);
-      if (!editing) navigate("/app/accounts");
+      if (!editing) navigate("/app/setup/accounts");
     }
   }
 

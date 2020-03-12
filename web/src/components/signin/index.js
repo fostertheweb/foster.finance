@@ -6,7 +6,7 @@ import Alert from "../alert";
 import Button from "../button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../../shared/placeholders";
-import PanelTitle from "../panel-title";
+import { Panel } from "../panel";
 
 export default function() {
   const { signIn, loading, error } = useAuth();
@@ -24,46 +24,41 @@ export default function() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex items-stretch w-full md:w-2/3 lg:w-1/2 bg-white rounded shadow">
-        <div className="p-6 border-r border-gray-200 w-1/2">
-          <PanelTitle title="Sign in" />
-          <form onSubmit={e => handleSubmit(e)} className="mt-8">
-            <Input
-              id="email"
-              label="Email"
-              placeholder={getRandomEmail()}
-              onChange={e => setEmail(e.target.value)}
+    <Panel title="Sign in">
+      <>
+        <form onSubmit={e => handleSubmit(e)} className="mt-8">
+          <Input
+            id="email"
+            label="Email"
+            placeholder={getRandomEmail()}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            id="password"
+            label="Password"
+            onChange={e => setPassword(e.target.value)}
+          />
+          <div className="flex align-items justify-end">
+            <Button
+              large
+              className="w-full"
+              type="submit"
+              text="Sign in"
+              icon={faSignIn}
+              loading={loading}
+              disabled={!email || !password || loading}
             />
-            <Input
-              type="password"
-              id="password"
-              label="Password"
-              onChange={e => setPassword(e.target.value)}
-            />
-            <div className="flex align-items justify-end">
-              <Button
-                large
-                className="w-full"
-                type="submit"
-                text="Sign in"
-                icon={faSignIn}
-                loading={loading}
-                disabled={!email || !password || loading}
-              />
-            </div>
-          </form>
-          <p className="mt-4 text-center text-gray-500">
-            Don't have an account?{" "}
-            <Link to="/create-account" className="ff-link">
-              Create account
-            </Link>
-          </p>
-        </div>
-        <div className="w-1/2 rounded-r bg-green-100 text-green-500 text-center font-medium flex items-center justify-center">
-          {error ? <Alert intent="error" message={error.message || error} /> : "welcome back"}
-        </div>
-      </div>
-    </div>
+          </div>
+        </form>
+        <p className="mt-4 text-center text-gray-500">
+          Don't have an account?{" "}
+          <Link to="/create-account" className="ff-link">
+            Create account
+          </Link>
+        </p>
+      </>
+      {error ? <Alert intent="error" message={error.message || error} /> : "welcome back"}
+    </Panel>
   );
 }

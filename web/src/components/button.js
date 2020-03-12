@@ -27,6 +27,7 @@ export default function(props) {
   return (
     <button
       {...props}
+      large={props.large ? "true" : undefined}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
       className={classNames(button, size, props.className ? props.className.split(" ") : "")}>

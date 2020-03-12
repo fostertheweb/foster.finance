@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../logo";
 import { useAuth } from "../../hooks/use-auth";
 import UserMenu from "./user-menu";
@@ -23,19 +23,33 @@ function HeaderLink({ path, icon, children }) {
 export default function() {
   const { user, loading } = useAuth();
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [fetching, setFetching] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getUserInfo() {
       setFetching(true);
-      const response = await fetch(`${url}/users/${user.attributes.sub}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const info = await response.json();
-      setData(info);
-      setFetching(false);
+      try {
+        const response = await fetch(`${url}/users/${user.attributes.sub}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const info = await response.json();
+          setData(info);
+        } else {
+          setError("Not Found");
+          navigate("/app/setup/profile");
+        }
+      } catch (err) {
+        setError(err.message);
+        navigate("/app/setup/profile");
+      } finally {
+        setFetching(false);
+      }
     }
 
     if (!loading && user) {
@@ -52,7 +66,7 @@ export default function() {
           <Link to="/app/home" className="hover:no-underline mr-4">
             <Logo dark={true} />
           </Link>
-          {loading || fetching ? null : (
+          {error || loading || fetching ? null : (
             <>
               <HeaderLink path="expenses" icon={faCalendarAlt}>
                 Expenses
@@ -66,8 +80,8 @@ export default function() {
         <div className="flex items-center">
           <UserMenu
             loading={loading || fetching}
-            emoji={data ? data.emoji : "hatching_chick"}
-            name={data ? data.name : user.attributes.email}
+            emoji={(data && data.emoji) || "hatching_chick"}
+            name={(data && data.name) || user.attributes.email}
           />
         </div>
       </div>

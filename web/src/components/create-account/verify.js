@@ -12,14 +12,13 @@ import Button from "../button";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../loading";
 import Error from "../error";
-import PanelTitle from "../panel-title";
+import { Panel } from "../panel";
 
 function CheckEmail({ email }) {
   const { resendSignUp, loading } = useAuth();
 
   return (
     <>
-      <PanelTitle title="Verify" />
       <div className="w-full text-center mt-6">
         <FontAwesomeIcon icon={faEnvelopeOpenText} size="5x" color="#5f6c7b" />
       </div>
@@ -60,7 +59,6 @@ function Confirmed({ id, code }) {
 
   return (
     <>
-      <PanelTitle title="Confirm" />
       <div className="w-full text-center mt-6">
         <div className="fa-layers fa-fw h-4 block py-12 w-full text-center">
           <FontAwesomeIcon icon={faUserCheck} size="2x" className="text-green-500 fill-current" />
@@ -83,12 +81,16 @@ export default function() {
   const { id, code, email } = parse(location.search);
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex items-stretch w-full sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white rounded shadow">
-        <div className="p-6 w-full">
-          {id ? <Confirmed id={id} code={code} /> : <CheckEmail email={email} />}
-        </div>
-      </div>
-    </div>
+    <>
+      {id ? (
+        <Panel title="Confirm">
+          <Confirmed id={id} code={code} />
+        </Panel>
+      ) : (
+        <Panel title="Verify">
+          <CheckEmail email={email} />
+        </Panel>
+      )}
+    </>
   );
 }

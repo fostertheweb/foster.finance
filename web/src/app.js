@@ -19,13 +19,13 @@ import Home from "./components/home";
 import Expenses from "./components/expenses";
 import Balances from "./components/balances";
 
-function Layout({ needsUser }) {
+function Layout() {
   const { user, loading, error } = useAuth();
   const navigate = useNavigate();
 
   if (loading) return <Loading />;
   if (error) return <Error message={error.message} />;
-  if (!user && needsUser) {
+  if (!user) {
     navigate("/");
   }
 
@@ -52,20 +52,20 @@ function App() {
           <Route path="create-account" element={<CreateAccount />} />
           <Route path="verify" element={<Verify />} />
           {/* Application Routes - require authentication */}
-          <Route path="app" element={<Layout dark needsUser />}>
+          <Route path="app" element={<Layout dark />}>
             <Route path="home" element={<Home />} />
             <Route path="expenses" element={<Expenses />} />
             <Route path="balances" element={<Balances />} />
             <Route path="settings" element={<Settings />}>
               <Route path="/" element={<Redirect to="profile" />} />
               <Route path="profile" element={<Profile editing={true} />} />
-              <Route path="accounts" element={<LinkAccounts />} />
-              <Route path="expenses" element={<Recurring />} />
+              <Route path="accounts" element={<LinkAccounts editing={true} />} />
+              <Route path="expenses" element={<Recurring editing={true} />} />
             </Route>
             <Route path="setup" element={<Setup />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="link" element={<LinkAccounts />} />
-              <Route path="recurring" element={<Recurring />} />
+              <Route path="accounts" element={<LinkAccounts />} />
+              <Route path="expenses" element={<Recurring />} />
             </Route>
           </Route>
         </Routes>

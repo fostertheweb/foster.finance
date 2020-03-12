@@ -3,7 +3,7 @@ function handler(event, _context, callback) {
   const { email } = event.request.userAttributes;
   const buffer = Buffer.from(email);
   const hash = buffer.toString("base64");
-  const url = "https://foster.finance/create-account/verify";
+  const url = "https://foster.finance/verify";
   const link = `<a href="${url}?id=${hash}&code=${codeParameter}">confirm email</a>`;
   const message =
     "welcome to foster finance, let's confirm your email and go back to finish your profile." +
