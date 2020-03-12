@@ -3,8 +3,9 @@ import LinkButton from "./link-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird, faCheckCircle, faLandmark } from "@fortawesome/pro-duotone-svg-icons";
 import { faCircle } from "@fortawesome/pro-light-svg-icons";
+import Alert from "../../alert";
 
-export default function({ loading, data }) {
+export default function({ loading, error, data }) {
   return (
     <>
       <div className="flex items-center justify-between">
@@ -26,33 +27,37 @@ export default function({ loading, data }) {
             <FontAwesomeIcon icon={faLandmark} size="lg" className="mr-2" />
             Plaid Bank of Canada
           </div>
-          {data.map(account => (
-            <div
-              key={account.account_id}
-              className="flex items-center p-2 bg-white hover:bg-gray-100 rounded-sm border-t border-gray-300 cursor-pointer">
-              <FontAwesomeIcon
-                icon={account.selected ? faCheckCircle : faCircle}
-                size="lg"
-                color={!account.selected ? "#90b4ce" : "#3da9fc"}
-                className="mr-4"
-              />
-              <div>
-                <span className="mr-2">{account.official_name || account.name}</span>
-                <span className="text-gray-500">*{account.mask}</span>
-                <div
-                  className={`mt-1 text-gray-500 ${
-                    account.subtype.length <= 3 ? "uppercase" : "capitalize"
-                  }`}>
-                  {account.subtype}
+          {error ? (
+            <Alert error={error.message || error} />
+          ) : (
+            data.map(account => (
+              <div
+                key={account.account_id}
+                className="flex items-center p-2 bg-white hover:bg-gray-100 rounded-sm border-t border-gray-300 cursor-pointer">
+                <FontAwesomeIcon
+                  icon={account.selected ? faCheckCircle : faCircle}
+                  size="lg"
+                  color={!account.selected ? "#90b4ce" : "#3da9fc"}
+                  className="mr-4"
+                />
+                <div>
+                  <span className="mr-2">{account.official_name || account.name}</span>
+                  <span className="text-gray-500">*{account.mask}</span>
+                  <div
+                    className={`mt-1 text-gray-500 ${
+                      account.subtype.length <= 3 ? "uppercase" : "capitalize"
+                    }`}>
+                    {account.subtype}
+                  </div>
+                </div>
+                <div className="text-md self-end">
+                  {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
+                    account.balances.current,
+                  )}
                 </div>
               </div>
-              <div className="text-md self-end">
-                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
-                  account.balances.current,
-                )}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </>
       )}
     </>

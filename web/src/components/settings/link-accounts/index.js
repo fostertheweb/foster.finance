@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/use-auth";
 import AccountList from "./list";
-import Alert from "../../alert";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 
