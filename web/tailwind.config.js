@@ -4,6 +4,7 @@ module.exports = {
   },
   variants: {
     backgroundColor: ["group-hover", "hover"],
+    borderWidth: ["first", "hover", "focus", "last"],
     display: ["group-hover"],
     maxWidth: ["responsive"],
   },
