@@ -58,7 +58,7 @@ export default function({ editing }) {
   }
 
   return (
-    <div className="">
+    <div>
       {editing ? null : (
         <>
           <h2 className="my-4">Create your user profile</h2>

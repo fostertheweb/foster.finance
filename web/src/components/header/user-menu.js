@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinnerThird, faSignOut } from "@fortawesome/pro-duotone-svg-icons";
+import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
 import { useAuth } from "../../hooks/use-auth";
 import classNames from "classnames";
 
-const menuItem = classNames(
+const menuItem = [
   "block",
   "px-4",
   "py-2",
@@ -20,9 +20,9 @@ const menuItem = classNames(
   "transition",
   "duration-150",
   "ease-in-out",
-);
+];
 
-export default function({ emoji, name, loading }) {
+export default function({ emoji, name, disabled }) {
   const { signOut } = useAuth();
 
   return (
@@ -30,21 +30,19 @@ export default function({ emoji, name, loading }) {
       <Link
         to="/app/home"
         className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700`}>
-        {loading ? (
-          <FontAwesomeIcon icon={faSpinnerThird} spin className="fill-current" />
-        ) : (
-          <Emoji emoji={emoji} size={18} />
-        )}
-        <span className="ml-2">{loading ? "" : name}</span>
+        <Emoji emoji={emoji} size={18} />
+        <span className="ml-2">{name}</span>
       </Link>
       <div
-        className={`hidden ${
-          loading ? "" : "group-hover:block"
-        } absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md`}>
-        <Link className={menuItem} to="/app/settings">
+        className={`hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md`}>
+        <Link
+          className={`${classNames(menuItem)}${
+            disabled ? " pointer-events-none text-gray-500" : ""
+          }`}
+          to="/app/settings">
           Settings
         </Link>
-        <button className={menuItem} onClick={() => signOut()}>
+        <button className={classNames(menuItem)} onClick={() => signOut()}>
           <FontAwesomeIcon icon={faSignOut} />
           <span className="ml-2">Sign out</span>
         </button>
