@@ -7,9 +7,9 @@ import Alert from "../../alert";
 
 export default function({ loading, error, data }) {
   return (
-    <>
+    <div className="mt-4">
       <div className="flex items-center justify-between">
-        <h2>Accounts</h2>
+        <h2 className="text-lg">Accounts</h2>
         <LinkButton />
       </div>
       {loading ? (
@@ -33,7 +33,7 @@ export default function({ loading, error, data }) {
             data.map(account => (
               <div
                 key={account.account_id}
-                className="flex items-center p-2 bg-white hover:bg-gray-100 rounded-sm border-t border-gray-300 cursor-pointer">
+                className="flex items-center border border-gray-300 rounded mt-2 p-2 bg-white hover:bg-gray-100 rounded-sm cursor-pointer">
                 <FontAwesomeIcon
                   icon={account.selected ? faCheckCircle : faCircle}
                   size="lg"
@@ -60,6 +60,6 @@ export default function({ loading, error, data }) {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }

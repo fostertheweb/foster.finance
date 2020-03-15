@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
 import classNames from "classnames";
 
-const button = classNames(
+export const buttonClassName = classNames(
   "block",
   "cursor-pointer",
   "rounded",
@@ -30,7 +30,11 @@ export default function(props) {
       large={props.large ? "true" : undefined}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
-      className={classNames(button, size, props.className ? props.className.split(" ") : "")}>
+      className={classNames(
+        buttonClassName,
+        size,
+        props.className ? props.className.split(" ") : "",
+      )}>
       {props.icon || props.loading ? (
         <FontAwesomeIcon
           icon={props.loading ? faSpinnerThird : props.icon}

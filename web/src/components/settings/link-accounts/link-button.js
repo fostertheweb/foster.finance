@@ -2,29 +2,13 @@ import React, { useState } from "react";
 import PlaidLink from "react-plaid-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
-import classNames from "classnames";
 import { useAuth } from "../../../hooks/use-auth";
+import { buttonClassName } from "../../button";
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
 const env = process.env.REACT_APP_PLAID_ENVIRONMENT;
 const publicKey = process.env.REACT_APP_PLAID_PUBLIC_KEY;
-
-const button = classNames(
-  "block",
-  "py-2",
-  "px-4",
-  "cursor-pointer",
-  "rounded-sm",
-  "font-medium",
-  "border",
-  "bg-gray-100",
-  "hover:bg-indigo-100",
-  "border-gray-300",
-  "hover:border-indigo-300",
-  "text-gray-600",
-  "hover:text-indigo-700",
-);
 
 export default function() {
   const { user } = useAuth();
@@ -66,7 +50,7 @@ export default function() {
   return (
     <PlaidLink
       style={{}}
-      className={classNames(button)}
+      className={buttonClassName + " py-2 px-4"}
       clientName="foster finance"
       env={env}
       product={product}

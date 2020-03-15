@@ -8,10 +8,13 @@ import UserMenu from "./user-menu";
 import HeaderLink from "./link";
 import { useProfile } from "../../hooks/use-profile";
 import { useAuth } from "../../hooks/use-auth";
+import { useLocation } from "react-router-dom";
 
 export default function() {
   const { user } = useAuth();
   const { profile, fetching } = useProfile();
+  const location = useLocation();
+  const isDuringSetup = location.pathname.includes("setup");
 
   return (
     <div
@@ -21,7 +24,7 @@ export default function() {
           <Link to="/app/home" className="hover:no-underline mr-4">
             <Logo dark={true} />
           </Link>
-          {isSetupComplete(profile) ? (
+          {!isDuringSetup ? (
             <>
               <HeaderLink path="expenses" icon={faCalendarAlt}>
                 Expenses
@@ -35,7 +38,7 @@ export default function() {
         <div className="flex items-center">
           {profile ? (
             <UserMenu
-              disabled={fetching || !isSetupComplete(profile)}
+              disabled={fetching || isDuringSetup}
               emoji={profile.emoji || "hatching_chick"}
               name={profile.name || user.attributes.email}
             />
@@ -47,17 +50,3 @@ export default function() {
     </div>
   );
 }
-
-const isSetupComplete = profile => {
-  if (profile) {
-    if (!profile.accounts || profile.accounts.length < 1) {
-      return false;
-    } else if (!profile.expenses || profile.expenses.length < 1) {
-      return false;
-    }
-
-    return true;
-  }
-
-  return false;
-};
