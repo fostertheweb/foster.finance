@@ -26,8 +26,8 @@ export default function() {
           </Link>
           {!isDuringSetup ? (
             <>
-              <HeaderLink path="expenses" icon={faCalendarAlt}>
-                Expenses
+              <HeaderLink path="transactions" icon={faCalendarAlt}>
+                Transactions
               </HeaderLink>
               <HeaderLink path="balances" icon={faCoins}>
                 Balances

@@ -56,11 +56,12 @@ module.exports = function(app, _options, next) {
       const transactions = responses.reduce((transactions, response) => {
         return [...transactions, ...response.transactions];
       }, []);
-      const expenses = transactions.reduce((expenses, transaction) => {
+      const recurring = transactions.reduce((expenses, transaction) => {
         const expense = {
           day: transaction.date.slice(-2),
           amount: transaction.amount,
           name: transaction.name,
+          selected: true,
         };
         const count = transactions.filter(t => compareTransaction(t, expense)).length;
 
@@ -74,8 +75,7 @@ module.exports = function(app, _options, next) {
 
         return expenses;
       }, []);
-
-      return expenses;
+      return groupByDay(recurring);
     } catch (err) {
       app.log.error(err);
       throw err;
@@ -95,4 +95,13 @@ function compareTransaction(transaction, expense) {
   }
 
   return false;
+}
+
+function groupByDay(expenses) {
+  return expenses.reduce((groups, expense) => {
+    if (groups[expense.day]) {
+      return { ...groups, [expense.day]: [...groups[expense.day], expense] };
+    }
+    return { ...groups, [expense.day]: [expense] };
+  }, {});
 }

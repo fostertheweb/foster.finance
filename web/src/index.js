@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "typeface-secular-one";
 import "typeface-open-sans";
+import "typeface-share-tech-mono";
 import "./styles.css";
 import "./index.css";
 

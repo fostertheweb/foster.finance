@@ -10,11 +10,11 @@ import CreateAccount from "./components/create-account";
 import Verify from "./components/create-account/verify";
 import Settings from "./components/settings";
 import Profile from "./components/settings/profile";
-import Recurring from "./components/settings/recurring";
-import LinkAccounts from "./components/settings/link-accounts";
+import Expenses from "./components/settings/expenses";
+import LinkAccounts from "./components/settings/accounts";
 import Setup from "./components/setup";
 import Home from "./components/home";
-import Expenses from "./components/expenses";
+import Transactions from "./components/transactions";
 import Balances from "./components/balances";
 
 function App() {
@@ -28,18 +28,18 @@ function App() {
           <ProfileProvider>
             <Route path="app" element={<Layout />}>
               <Route path="home" element={<Home />} />
-              <Route path="expenses" element={<Expenses />} />
+              <Route path="transactions" element={<Transactions />} />
               <Route path="balances" element={<Balances />} />
               <Route path="settings" element={<Settings />}>
                 <Route path="/" element={<Redirect to="profile" />} />
                 <Route path="profile" element={<Profile editing={true} />} />
                 <Route path="accounts" element={<LinkAccounts editing={true} />} />
-                <Route path="expenses" element={<Recurring editing={true} />} />
+                <Route path="expenses" element={<Expenses editing={true} />} />
               </Route>
               <Route path="setup" element={<Setup />}>
                 <Route path="profile" element={<Profile />} />
                 <Route path="accounts" element={<LinkAccounts />} />
-                <Route path="expenses" element={<Recurring />} />
+                <Route path="expenses" element={<Expenses />} />
               </Route>
             </Route>
           </ProfileProvider>

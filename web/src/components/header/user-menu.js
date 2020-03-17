@@ -12,7 +12,6 @@ const menuItem = [
   "py-2",
   "w-full",
   "text-left",
-  "text-gray-800",
   "hover:bg-gray-200",
   "hover:text-gray-900",
   "hover:no-underline",
@@ -34,7 +33,7 @@ export default function({ emoji, name, disabled }) {
         <span className="ml-2">{name}</span>
       </Link>
       <div
-        className={`hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md`}>
+        className={`hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md text-gray-800`}>
         <Link
           className={`${classNames(menuItem)}${
             disabled ? " pointer-events-none text-gray-500" : ""

@@ -17,16 +17,24 @@ module.exports = function(app, _options, next) {
 
   app.post("/", async ({ body }) => {
     app.log.info("POST /users");
-    app.log.info(body);
+    app.log.info({ body });
     return await app.mongo.db.collection("users").insertOne(body);
   });
 
   app.put("/", async ({ body }) => {
     app.log.info("PUT /users");
-    app.log.info(body);
+    app.log.info({ body });
     return await app.mongo.db
       .collection("users")
       .findOneAndUpdate({ user_id: body.user_id }, { $set: body });
+  });
+
+  app.patch("/:id", async ({ params, body }) => {
+    app.log.info("PUT /users");
+    app.log.info({ body });
+    return await app.mongo.db
+      .collection("users")
+      .findOneAndUpdate({ user_id: params.id }, { $set: body });
   });
 
   next();

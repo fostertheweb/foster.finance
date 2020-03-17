@@ -11088,6 +11088,11 @@ typeface-secular-one@^0.0.72:
   resolved "https://registry.yarnpkg.com/typeface-secular-one/-/typeface-secular-one-0.0.72.tgz#5fdab4269399a077c2859fe1b84a85da539b81e7"
   integrity sha512-KixtTG7URbutZO5bMXqN8ixDJ52pzsTiResLg9gnTtQ0hGeeIDYpGLwO4WemsTlf93eX90C87u/lT4ZA3do+QA==
 
+typeface-share-tech-mono@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/typeface-share-tech-mono/-/typeface-share-tech-mono-0.0.72.tgz#b3996dd774b1866f2bc94c82f098885d84842ef1"
+  integrity sha512-O1cMFKOLoR3M4q+urjkNGrxiYiPsUAYuKjLpt7OxxLNnEZnpR0xk7c0MB//19zhWv9nRCWVtzHo1sHPY2xEIdQ==
+
 uglify-js@3.4.x:
   version "3.4.10"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.10.tgz#9ad9563d8eb3acdfb8d38597d2af1d815f6a755f"

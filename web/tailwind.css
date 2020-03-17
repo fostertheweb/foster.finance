@@ -55,4 +55,12 @@ body {
   font-variant: small-caps;
 }
 
+.ff-font-sans {
+  font-family: "Open Sans", sans-serif;
+}
+
+.ff-font-mono {
+  font-family: "Share Tech Mono", monospace;
+}
+
 @tailwind utilities;
