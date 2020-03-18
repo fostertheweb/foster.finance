@@ -47,15 +47,21 @@ export function Calendar({ year, month, loading, data }) {
   let weeksInMonth = 5;
 
   const firstWeekOfMonth = 0;
-  const firstDayOfWeek = 1;
-  const lastDayOfWeek = 7;
+  const firstDayOfWeek = 0;
+  const lastDayOfWeek = 6;
   const firstDayOfWeekend = 6;
 
   if (loading) {
     return <Loading />;
   }
 
-  if (getFirstWeekday(year, month) === lastDayOfWeek) {
+  // month starts on friday, or saturday and has 31 days
+  if (getFirstWeekday(year, month) >= lastDayOfWeek - 1 && getDaysInMonth(year, month) > 30) {
+    weeksInMonth = 6;
+  }
+
+  // month starts on saturday and has 30 or more days
+  if (getFirstWeekday(year, month) === lastDayOfWeek && getDaysInMonth(year, month) > 29) {
     weeksInMonth = 6;
   }
 
@@ -147,10 +153,12 @@ function getCurrentYear() {
 
 function getFirstWeekday(year, month) {
   if (year && month) {
-    return luxon.DateTime.local(year, month, 1).weekday;
+    const weekday = luxon.DateTime.local(year, month, 1).weekday;
+    return weekday === 7 ? 0 : weekday;
   }
 
-  return luxon.DateTime.local(getCurrentYear(), getCurrentMonth(), 1).weekday;
+  const weekday = luxon.DateTime.local(getCurrentYear(), getCurrentMonth(), 1).weekday;
+  return weekday === 7 ? 0 : weekday;
 }
 
 function isToday(year, month, day) {
