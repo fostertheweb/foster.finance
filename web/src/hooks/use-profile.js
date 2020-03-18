@@ -52,10 +52,10 @@ function useProfileProvider() {
   function isSetupComplete({ accounts, expenses }) {
     if (!accounts || accounts.length < 1) {
       console.log("Accounts not saved.");
-      navigate("/app/setup/accounts");
+      // navigate("/app/setup/accounts");
     } else if (!expenses || expenses.length < 1) {
       console.log("Expenses not saved.");
-      navigate("/app/setup/expenses");
+      // navigate("/app/setup/expenses");
     }
 
     return true;

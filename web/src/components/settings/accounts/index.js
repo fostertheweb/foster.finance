@@ -67,7 +67,7 @@ export default function() {
 
   return (
     <div className="mt-4">
-      {data ? (
+      {data && data.length > 0 ? (
         <AccountList
           error={error}
           data={data}
