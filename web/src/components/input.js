@@ -41,7 +41,7 @@ export default function(props) {
 export function Select(props) {
   return (
     <select
-      className="bg-white border border-gray-400 rounded-sm px-2 py-1"
+      className={props.className || `bg-white border border-gray-400 rounded-sm px-2 py-1`}
       name={props.name}
       id={props.id}
       onChange={props.onChange}

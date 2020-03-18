@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export default function({ data }) {
-  return Object.entries(data)
+  return Object.entries(groupByDay(data))
     .sort(([a], [b]) => a - b)
     .map(([day, expenses]) => (
       <div key={day} className="flex items-start mt-2 border-t border-gray-400">
@@ -44,4 +44,13 @@ function Row({ expense }) {
 
 function nth(n) {
   return ["st", "nd", "rd"][((((n + 90) % 100) - 10) % 10) - 1] || "th";
+}
+
+function groupByDay(expenses) {
+  return expenses.reduce((groups, expense) => {
+    if (groups[expense.day]) {
+      return { ...groups, [expense.day]: [...groups[expense.day], expense] };
+    }
+    return { ...groups, [expense.day]: [expense] };
+  }, {});
 }
