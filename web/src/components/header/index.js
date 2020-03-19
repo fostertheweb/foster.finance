@@ -21,7 +21,7 @@ export default function() {
       className={`fixed w-full z-30 px-2 border-b-2 font-medium bg-gray-800 text-white border-gray-900`}>
       <div className="ff-container ff-h-header flex items-center justify-between">
         <div className="flex items-center">
-          <Link to="/app/home" className="hover:no-underline mr-4">
+          <Link to="/app" className="hover:no-underline mr-4">
             <Logo dark={true} />
           </Link>
           {!isDuringSetup ? (

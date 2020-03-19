@@ -27,6 +27,7 @@ export default function(props) {
   return (
     <button
       {...props}
+      secondary={props.secondary ? "true" : undefined}
       large={props.large ? "true" : undefined}
       loading={props.loading ? "true" : undefined}
       type={props.type || "button"}
