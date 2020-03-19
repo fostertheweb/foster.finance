@@ -28,12 +28,14 @@ export default function() {
       <>
         <form onSubmit={e => handleSubmit(e)} className="mt-8">
           <Input
+            large
             id="email"
             label="Email"
             placeholder={getRandomEmail()}
             onChange={e => setEmail(e.target.value)}
           />
           <Input
+            large
             type="password"
             id="password"
             label="Password"
@@ -58,7 +60,16 @@ export default function() {
           </Link>
         </p>
       </>
-      {error ? <Alert intent="error" message={error.message || error} /> : "welcome back"}
+      {error ? (
+        <Alert intent="error" message={error.message || error} />
+      ) : (
+        <>
+          <span role="img" aria-label="hand waving" className="mr-2">
+            👋
+          </span>
+          welcome back dear friend
+        </>
+      )}
     </Panel>
   );
 }

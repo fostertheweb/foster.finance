@@ -3,9 +3,9 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function() {
   return (
-    <div className="flex items-stretch ff-pt-header">
-      <div className="border-r border-gray-400 w-1/5 flex-grow-0">
-        <h2 className="p-4 text-lg">Settings</h2>
+    <div className="ff-container ff-pt-header flex items-stretch relative">
+      <div className="sticky top-0 border-r border-gray-400 whitespace-no-wrap">
+        <h2 className="py-2 px-4 text-gray-600 text-lg smallcaps tracking-wide">Settings</h2>
         <div className="mt-2">
           <NavLink
             to="profile"
@@ -27,9 +27,7 @@ export default function() {
           </NavLink>
         </div>
       </div>
-      <div className="p-4 w-2/5">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }

@@ -1,17 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSpinnerThird,
-  faLandmark,
-  faSave,
-  faPlusCircle,
-} from "@fortawesome/pro-duotone-svg-icons";
+import { faSpinnerThird, faLandmark } from "@fortawesome/pro-duotone-svg-icons";
 import Alert from "../../alert";
-import Button from "../../button";
 
-export default function({ loading, error, data, onSaveSelection }) {
+export default function({ loading, error, data }) {
   return (
-    <div className="mt-4">
+    <div className="">
       {loading ? (
         <div className="flex justify-center items-center mt-2 p-4 bg-white rounded border border-gray-300 w-full">
           <FontAwesomeIcon
@@ -23,7 +17,7 @@ export default function({ loading, error, data, onSaveSelection }) {
         </div>
       ) : (
         <>
-          <div className="mt-4 text-gray-600 text-lg font-medium p-2">
+          <div className="text-gray-600 text-lg font-medium p-2">
             <FontAwesomeIcon icon={faLandmark} size="lg" className="mr-2" />
             Plaid Bank of Canada
           </div>
@@ -62,25 +56,6 @@ export default function({ loading, error, data, onSaveSelection }) {
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="my-4 flex justify-end">
-                <Button
-                  className="mr-2"
-                  secondary
-                  text="Link More Accounts"
-                  icon={faPlusCircle}
-                  loading={false}
-                  disabled={loading}
-                />
-                <Button
-                  text="Save Account Selection"
-                  icon={faSave}
-                  loading={false}
-                  disabled={loading}
-                  onClick={() =>
-                    onSaveSelection(data.filter(a => a.selected).map(a => a.account_id))
-                  }
-                />
               </div>
             </>
           )}

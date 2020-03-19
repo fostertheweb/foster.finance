@@ -46,8 +46,8 @@ export default function() {
   }, [uid, dateRange]);
 
   return (
-    <div className="ff-container ff-pt-header flex items-center">
-      <div className="p-2 self-start">
+    <div className="ff-container ff-pt-header flex items-start">
+      <div className="p-2">
         <div className="flex items-center bg-white border border-gray-400 rounded">
           <button
             onClick={() => {

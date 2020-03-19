@@ -90,7 +90,7 @@ function useAuthProvider() {
   function handleAuthChange({ payload: { event, data } }) {
     switch (event) {
       case "signIn":
-        navigate("/app/home");
+        navigate("/app");
         break;
       case "signOut":
         setUser(null);

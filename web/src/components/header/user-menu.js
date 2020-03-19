@@ -26,12 +26,11 @@ export default function({ emoji, name, disabled }) {
 
   return (
     <div className="group relative">
-      <Link
-        to="/app/home"
-        className={`block ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700`}>
+      <div
+        className={`block cursor-pointer ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700`}>
         <Emoji emoji={emoji} size={18} />
         <span className="ml-2">{name}</span>
-      </Link>
+      </div>
       <div
         className={`hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md text-gray-800`}>
         <Link

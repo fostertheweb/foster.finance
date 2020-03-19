@@ -5,6 +5,8 @@ import { faEye, faEyeSlash, faSpinnerThird } from "@fortawesome/pro-duotone-svg-
 export default function(props) {
   const [showPassword, setShowPassword] = useState(false);
 
+  const padding = props.large ? "p-3" : "p-2";
+
   return (
     <div className="mb-6">
       <label htmlFor={props.id} className="font-medium block my-1">
@@ -12,7 +14,8 @@ export default function(props) {
       </label>
       <div className="relative">
         {props.loading ? (
-          <div className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block fill-current">
+          <div
+            className={`w-full bg-white text-md ${padding} border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block fill-current`}>
             <FontAwesomeIcon icon={faSpinnerThird} spin />
           </div>
         ) : (
@@ -22,7 +25,7 @@ export default function(props) {
             placeholder={props.placeholder}
             onChange={props.onChange}
             type={props.type === "password" && !showPassword ? "password" : "text"}
-            className="w-full bg-white text-md p-3 border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal"
+            className={`w-full bg-white text-md ${padding} border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal`}
           />
         )}
         {props.type && props.type === "password" ? (

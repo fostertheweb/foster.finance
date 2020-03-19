@@ -4,7 +4,7 @@ export default function({ data }) {
   return Object.entries(groupByDay(data))
     .sort(([a], [b]) => a - b)
     .map(([day, expenses]) => (
-      <div key={day} className="flex items-start mt-2 border-t border-gray-400">
+      <div key={day} className="flex items-start mt-2 border-t border-gray-300 first:border-t-0">
         <div className="text-lg p-2 w-12 text-center text-gray-600 font-medium">
           {parseInt(day)}
           <span className="text-xs align-top font-normal smallcaps">{nth(parseInt(day))}</span>

@@ -23,12 +23,14 @@ export default function() {
       <>
         <form onSubmit={e => handleSubmit(e)} className="mt-8">
           <Input
+            large
             id="email"
             label="Email"
             placeholder={getRandomEmail()}
             onChange={e => setEmail(e.target.value)}
           />
           <Input
+            large
             type="password"
             id="password"
             label="Password"

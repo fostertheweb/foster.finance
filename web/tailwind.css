@@ -10,15 +10,6 @@
   --ff-text-heading-dark: #094067;
 }
 
-h2 {
-  color: var(--ff-text-heading-dark);
-  @apply font-bold;
-}
-
-p {
-  color: var(--ff-text-body-dark);
-}
-
 body {
   background: var(--ff-bg-light);
 }

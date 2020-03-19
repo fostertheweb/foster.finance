@@ -13,7 +13,6 @@ import Profile from "./components/settings/profile";
 import Expenses from "./components/settings/expenses";
 import LinkAccounts from "./components/settings/accounts";
 import Setup from "./components/setup";
-import Home from "./components/home";
 import Transactions from "./components/transactions";
 import Balances from "./components/balances";
 
@@ -27,7 +26,7 @@ function App() {
           <Route path="verify" element={<Verify />} />
           <ProfileProvider>
             <Route path="app" element={<Layout />}>
-              <Route path="home" element={<Home />} />
+              <Route path="/" element={<Redirect to="transactions" />} />
               <Route path="transactions" element={<Transactions />} />
               <Route path="balances" element={<Balances />} />
               <Route path="settings" element={<Settings />}>
