@@ -22,20 +22,24 @@ export default function() {
     <Panel title="Join">
       <>
         <form onSubmit={e => handleSubmit(e)} className="mt-8">
-          <Input
-            large
-            id="email"
-            label="Email"
-            placeholder={getRandomEmail()}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <Input
-            large
-            type="password"
-            id="password"
-            label="Password"
-            onChange={e => setPassword(e.target.value)}
-          />
+          <div className="mb-6">
+            <Input
+              large
+              id="email"
+              label="Email"
+              placeholder={getRandomEmail()}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <Input
+              large
+              type="password"
+              id="password"
+              label="Password"
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
           <div className="flex items-center justify-end">
             <Button
               large
@@ -58,10 +62,7 @@ export default function() {
       {error ? (
         <Alert intent="error" message={error.message || error} />
       ) : (
-        <p className="block p-4">
-          After creating an account you will connect to your bank so we can view your transactions
-          and help you save more money.
-        </p>
+        <p className="block p-4">try it out, full refund available</p>
       )}
     </Panel>
   );

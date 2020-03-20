@@ -21,7 +21,7 @@ export default function({ colons, onChange, placeholder, loading }) {
   }, [onChange, emoji]);
 
   return (
-    <div className="mb-4">
+    <div>
       <Popover position="right-top" isOpen={isOpen}>
         <div
           className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded-full flex items-center justify-center emoji-input"

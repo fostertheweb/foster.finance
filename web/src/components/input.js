@@ -8,8 +8,8 @@ export default function(props) {
   const padding = props.large ? "p-3" : "p-2";
 
   return (
-    <div className="mb-6">
-      <label htmlFor={props.id} className="font-medium block my-1">
+    <div>
+      <label htmlFor={props.id} className="font-medium block mb-1 text-gray-800">
         {props.label}
       </label>
       <div className="relative">
@@ -25,7 +25,7 @@ export default function(props) {
             placeholder={props.placeholder}
             onChange={props.onChange}
             type={props.type === "password" && !showPassword ? "password" : "text"}
-            className={`w-full bg-white text-md ${padding} border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none leading-normal`}
+            className={`w-full bg-white text-md ${padding} border-gray-400 border rounded shadow-inner focus:outline-none focus:shadow-outline block appearance-none`}
           />
         )}
         {props.type && props.type === "password" ? (

@@ -27,20 +27,24 @@ export default function() {
     <Panel title="Sign in">
       <>
         <form onSubmit={e => handleSubmit(e)} className="mt-8">
-          <Input
-            large
-            id="email"
-            label="Email"
-            placeholder={getRandomEmail()}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <Input
-            large
-            type="password"
-            id="password"
-            label="Password"
-            onChange={e => setPassword(e.target.value)}
-          />
+          <div className="mb-6">
+            <Input
+              large
+              id="email"
+              label="Email"
+              placeholder={getRandomEmail()}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <Input
+              large
+              type="password"
+              id="password"
+              label="Password"
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
           <div className="flex align-items justify-end">
             <Button
               large

@@ -59,11 +59,11 @@ export default function({ editing }) {
   }
 
   return (
-    <div className="ff-h-full w-2/3 p-4">
+    <div className="w-full sm:w-2/3 md:w-1/2 mt-4 bg-white p-4 rounded shadow">
       {!editing ? (
         <>
           <h1 className="text-xl font-bold text-gray-700">Create User Profile</h1>
-          <div className="text-gray-700 my-3">
+          <div className="text-gray-700 mt-2 mb-6">
             <p>
               It's so great to meet you! If you would like, you can tell us your name and pick an
               emoji so things feel more personal around here.
@@ -71,9 +71,7 @@ export default function({ editing }) {
           </div>
         </>
       ) : null}
-      <form
-        onSubmit={handleSubmit}
-        className="flex items-center w-full bg-white p-4 rounded shadow">
+      <form onSubmit={handleSubmit} className="flex items-end w-full">
         <EmojiInput colons={emoji} onChange={setEmoji} loading={fetching} />
         <div className="ml-6 w-full">
           <Input

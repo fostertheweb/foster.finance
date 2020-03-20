@@ -70,22 +70,24 @@ export default function({ editing }) {
 
   return (
     <>
-      <div className="ff-h-full p-4">
-        <h1 className="text-xl font-bold text-gray-700">Link Bank Account</h1>
-        <div className="text-gray-700 my-3">
-          <p>
-            Connect to your bank via your online credentials so we can see transactions from your{" "}
-            <b>Checking</b> and <b>Credit Card</b> accounts. You may select any other accounts that
-            you pay bills from, so we can find your expenses.
-          </p>
+      <div className="p-2">
+        <div className="bg-white p-4 rounded shadow">
+          <h1 className="text-xl font-bold text-gray-700">Link Bank Account</h1>
+          <div className="text-gray-700 my-3">
+            <p>
+              Connect to your bank via your online credentials so we can see transactions from your{" "}
+              <b>Checking</b> and <b>Credit Card</b> accounts. You may select any other accounts
+              that you pay bills from, so we can find your expenses.
+            </p>
+          </div>
+          {data && data.length > 0 ? (
+            <AccountList error={error} data={data} loading={loading} />
+          ) : (
+            <LinkButton />
+          )}
         </div>
-        {data && data.length > 0 ? (
-          <AccountList error={error} data={data} loading={loading} />
-        ) : (
-          <LinkButton />
-        )}
       </div>
-      <div className="sticky top-0 p-4">
+      <div className="sticky top-0 p-2">
         <Button
           className="w-full whitespace-no-wrap"
           text="Save Account Selection"
