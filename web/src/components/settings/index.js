@@ -2,7 +2,8 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCog } from "@fortawesome/pro-duotone-svg-icons";
+import { faPiggyBank, faListOl, faCogs } from "@fortawesome/pro-duotone-svg-icons";
+import { Emoji } from "emoji-mart";
 
 const linkStyle = [
   "block",
@@ -25,10 +26,10 @@ const linkStyle = [
 
 export default function() {
   return (
-    <div className="ff-container ff-pt-header flex items-stretch relative">
+    <div className="ff-container ff-pt-header flex items-start">
       <div className="sticky top-0 whitespace-no-wrap p-2">
-        <h2 className="text-gray-600 text-lg smallcaps tracking-wide">
-          <FontAwesomeIcon icon={faUserCog} className="mr-2 fill-current" />
+        <h2 className="text-gray-600 text-lg smallcaps tracking-wide px-3 py-2">
+          <FontAwesomeIcon icon={faCogs} className="mr-2 fill-current" />
           Settings
         </h2>
         <div className="mt-2">
@@ -36,19 +37,32 @@ export default function() {
             to="profile"
             activeClassName="font-medium bg-gray-300"
             className={classNames(linkStyle)}>
-            Edit Profile
+            <div className="w-4 inline-block text-center">
+              <Emoji emoji="hugging_face" size={14} />
+            </div>
+            <span className="ml-2">Edit Profile</span>
           </NavLink>
           <NavLink
             to="accounts"
             activeClassName="font-medium bg-gray-300"
             className={classNames(linkStyle)}>
-            Linked Bank Accounts
+            <div className="w-4 inline-block text-center">
+              <FontAwesomeIcon
+                icon={faPiggyBank}
+                className="text-pink-500 fill-current"
+                transform="flip-h"
+              />
+            </div>
+            <span className="ml-2">Bank Accounts</span>
           </NavLink>
           <NavLink
             to="expenses"
             activeClassName="font-medium bg-gray-300"
             className={classNames(linkStyle)}>
-            Expenses
+            <div className="w-4 inline-block text-center">
+              <FontAwesomeIcon icon={faListOl} className="text-red-500 fill-current" />
+            </div>
+            <span className="ml-2">Expenses</span>
           </NavLink>
         </div>
       </div>

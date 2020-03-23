@@ -5,7 +5,7 @@ import Alert from "../../alert";
 
 export default function({ loading, error, data }) {
   return (
-    <div className="">
+    <div className="flex-grow">
       {loading ? (
         <div className="flex justify-center items-center mt-2 p-4 bg-white rounded border border-gray-300 w-full">
           <FontAwesomeIcon
@@ -18,15 +18,28 @@ export default function({ loading, error, data }) {
       ) : (
         <>
           <div className="text-gray-600 text-lg font-medium p-2">
-            <FontAwesomeIcon icon={faLandmark} size="lg" className="mr-2" />
-            Plaid Bank of Canada
+            {data.institution.logo ? (
+              <img
+                src={`data:image/png;base64,${data.institution.logo}`}
+                alt="bank logo"
+                className="w-8 h-8 mr-2"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faLandmark}
+                size="lg"
+                className="mr-3"
+                color={data.institution.primary_color}
+              />
+            )}
+            {data.institution.name}
           </div>
           {error ? (
             <Alert error={error.message || error} />
           ) : (
             <>
               <div className="my-2">
-                {data.map(account => (
+                {data.accounts.map(account => (
                   <div
                     key={account.account_id}
                     className="flex items-center p-1 hover:bg-gray-200 border-t border-gray-300 cursor-pointer">

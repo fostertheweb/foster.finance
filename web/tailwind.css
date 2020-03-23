@@ -54,4 +54,16 @@ body {
   font-family: "Share Tech Mono", monospace;
 }
 
+.ff-bg-gray-200-to-blue-500 {
+  background: linear-gradient(90deg, #edf2f7, #4299e1);
+}
+
+.ff-top-0 {
+  top: calc(var(--ff-h-header) + 0.5rem);
+}
+
+.ff-filter-grayscale {
+  filter: grayscale(1);
+}
+
 @tailwind utilities;

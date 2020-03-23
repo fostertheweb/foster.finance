@@ -10,7 +10,6 @@ export const buttonStyle = [
   "font-medium",
   "border",
   "border-transparent",
-  "leading",
   "shadow",
   "focus:outline-none",
   "focus:shadow-outline",
@@ -19,8 +18,8 @@ export const buttonStyle = [
   "ease-in-out",
 ];
 
-export const primary = classNames("bg-gray-700", "hover:bg-gray-600", "text-white");
-export const seconday = classNames("bg-white", "hover:bg-gray-100", "text-gray-800");
+export const primary = ["bg-gray-700", "hover:bg-gray-600", "text-white"];
+export const secondary = ["bg-gray-100", "hover:bg-gray-200", "text-gray-800"];
 
 export default function(props) {
   const size = props.large ? "py-3 px-6 text-base" : "py-2 px-4";
@@ -35,7 +34,7 @@ export default function(props) {
         buttonStyle,
         size,
         props.className ? props.className.split(" ") : "",
-        props.secondary ? seconday : primary,
+        props.secondary ? secondary : primary,
       )}>
       {props.icon || props.loading ? (
         <FontAwesomeIcon

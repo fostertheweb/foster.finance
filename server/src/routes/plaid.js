@@ -61,6 +61,7 @@ module.exports = function(app, _options, next) {
           day: transaction.date.slice(-2),
           amount: transaction.amount,
           name: transaction.name,
+          account_id: transaction.account_id,
         };
         const count = transactions.filter(t => compareTransaction(t, expense)).length;
 
