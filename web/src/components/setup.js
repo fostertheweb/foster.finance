@@ -4,7 +4,7 @@ import Progress from "./progress";
 
 export default function() {
   return (
-    <div className="ff-pt-header w-4/5 mx-auto">
+    <div className="ff-pt-header ff-w-setup mx-auto">
       <Progress />
       <div className="flex items-start justify-center">
         <Outlet />

@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/use-auth";
-import { ProfileProvider } from "./hooks/use-profile";
 import Layout from "./components/layout";
 import Redirect from "./components/redirect";
 
@@ -24,24 +23,22 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="create-account" element={<CreateAccount />} />
           <Route path="verify" element={<Verify />} />
-          <ProfileProvider>
-            <Route path="app" element={<Layout />}>
-              <Route path="/" element={<Redirect to="transactions" />} />
-              <Route path="transactions" element={<Transactions />} />
-              <Route path="balances" element={<Balances />} />
-              <Route path="settings" element={<Settings />}>
-                <Route path="/" element={<Redirect to="profile" />} />
-                <Route path="profile" element={<Profile editing={true} />} />
-                <Route path="accounts" element={<LinkAccounts editing={true} />} />
-                <Route path="expenses" element={<Expenses editing={true} />} />
-              </Route>
-              <Route path="setup" element={<Setup />}>
-                <Route path="profile" element={<Profile />} />
-                <Route path="accounts" element={<LinkAccounts />} />
-                <Route path="expenses" element={<Expenses />} />
-              </Route>
+          <Route path="app" element={<Layout />}>
+            <Route path="/" element={<Redirect to="transactions" />} />
+            <Route path="transactions" element={<Transactions />} />
+            <Route path="balances" element={<Balances />} />
+            <Route path="settings" element={<Settings />}>
+              <Route path="/" element={<Redirect to="profile" />} />
+              <Route path="profile" element={<Profile editing={true} />} />
+              <Route path="accounts" element={<LinkAccounts editing={true} />} />
+              <Route path="expenses" element={<Expenses editing={true} />} />
             </Route>
-          </ProfileProvider>
+            <Route path="setup" element={<Setup />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="accounts" element={<LinkAccounts />} />
+              <Route path="expenses" element={<Expenses />} />
+            </Route>
+          </Route>
         </Routes>
       </AuthProvider>
     </div>

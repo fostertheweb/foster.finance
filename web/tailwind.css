@@ -66,4 +66,9 @@ body {
   filter: grayscale(1);
 }
 
+.ff-w-setup {
+  width: 100%;
+  max-width: 800px;
+}
+
 @tailwind utilities;

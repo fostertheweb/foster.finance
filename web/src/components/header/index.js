@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,24 +6,51 @@ import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
 import Logo from "../logo";
 import UserMenu from "./user-menu";
 import HeaderLink from "./link";
-import { useProfile } from "../../hooks/use-profile";
+import useAPI from "../../hooks/use-api";
 import { useAuth } from "../../hooks/use-auth";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function() {
   const { user } = useAuth();
-  const { profile, fetching } = useProfile();
+  const { state, get } = useAPI();
+  const [profile, setProfile] = useState({});
   const location = useLocation();
+  const navigate = useNavigate();
   const isDuringSetup = location.pathname.includes("setup");
+
+  function isSetupComplete({ accounts, expenses }) {
+    if (!accounts || accounts.length < 1) {
+      navigate("/app/setup/accounts");
+    } else if (!expenses || expenses.length < 1) {
+      navigate("/app/setup/expenses");
+    }
+
+    return true;
+  }
+
+  useEffect(() => {
+    get("/profile");
+    if (state.matches("resolved")) {
+      setProfile(state.context.data);
+      isSetupComplete(state.context.data);
+    }
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <div
       className={`fixed w-full z-30 px-2 border-b-2 font-medium bg-gray-800 text-white border-gray-900`}>
       <div className="ff-container ff-h-header flex items-center justify-between">
         <div className="flex items-center">
-          <Link to="/app" className="hover:no-underline mr-4">
-            <Logo dark={true} />
-          </Link>
+          {isDuringSetup ? (
+            <div className="hover:no-underline mr-4">
+              <Logo dark={true} />
+            </div>
+          ) : (
+            <Link to="/app" className="hover:no-underline mr-4">
+              <Logo dark={true} />
+            </Link>
+          )}
           {!isDuringSetup ? (
             <>
               <HeaderLink path="transactions" icon={faCalendarAlt}>
@@ -36,14 +63,14 @@ export default function() {
           ) : null}
         </div>
         <div className="flex items-center">
-          {profile ? (
+          {state.matches("loading") ? (
+            <FontAwesomeIcon icon={faSpinnerThird} spin className="fill-current" />
+          ) : (
             <UserMenu
-              disabled={fetching || isDuringSetup}
+              disabled={isDuringSetup}
               emoji={profile.emoji || "hatching_chick"}
               name={profile.name || user.attributes.email}
             />
-          ) : (
-            <FontAwesomeIcon icon={faSpinnerThird} spin className="fill-current" />
           )}
         </div>
       </div>

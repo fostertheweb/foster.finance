@@ -9,7 +9,7 @@ const linkStyle = [
   "block",
   "box-border",
   "py-2",
-  "px-3",
+  "px-4",
   "mt-1",
   "w-full",
   "rounded",
@@ -28,7 +28,7 @@ export default function() {
   return (
     <div className="ff-container ff-pt-header flex items-start">
       <div className="sticky top-0 whitespace-no-wrap p-2">
-        <h2 className="text-gray-600 text-lg smallcaps tracking-wide px-3 py-2">
+        <h2 className="text-gray-600 text-lg smallcaps tracking-wide px-4 py-2">
           <FontAwesomeIcon icon={faCogs} className="mr-2 fill-current" />
           Settings
         </h2>

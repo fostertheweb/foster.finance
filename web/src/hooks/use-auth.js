@@ -24,7 +24,9 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
+  const [jwt, setJWT] = useState(null);
   const [user, setUser] = useState(null);
+  const [userId, setID] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newUser, setNewUser] = useState(null);
@@ -72,6 +74,8 @@ function useAuthProvider() {
     setError(err);
     setUser(null);
     setLoading(false);
+    setID(null);
+    setJWT(null);
 
     if (process.env.NODE_ENV === "development") {
       console.error(err);
@@ -109,13 +113,17 @@ function useAuthProvider() {
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(user => {
+        setJWT(user.signInUserSession.idToken.jwtToken);
         setUser(user);
+        setID(user.attributes.sub);
         setLoading(false);
       })
       .catch(err => {
         if (err === "not authenticated") {
           setError(null);
           setUser(null);
+          setID(null);
+          setJWT(null);
           setLoading(false);
         } else {
           handleError(err);
@@ -131,7 +139,9 @@ function useAuthProvider() {
   return {
     loading,
     error,
+    userId,
     user,
+    jwt,
     newUser,
     confirmSignUp,
     signIn,

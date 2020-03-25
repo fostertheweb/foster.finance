@@ -1,29 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AccountList from "./list";
 import LinkButton from "./link-button";
 import { useNavigate } from "react-router-dom";
 import { faSave, faPlusCircle } from "@fortawesome/pro-duotone-svg-icons";
 import Button from "../../button";
 import { Well } from "../../alert";
-import useAPI from "../../../hooks/use-ff-api";
+import useAPI from "../../../hooks/use-api";
+import { useAuth } from "../../../hooks/use-auth";
 
 export default function({ editing }) {
   const navigate = useNavigate();
-  const { linkAccounts, saveSelectedAccounts } = useAPI();
-  const [data, setData] = useState();
+  const { userId } = useAuth();
+  const { state, post, patch } = useAPI();
+  const [data, setData] = useState(state.context.data);
 
-  async function handleSuccess(token) {
-    const d = await linkAccounts(token);
-    setData(d);
+  function handleSuccess(public_token) {
+    post("/accounts/link", { public_token });
+  }
+
+  function saveSelectedAccounts(accounts) {
+    localStorage.setItem(userId, state.context.data.public_token);
+    const selected = accounts.filter(a => a.selected).map(({ account_id }) => account_id);
+
+    patch("/accounts", {
+      accounts: [
+        {
+          item_id: state.context.data.item_id,
+          access_token: state.context.data.access_token,
+          account_ids: selected,
+        },
+      ],
+    });
+
+    if (state.matches("resolved")) {
+      navigate("/app/setup/expenses");
+    }
   }
 
   return (
     <>
       <div className="p-2">
         <div className="bg-white p-4 rounded shadow">
-          {data && data.accounts && data.accounts.length > 0 ? (
-            <AccountList data={data} />
-          ) : (
+          {state.matches("idle") ? (
             <div className="text-gray-600">
               <p>
                 Connect to your bank via your online credentials so we can see transactions from
@@ -35,6 +53,13 @@ export default function({ editing }) {
                 <span></span>
               </div>
             </div>
+          ) : (
+            <AccountList
+              data={state.context.data}
+              error={state.context.error}
+              loading={state.matches("loading")}
+              onSelectAccount={accounts => setData(accounts)}
+            />
           )}
         </div>
       </div>
@@ -59,7 +84,7 @@ export default function({ editing }) {
           icon={faSave}
           loading={false}
           disabled={true}
-          onClick={() => saveSelectedAccounts(data.filter(a => a.selected))}
+          onClick={() => saveSelectedAccounts(data)}
         />
       </div>
     </>

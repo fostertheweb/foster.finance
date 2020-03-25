@@ -4,6 +4,8 @@ const app = require("fastify")({ logger: true });
 app.get("/ping", () => "PONG");
 
 // installed plugins
+app.register(require("fastify-sensible"));
+app.register(require("fastify-jwt"), { secret: "chipwheel" });
 app.register(require("fastify-mongodb"), { url: process.env.DB_URL });
 app.register(require("fastify-cors"), {
   origin: true,
@@ -18,13 +20,15 @@ app.register(require("fastify-cors"), {
   credentials: true,
   maxAage: 300,
 });
-app.register(require("fastify-sensible"));
 
 // local plugins
 app.register(require("./plugins/plaid"));
+app.register(require("./plugins/session"));
 
 // routes
-app.register(require("./routes/users"), { prefix: "/users" });
-app.register(require("./routes/plaid"), { prefix: "/plaid" });
+app.register(require("./routes/accounts"), { prefix: "/accounts" });
+app.register(require("./routes/expenses"), { prefix: "/expenses" });
+app.register(require("./routes/profile"), { prefix: "/profile" });
+app.register(require("./routes/transactions"), { prefix: "/transactions" });
 
 module.exports = app;
