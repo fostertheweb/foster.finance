@@ -1,3 +1,4 @@
+// TODO: state machine
 import React, { useState, useEffect, useContext, createContext } from "react";
 import Amplify, { Auth, Hub } from "aws-amplify";
 import { useNavigate } from "react-router-dom";

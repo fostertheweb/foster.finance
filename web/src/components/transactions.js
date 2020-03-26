@@ -4,36 +4,34 @@ import * as luxon from "luxon";
 import { Select } from "./input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/pro-duotone-svg-icons";
-import useAPI from "../hooks/use-api";
+import { fetchMachine } from "../machines/fetch";
+import { useFetch } from "../hooks/use-fetch";
+import { useMachine } from "@xstate/react";
 
 export default function() {
-  const { state, get } = useAPI();
+  const { get } = useFetch();
+  const [status, send] = useMachine(fetchMachine, {
+    services: {
+      fetchData: (_context, { start_date, end_date }) =>
+        get("/transactions", { start_date, end_date }),
+    },
+  });
   const [month, setMonth] = useState(luxon.DateTime.local().month);
   const year = luxon.DateTime.local().year;
-
   const months = luxon.Info.months().map((label, index) => ({
     label,
     value: index + 1,
   }));
 
-  function currentMonth() {
-    const firstOfThisMonth = luxon.DateTime.local(year, month);
-    const lastOfThisMonth = luxon.DateTime.local(year, month, firstOfThisMonth.daysInMonth);
-    return [firstOfThisMonth, lastOfThisMonth];
-  }
-
   useEffect(() => {
-    const [start, end] = currentMonth();
+    const [start, end] = currentMonth(year, month);
+    const start_date = start.toFormat("yyyy-MM-dd");
+    const end_date = end.toFormat("yyyy-MM-dd");
 
-    if (state.matches("idle")) {
-      get("/transactions", {
-        start_date: start.toFormat("yyyy-MM-dd"),
-        end_date: end.toFormat("yyyy-MM-dd"),
-      });
-    }
+    send({ type: "FETCH", start_date, end_date });
 
     //eslint-disable-next-line
-  }, [state, month, year]);
+  }, [month, year]);
 
   return (
     <div className="ff-container ff-pt-header flex items-start">
@@ -73,10 +71,16 @@ export default function() {
         <Calendar
           year={year}
           month={month}
-          loading={state.matches("loading")}
-          data={state.context.data}
+          loading={status.matches("loading")}
+          data={status.context.data}
         />
       </div>
     </div>
   );
+}
+
+function currentMonth(year, month) {
+  const firstOfThisMonth = luxon.DateTime.local(year, month);
+  const lastOfThisMonth = luxon.DateTime.local(year, month, firstOfThisMonth.daysInMonth);
+  return [firstOfThisMonth, lastOfThisMonth];
 }

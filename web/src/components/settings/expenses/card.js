@@ -19,17 +19,19 @@ export default function({ data }) {
 }
 
 function Row({ expense }) {
-  const [selected, setSelected] = useState(expense.selected);
+  const [isSelected, setSelected] = useState(expense.selected);
+  function handleChange(event) {
+    setSelected(event.target.checked);
+  }
   return (
     <div
       className="flex items-center w-full p-1 justify-between rounded m-1 hover:bg-gray-200 cursor-pointer"
-      onClick={() => setSelected(!selected)}>
+      onClick={() => setSelected(!isSelected)}>
       <input
         type="checkbox"
-        id=""
-        name=""
-        checked={selected}
-        onClick={() => setSelected(!selected)}
+        name="expenses"
+        checked={isSelected}
+        onChange={handleChange}
         className="mr-4"
       />
       <div className="flex-grow text-gray-700 text-left">{expense.name}</div>

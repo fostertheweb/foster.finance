@@ -1,6 +1,11 @@
+const luxon = require("luxon");
+
 module.exports = function(app, _options, next) {
   app.get("/discover", async ({ user_id }) => {
     try {
+      const today = luxon.DateTime.local();
+      const end_date = today.toFormat("yyyy-MM-dd");
+      const start_date = today.minus({ months: 3 }).toFormat("yyyy-MM-dd");
       const user = await app.mongo.db.collection("users").findOne({ user_id });
       const requests = user.accounts.map(async ({ account_ids, access_token }) => {
         return await app

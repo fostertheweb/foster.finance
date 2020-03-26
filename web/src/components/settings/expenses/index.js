@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import * as luxon from "luxon";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { faSave, faPlusCircle } from "@fortawesome/pro-duotone-svg-icons";
-import useAPI from "../../../hooks/use-api";
+import { useMachine } from "@xstate/react";
+import { useFetch } from "../../../hooks/use-fetch";
+import { fetchMachine } from "../../../machines/fetch";
 import Loading from "../../loading";
 import Button from "../../button";
 import ExpenseList from "./card";
@@ -10,26 +11,31 @@ import { Well } from "../../alert";
 
 export default function({ editing }) {
   const navigate = useNavigate();
-  const { state, get, patch } = useAPI();
-  const [data, setData] = useState(state.context.data);
-
-  const today = luxon.DateTime.local();
-  const end_date = today.toFormat("yyyy-MM-dd");
-  const start_date = today.minus({ months: 3 }).toFormat("yyyy-MM-dd");
+  const { get, post } = useFetch();
+  const [discoverState, sendFetchDiscover] = useMachine(fetchMachine, {
+    actions: {
+      fetchData: () => get("/expenses/discover"),
+    },
+  });
+  const [saveExpensesState, sendSaveExpenses] = useMachine(fetchMachine, {
+    actions: {
+      fetchData: (_context, { expenses }) => post("/expenses", { expenses }),
+    },
+  });
 
   useEffect(() => {
     if (!editing) {
-      get("/expenses/discover", { start_date, end_date });
+      sendFetchDiscover("FETCH");
     }
     // eslint-disable-next-line
   }, [editing]);
 
-  if (state.matches("loading")) return <Loading />;
+  if (discoverState.matches("loading")) return <Loading />;
 
   function saveSelectedExpenses(expenses) {
-    patch("/expenses", { expenses });
+    sendSaveExpenses({ type: "FETCH", expenses });
 
-    if (state.matches("resolved")) {
+    if (saveExpensesState.matches("resolved")) {
       navigate("/app/home");
     }
   }
@@ -37,7 +43,7 @@ export default function({ editing }) {
   return (
     <>
       <div className="p-2">
-        {state.matches("idle") ? (
+        {discoverState.matches("idle") ? (
           <div className="p-4 bg-white rounded shadow">
             <div className="text-gray-600">
               <p>
@@ -48,14 +54,16 @@ export default function({ editing }) {
             </div>
           </div>
         ) : (
-          <div className="p-2 bg-white rounded shadow mt-2">
+          <form
+            id="expense-selection"
+            onSubmit={console.log}
+            className="p-2 bg-white rounded shadow mt-2">
             <ExpenseList
-              data={state.context.data}
-              error={state.context.error}
-              loading={state.matches("loading")}
-              onSelectExpense={expenses => setData(expenses)}
+              data={discoverState.context.data}
+              error={discoverState.context.error}
+              loading={discoverState.matches("loading")}
             />
-          </div>
+          </form>
         )}
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
@@ -65,8 +73,6 @@ export default function({ editing }) {
             className="whitespace-no-wrap w-full mb-2"
             text="Add Expense Manually"
             icon={faPlusCircle}
-            loading={state.matches("loading")}
-            disabled={state.matches("loading")}
           />
         ) : (
           <Well
@@ -75,12 +81,13 @@ export default function({ editing }) {
           />
         )}
         <Button
+          type="submit"
+          form="expense-selection"
           className="whitespace-no-wrap w-full mt-2"
           text="Save Recurring Expenses"
           icon={faSave}
-          loading={state.matches("loading")}
-          disabled={state.matches("loading")}
-          onClick={() => saveSelectedExpenses(data.filter(e => e.selected))}
+          loading={discoverState.matches("loading")}
+          disabled={discoverState.matches("loading")}
         />
       </div>
     </>

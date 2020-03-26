@@ -6,17 +6,24 @@ import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
 import Logo from "../logo";
 import UserMenu from "./user-menu";
 import HeaderLink from "./link";
-import useAPI from "../../hooks/use-api";
+import { fetchMachine } from "../../machines/fetch";
+import { useFetch } from "../../hooks/use-fetch";
+import { useMachine } from "@xstate/react";
 import { useAuth } from "../../hooks/use-auth";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function() {
   const { user } = useAuth();
-  const { state, get } = useAPI();
+  const { get } = useFetch();
   const [profile, setProfile] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
   const isDuringSetup = location.pathname.includes("setup");
+  const [state, send] = useMachine(fetchMachine, {
+    services: {
+      fetchData: () => get("/profile"),
+    },
+  });
 
   function isSetupComplete({ accounts, expenses }) {
     if (!accounts || accounts.length < 1) {
@@ -29,13 +36,17 @@ export default function() {
   }
 
   useEffect(() => {
-    get("/profile");
+    send("FETCH");
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     if (state.matches("resolved")) {
       setProfile(state.context.data);
       isSetupComplete(state.context.data);
     }
     //eslint-disable-next-line
-  }, []);
+  }, [state]);
 
   return (
     <div

@@ -1,47 +1,54 @@
-import React, { useState } from "react";
+import React from "react";
 import AccountList from "./list";
 import LinkButton from "./link-button";
 import { useNavigate } from "react-router-dom";
 import { faSave, faPlusCircle } from "@fortawesome/pro-duotone-svg-icons";
 import Button from "../../button";
 import { Well } from "../../alert";
-import useAPI from "../../../hooks/use-api";
+import { useMachine } from "@xstate/react";
 import { useAuth } from "../../../hooks/use-auth";
+import { useFetch } from "../../../hooks/use-fetch";
+import { fetchMachine } from "../../../machines/fetch";
 
 export default function({ editing }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { userId } = useAuth();
-  const { state, post, patch } = useAPI();
-  const [data, setData] = useState(state.context.data);
+  const { post, patch } = useFetch();
+  const [linkState, sendLinkToken] = useMachine(fetchMachine, {
+    actions: {
+      fetchData: (_context, { public_token }) => post("/accounts/link", { public_token }),
+    },
+  });
+  const [saveAccountsState, sendAccountSelection] = useMachine(fetchMachine, {
+    actions: {
+      fetchData: (_context, { accounts }) => patch("/accounts", { accounts }),
+    },
+  });
 
   function handleSuccess(public_token) {
-    post("/accounts/link", { public_token });
+    sendLinkToken({ type: "FETCH", public_token });
   }
 
   function saveSelectedAccounts(accounts) {
-    localStorage.setItem(userId, state.context.data.public_token);
+    localStorage.setItem(userId, linkState.context.data.public_token);
     const selected = accounts.filter(a => a.selected).map(({ account_id }) => account_id);
-
-    patch("/accounts", {
+    sendAccountSelection({
+      type: "FETCH",
       accounts: [
         {
-          item_id: state.context.data.item_id,
-          access_token: state.context.data.access_token,
+          item_id: linkState.context.data.item_id,
+          access_token: linkState.context.data.access_token,
           account_ids: selected,
         },
       ],
     });
-
-    if (state.matches("resolved")) {
-      navigate("/app/setup/expenses");
-    }
   }
 
   return (
     <>
       <div className="p-2">
-        <form id="account-selection" onSubmit={console.log} className="bg-white p-4 rounded shadow">
-          {state.matches("idle") ? (
+        <div className="bg-white p-4 rounded shadow">
+          {linkState.matches("idle") ? (
             <div className="text-gray-600">
               <p>
                 Connect to your bank via your online credentials so we can see transactions from
@@ -49,18 +56,20 @@ export default function({ editing }) {
                 accounts that you pay bills from, so we can find your expenses.
               </p>
               <div className="flex justify-between mt-6">
-                <LinkButton onLinkSuccess={handleSuccess} />
+                <LinkButton onLinkSuccess={handleSuccess} loading={linkState.matches("loading")} />
                 <span></span>
               </div>
             </div>
           ) : (
-            <AccountList
-              data={state.context.data}
-              error={state.context.error}
-              loading={state.matches("loading")}
-            />
+            <form id="account-selection" onSubmit={console.log}>
+              <AccountList
+                data={linkState.context.data}
+                error={linkState.context.error}
+                loading={linkState.matches("loading")}
+              />
+            </form>
           )}
-        </form>
+        </div>
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
         {editing ? (
@@ -83,8 +92,8 @@ export default function({ editing }) {
           className="w-full whitespace-no-wrap mt-2"
           text="Save Account Selection"
           icon={faSave}
-          loading={false}
-          disabled={true}
+          loading={saveAccountsState.matches("loading")}
+          disabled={saveAccountsState.matches("loading")}
         />
       </div>
     </>
