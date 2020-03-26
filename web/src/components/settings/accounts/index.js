@@ -40,7 +40,7 @@ export default function({ editing }) {
   return (
     <>
       <div className="p-2">
-        <div className="bg-white p-4 rounded shadow">
+        <form id="account-selection" onSubmit={console.log} className="bg-white p-4 rounded shadow">
           {state.matches("idle") ? (
             <div className="text-gray-600">
               <p>
@@ -58,10 +58,9 @@ export default function({ editing }) {
               data={state.context.data}
               error={state.context.error}
               loading={state.matches("loading")}
-              onSelectAccount={accounts => setData(accounts)}
             />
           )}
-        </div>
+        </form>
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
         {editing ? (
@@ -79,12 +78,13 @@ export default function({ editing }) {
           </div>
         )}
         <Button
+          type="submit"
+          form="account-selection"
           className="w-full whitespace-no-wrap mt-2"
           text="Save Account Selection"
           icon={faSave}
           loading={false}
           disabled={true}
-          onClick={() => saveSelectedAccounts(data)}
         />
       </div>
     </>
