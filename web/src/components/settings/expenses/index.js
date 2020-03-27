@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSave, faPlusCircle } from "@fortawesome/pro-duotone-svg-icons";
+import { faSave } from "@fortawesome/pro-duotone-svg-icons";
 import { useMachine } from "@xstate/react";
 import { useFetch } from "../../../hooks/use-fetch";
 import { fetchMachine } from "../../../machines/fetch";
@@ -13,15 +13,18 @@ export default function({ editing }) {
   const navigate = useNavigate();
   const { get, post } = useFetch();
   const [discoverState, sendFetchDiscover] = useMachine(fetchMachine, {
-    actions: {
+    services: {
       fetchData: () => get("/expenses/discover"),
     },
   });
   const [saveExpensesState, sendSaveExpenses] = useMachine(fetchMachine, {
-    actions: {
+    services: {
       fetchData: (_context, { expenses }) => post("/expenses", { expenses }),
     },
   });
+  const [expenses, setExpenses] = useState([]);
+  const fetched = discoverState.matches("resolved");
+  const saved = saveExpensesState.matches("resolved");
 
   useEffect(() => {
     if (!editing) {
@@ -30,14 +33,27 @@ export default function({ editing }) {
     // eslint-disable-next-line
   }, [editing]);
 
+  useEffect(() => {
+    if (saved) {
+      navigate("/app");
+    }
+    // eslint-disable-next-line
+  }, [saved]);
+
+  useEffect(() => {
+    if (fetched) {
+      setExpenses(discoverState.context.data);
+    }
+    // eslint-disable-next-line
+  }, [fetched]);
+
   if (discoverState.matches("loading")) return <Loading />;
 
-  function saveSelectedExpenses(expenses) {
-    sendSaveExpenses({ type: "FETCH", expenses });
-
-    if (saveExpensesState.matches("resolved")) {
-      navigate("/app/home");
-    }
+  function handleSubmit() {
+    sendSaveExpenses({
+      type: "FETCH",
+      expenses: expenses.filter(e => e.selected),
+    });
   }
 
   return (
@@ -54,35 +70,23 @@ export default function({ editing }) {
             </div>
           </div>
         ) : (
-          <form
-            id="expense-selection"
-            onSubmit={console.log}
-            className="p-2 bg-white rounded shadow mt-2">
+          <div className="p-2 bg-white rounded shadow">
             <ExpenseList
               data={discoverState.context.data}
               error={discoverState.context.error}
               loading={discoverState.matches("loading")}
+              onChange={setExpenses}
             />
-          </form>
+          </div>
         )}
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
-        {editing ? (
-          <Button
-            secondary
-            className="whitespace-no-wrap w-full mb-2"
-            text="Add Expense Manually"
-            icon={faPlusCircle}
-          />
-        ) : (
-          <Well
-            message="After you finish your account setup and sign in you can add more expenses in the
+        <Well
+          message="After you finish your account setup and sign in you can add more expenses in the
               settings."
-          />
-        )}
+        />
         <Button
-          type="submit"
-          form="expense-selection"
+          onClick={handleSubmit}
           className="whitespace-no-wrap w-full mt-2"
           text="Save Recurring Expenses"
           icon={faSave}

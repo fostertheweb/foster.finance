@@ -1,25 +1,19 @@
 import React, { useState } from "react";
 
-export default function({ account }) {
-  const [isSelected, setSelected] = useState(false);
+export default function({ account, onSelect }) {
+  const [isSelected, setSelected] = useState(account.selected);
 
   function handleSelection(event) {
     setSelected(event.target.checked);
+    onSelect(account.account_id);
   }
 
   return (
     <div
-      key={account.account_id}
       className="flex items-center p-1 hover:bg-gray-200 border-t border-gray-300 cursor-pointer"
-      onClick={() => handleSelection(account.account_id)}>
+      onClick={() => setSelected(!isSelected)}>
       <div className="text-center p-2 mr-2">
-        <input
-          name="accounts"
-          type="checkbox"
-          checked={isSelected}
-          onChange={handleSelection}
-          value={account.account_id}
-        />
+        <input name="accounts" type="checkbox" checked={isSelected} onChange={handleSelection} />
       </div>
       <div className="flex-grow">
         <span className="mr-2">{account.official_name || account.name}</span>

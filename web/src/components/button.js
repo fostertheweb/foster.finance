@@ -20,6 +20,7 @@ export const buttonStyle = [
 
 export const primary = ["bg-gray-700", "hover:bg-gray-600", "text-white"];
 export const secondary = ["bg-gray-100", "hover:bg-gray-200", "text-gray-800"];
+export const disabled = ["bg-gray-400", "hover:bg-gray-400", "shadow-none", "cursor-not-allowed"];
 
 export default function(props) {
   const size = props.large ? "py-3 px-6 text-base" : "py-2 px-4";
@@ -35,6 +36,7 @@ export default function(props) {
         size,
         props.className ? props.className.split(" ") : "",
         props.secondary ? secondary : primary,
+        props.disabled ? disabled : "",
       )}>
       {props.icon || props.loading ? (
         <FontAwesomeIcon

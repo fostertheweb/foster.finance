@@ -29,12 +29,8 @@ export const fetchMachine = Machine(
   },
   {
     actions: {
-      setData: assign((_context, event) => ({
-        data: event.data,
-      })),
-      setError: assign((_context, event) => ({
-        error: event.error,
-      })),
+      setData: assign((_context, event) => ({ data: event.data })),
+      setError: assign((_context, event) => ({ error: event.error })),
     },
   },
 );

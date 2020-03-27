@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AccountList from "./list";
 import LinkButton from "./link-button";
 import { useNavigate } from "react-router-dom";
-import { faSave, faPlusCircle } from "@fortawesome/pro-duotone-svg-icons";
+import { faSave } from "@fortawesome/pro-duotone-svg-icons";
 import Button from "../../button";
 import { Well } from "../../alert";
 import { useMachine } from "@xstate/react";
@@ -10,90 +10,95 @@ import { useAuth } from "../../../hooks/use-auth";
 import { useFetch } from "../../../hooks/use-fetch";
 import { fetchMachine } from "../../../machines/fetch";
 
-export default function({ editing }) {
-  // const navigate = useNavigate();
+export default function() {
+  const navigate = useNavigate();
   const { userId } = useAuth();
-  const { post, patch } = useFetch();
-  const [linkState, sendLinkToken] = useMachine(fetchMachine, {
-    actions: {
+  const { post } = useFetch();
+  const [fetchLinkState, sendFetchLink] = useMachine(fetchMachine, {
+    services: {
       fetchData: (_context, { public_token }) => post("/accounts/link", { public_token }),
     },
   });
-  const [saveAccountsState, sendAccountSelection] = useMachine(fetchMachine, {
-    actions: {
-      fetchData: (_context, { accounts }) => patch("/accounts", { accounts }),
+  const [postAccountsState, sendPostAccounts] = useMachine(fetchMachine, {
+    services: {
+      fetchData: (_context, { accounts }) => post("/accounts", { accounts }),
     },
   });
+  const [accounts, setAccounts] = useState([]);
+  const fetched = fetchLinkState.matches("resolved");
+  const saved = postAccountsState.matches("resolved");
 
-  function handleSuccess(public_token) {
-    sendLinkToken({ type: "FETCH", public_token });
+  function handleLinkSuccess(public_token) {
+    sendFetchLink({ type: "FETCH", public_token });
   }
 
-  function saveSelectedAccounts(accounts) {
-    localStorage.setItem(userId, linkState.context.data.public_token);
+  function handleSubmit(event) {
+    event.preventDefault();
+    const { item_id, access_token, public_token } = fetchLinkState.context.data;
     const selected = accounts.filter(a => a.selected).map(({ account_id }) => account_id);
-    sendAccountSelection({
+    localStorage.setItem(userId, public_token);
+    sendPostAccounts({
       type: "FETCH",
       accounts: [
         {
-          item_id: linkState.context.data.item_id,
-          access_token: linkState.context.data.access_token,
+          item_id,
+          access_token,
           account_ids: selected,
         },
       ],
     });
   }
 
+  useEffect(() => {
+    if (fetched) {
+      setAccounts(fetchLinkState.context.data.accounts);
+    }
+    //eslint-disable-next-line
+  }, [fetched]);
+
+  useEffect(() => {
+    if (saved) {
+      navigate("/app/setup/expenses");
+    }
+    //eslint-disable-next-line
+  }, [saved]);
+
   return (
     <>
       <div className="p-2">
         <div className="bg-white p-4 rounded shadow">
-          {linkState.matches("idle") ? (
+          {fetchLinkState.matches("resolved") ? (
+            <AccountList
+              data={fetchLinkState.context.data}
+              error={fetchLinkState.context.error}
+              onChange={setAccounts}
+            />
+          ) : (
             <div className="text-gray-600">
               <p>
                 Connect to your bank via your online credentials so we can see transactions from
                 your <b>Checking</b> and <b>Credit Card</b> accounts. You may select any other
                 accounts that you pay bills from, so we can find your expenses.
               </p>
-              <div className="flex justify-between mt-6">
-                <LinkButton onLinkSuccess={handleSuccess} loading={linkState.matches("loading")} />
-                <span></span>
+              <div className="flex items-baseline justify-between mt-6">
+                <LinkButton
+                  onLinkSuccess={handleLinkSuccess}
+                  loading={fetchLinkState.matches("loading")}
+                />
               </div>
             </div>
-          ) : (
-            <form id="account-selection" onSubmit={console.log}>
-              <AccountList
-                data={linkState.context.data}
-                error={linkState.context.error}
-                loading={linkState.matches("loading")}
-              />
-            </form>
           )}
         </div>
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
-        {editing ? (
-          <Button
-            className="w-full whitespace-no-wrap"
-            secondary
-            text="Link More Accounts"
-            icon={faPlusCircle}
-            loading={false}
-            disabled={false}
-          />
-        ) : (
-          <div className="">
-            <Well message="If you have more accounts to link you can add them later in your settings after setup." />
-          </div>
-        )}
+        <Well message="If you have more accounts to link you can add them later in your settings after setup." />
         <Button
-          type="submit"
-          form="account-selection"
+          onClick={handleSubmit}
           className="w-full whitespace-no-wrap mt-2"
           text="Save Account Selection"
           icon={faSave}
-          loading={saveAccountsState.matches("loading")}
-          disabled={saveAccountsState.matches("loading")}
+          loading={postAccountsState.matches("loading")}
+          disabled={!fetchLinkState.matches("resolved")}
         />
       </div>
     </>

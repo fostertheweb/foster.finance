@@ -1,3 +1,5 @@
+const expenseAccountTypes = ["checking", "credit card"];
+
 module.exports = function(app, _options, next) {
   app.post("/exchange", async ({ body: { public_token } }) => {
     try {
@@ -25,7 +27,9 @@ module.exports = function(app, _options, next) {
           primary_color: institution.primary_color,
           logo: institution.logo,
         },
-        accounts,
+        accounts: accounts.map(a =>
+          expenseAccountTypes.includes(a.subtype) ? { ...a, selected: true } : a,
+        ),
         public_token,
         item_id,
         access_token,

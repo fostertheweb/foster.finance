@@ -6,57 +6,59 @@ import Input from "../input";
 import Alert from "../alert";
 import Button from "../button";
 import { faSave } from "@fortawesome/pro-duotone-svg-icons";
-
-const url = process.env.REACT_APP_API_ENDPOINT;
+import { useFetch } from "../../hooks/use-fetch";
+import { fetchMachine } from "../../machines/fetch";
+import { useMachine } from "@xstate/react";
 
 export default function({ editing }) {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { get, post, patch } = useFetch();
+  const [fetchProfileState, sendFetchProfile] = useMachine(fetchMachine, {
+    services: {
+      fetchData: () => get("/profile"),
+    },
+  });
+  const [postProfileState, sendPostProfile] = useMachine(fetchMachine, {
+    services: {
+      fetchData: (_context, { profile }) =>
+        editing ? patch("/profile", profile) : post("/profile", profile),
+    },
+  });
+  const fetched = fetchProfileState.matches("resolved");
+  const saved = postProfileState.matches("resolved");
+  const { error } = postProfileState.context;
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
     const body = { user_id: user.attributes.sub, email: user.attributes.email, name, emoji };
-    try {
-      await fetch(`${url}/users`, {
-        method: editing ? "PUT" : "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-      if (!editing) navigate("/app/setup/accounts");
+    sendPostProfile({ type: "FETCH", profile: body });
+  }
+
+  useEffect(() => {
+    if (editing) {
+      sendFetchProfile("FETCH");
     }
-  }
+    //eslint-disable-next-line
+  }, [editing]);
 
-  if (editing) {
-    useEffect(() => {
-      async function getUserInfo() {
-        setFetching(true);
-        const response = await fetch(`${url}/users/${user.attributes.sub}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const info = await response.json();
-        setFetching(false);
-        setName(info.name);
-        setEmoji(info.emoji);
-      }
+  useEffect(() => {
+    if (fetched) {
+      const profile = fetchProfileState.context.data;
+      setName(profile.name);
+      setEmoji(profile.emoji);
+    }
+    //eslint-disable-next-line
+  }, [fetched]);
 
-      getUserInfo();
-      // eslint-disable-next-line
-    }, []);
-  }
+  useEffect(() => {
+    if (!editing && saved) {
+      navigate("/app/setup/accounts");
+    }
+    //eslint-disable-next-line
+  }, [saved]);
 
   return (
     <div className="w-full sm:w-2/3 md:w-1/2 mt-4 bg-white p-4 rounded shadow">
@@ -72,7 +74,11 @@ export default function({ editing }) {
         </>
       ) : null}
       <form onSubmit={handleSubmit} className="flex items-end w-full">
-        <EmojiInput colons={emoji} onChange={setEmoji} loading={fetching} />
+        <EmojiInput
+          colons={emoji}
+          onChange={setEmoji}
+          loading={fetchProfileState.matches("loading")}
+        />
         <div className="ml-6 w-full">
           <Input
             value={name}
@@ -80,7 +86,7 @@ export default function({ editing }) {
             id="name"
             placeholder="What should we call you?"
             onChange={event => setName(event.target.value)}
-            loading={fetching}
+            loading={fetchProfileState.matches("loading")}
           />
         </div>
         <Button
@@ -88,11 +94,11 @@ export default function({ editing }) {
           icon={faSave}
           type="submit"
           text="Save Profile"
-          loading={loading}
-          disabled={fetching || loading}
+          loading={postProfileState.matches("loading")}
+          disabled={postProfileState.matches("loading") || fetchProfileState.matches("loading")}
         />
+        {error ? <Alert intent="error" message={error.message || error} /> : null}
       </form>
-      {error ? <Alert intent="error" message={error.message || error} /> : null}
     </div>
   );
 }

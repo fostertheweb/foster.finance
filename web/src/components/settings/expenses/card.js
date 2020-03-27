@@ -1,6 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function({ data }) {
+export default function({ data, onChange }) {
+  const [selected, setSelected] = useState(data);
+
+  function handleSelect(expense) {
+    const index = selected.findIndex(e => e.name === expense.name);
+    setSelected([...selected.slice(0, index), expense, ...selected.slice(index + 1)]);
+  }
+
+  useEffect(() => {
+    onChange(selected);
+    //eslint-disable-next-line
+  }, [selected]);
+
   return Object.entries(groupByDay(data))
     .sort(([a], [b]) => a - b)
     .map(([day, expenses]) => (
@@ -11,22 +23,30 @@ export default function({ data }) {
         </div>
         <div className="flex-grow">
           {expenses.map(expense => (
-            <Row key={expense.name} expense={expense} />
+            <Row key={expense.name} expense={expense} onSelect={handleSelect} />
           ))}
         </div>
       </div>
     ));
 }
 
-function Row({ expense }) {
+function Row({ expense, onSelect }) {
   const [isSelected, setSelected] = useState(expense.selected);
+
   function handleChange(event) {
     setSelected(event.target.checked);
+    onSelect({ ...expense, selected: event.target.checked });
   }
+
+  function handleClick(selected) {
+    setSelected(!selected);
+    onSelect({ ...expense, selected: !selected });
+  }
+
   return (
     <div
       className="flex items-center w-full p-1 justify-between rounded m-1 hover:bg-gray-200 cursor-pointer"
-      onClick={() => setSelected(!isSelected)}>
+      onClick={() => handleClick(isSelected)}>
       <input
         type="checkbox"
         name="expenses"

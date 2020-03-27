@@ -41,6 +41,16 @@ module.exports = function(app, _options, next) {
     }
   });
 
+  app.post("/", async ({ user_id, body: { expenses = [] } }, reply) => {
+    try {
+      return await app.mongo.db
+        .collection("users")
+        .findOneAndUpdate({ user_id }, { $set: { expenses } });
+    } catch (err) {
+      throw err;
+    }
+  });
+
   next();
 };
 

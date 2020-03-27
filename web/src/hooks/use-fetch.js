@@ -14,11 +14,11 @@ export function useFetch() {
 
   async function get(url, query) {
     try {
+      const uri = new URL(baseURL + url);
       if (query) {
-        const API_URL = new URL(baseURL);
-        Object.entries(query).map(([key, value]) => API_URL.searchParams.append(key, value));
+        Object.entries(query).map(([key, value]) => uri.searchParams.append(key, value));
       }
-      const response = await fetch(`${baseURL}${url}`, {
+      const response = await fetch(uri, {
         ...defaultOptions,
         method: "GET",
       });
@@ -74,11 +74,11 @@ export function useFetch() {
 
   async function destroy(url, query) {
     try {
+      const uri = new URL(baseURL + url);
       if (query) {
-        const API_URL = new URL(baseURL);
-        Object.entries(query).map(([key, value]) => API_URL.searchParams.append(key, value));
+        Object.entries(query).map(([key, value]) => uri.searchParams.append(key, value));
       }
-      const response = await fetch(`${baseURL}${url}`, {
+      const response = await fetch(uri, {
         ...defaultOptions,
         method: "DELETE",
       });
