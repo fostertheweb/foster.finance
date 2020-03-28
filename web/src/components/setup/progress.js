@@ -14,7 +14,7 @@ export default function() {
       <div className="p-2 bg-white rounded shadow flex items-center justify-around">
         <Step
           active={step === "profile"}
-          label="Profile"
+          label="Your Profile"
           icon={
             <div className={step === "profile" ? "" : "opacity-50 ff-filter-grayscale"}>
               <Emoji emoji="hugging_face" size={28} />
@@ -37,7 +37,7 @@ export default function() {
         <Line active={step === "expenses"} />
         <Step
           active={step === "expenses"}
-          label="Expenses"
+          label="Bills & Income"
           icon={
             <FontAwesomeIcon
               icon={faListOl}
@@ -61,8 +61,8 @@ function Step(props) {
         {props.icon}
       </div>
       <div
-        className={`smallcaps mt-2 text-center text-base whitespace-no-wrap ${
-          props.active ? "text-blue-500" : "text-gray-500"
+        className={`mt-2 text-center whitespace-no-wrap ${
+          props.active ? "text-blue-500 font-medium" : "text-gray-500"
         }`}>
         {props.label}
       </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/use-auth";
-import Error from "./error";
-import Loading from "./loading";
+import Error from "./common/error";
+import Loading from "./common/loading";
 import Header from "./header";
 
 export default function() {

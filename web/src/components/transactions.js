@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Calendar } from "./calendar";
 import * as luxon from "luxon";
-import { Select } from "./input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/pro-duotone-svg-icons";
+import { useMachine } from "@xstate/react";
 import { fetchMachine } from "../machines/fetch";
 import { useFetch } from "../hooks/use-fetch";
-import { useMachine } from "@xstate/react";
+import { Calendar } from "./calendar";
+import { Select } from "./common/input";
 
 export default function() {
   const { get } = useFetch();

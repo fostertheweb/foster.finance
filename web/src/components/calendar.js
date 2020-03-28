@@ -1,7 +1,7 @@
 import React from "react";
 import * as luxon from "luxon";
 import classNames from "classnames";
-import Loading from "./loading";
+import Loading from "./common/loading";
 
 function Day({ number, isInCurrentMonth, isToday, data }) {
   const day = ["box-border border-gray-400 border-l border-t flex-1 relative"];

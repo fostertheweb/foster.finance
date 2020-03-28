@@ -1,8 +1,8 @@
 import React from "react";
 import { usePlaidLink } from "react-plaid-link";
 import { faLock } from "@fortawesome/pro-duotone-svg-icons";
-import Button from "../../button";
-import Alert from "../../alert";
+import Button from "./common/button";
+import Alert from "./common/alert";
 
 const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
 const env = process.env.REACT_APP_PLAID_ENVIRONMENT;

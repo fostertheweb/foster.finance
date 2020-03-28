@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird, faLandmark } from "@fortawesome/pro-duotone-svg-icons";
-import Alert from "../../alert";
+import Alert from "../../common/alert";
 import ListItem from "./list-item";
 
 export default function({ loading, error, data, onChange }) {

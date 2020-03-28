@@ -13,7 +13,9 @@ export default function({ dark, color }) {
         size="2x"
         color={color || (dark ? "white" : "#094067")}
       />
-      <div className={`brand ml-2 border-b-2 ${dark ? DARK_THEME : LIGHT_THEME}`}>foster</div>
+      <div className={`brand tracking-wider ml-2 border-b-2 ${dark ? DARK_THEME : LIGHT_THEME}`}>
+        foster
+      </div>
     </div>
   );
 }
