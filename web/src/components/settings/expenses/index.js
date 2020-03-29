@@ -59,7 +59,7 @@ export default function({ editing }) {
   return (
     <>
       <div className="p-2">
-        {discoverState.matches("idle") ? (
+        {discoverState.matches("resolved") ? (
           <div className="p-4 bg-white rounded shadow">
             <div className="text-gray-600">
               <p>
@@ -68,9 +68,6 @@ export default function({ editing }) {
                 monthly expenses below and save the selection.
               </p>
             </div>
-          </div>
-        ) : (
-          <div className="p-2 bg-white rounded shadow">
             <ExpenseList
               data={discoverState.context.data}
               error={discoverState.context.error}
@@ -78,7 +75,7 @@ export default function({ editing }) {
               onChange={setExpenses}
             />
           </div>
-        )}
+        ) : null}
       </div>
       <div className="sticky ff-top-0 p-2 pl-1">
         <Well
