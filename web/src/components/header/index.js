@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
+import { useMachine } from "@xstate/react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
-import Logo from "../logo";
+import { faSpinnerThird, faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
+import { useFetch } from "../../hooks/use-fetch";
+import { useAuth } from "../../hooks/use-auth";
+import { fetchMachine } from "../../machines/fetch";
+import Logo from "../common/logo";
 import UserMenu from "./user-menu";
 import HeaderLink from "./link";
-import { fetchMachine } from "../../machines/fetch";
-import { useFetch } from "../../hooks/use-fetch";
-import { useMachine } from "@xstate/react";
-import { useAuth } from "../../hooks/use-auth";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export default function() {
   const { user } = useAuth();

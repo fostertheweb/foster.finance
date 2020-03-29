@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
-import { useAuth } from "../../hooks/use-auth";
 import classNames from "classnames";
+import { useAuth } from "../../hooks/use-auth";
 
 const menuItem = [
   "block",
@@ -23,28 +23,59 @@ const menuItem = [
 
 export default function({ emoji, name, disabled }) {
   const { signOut } = useAuth();
+  const [isOpen, setOpen] = useState(false);
+  const buttonRef = useRef(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        buttonRef.current &&
+        menuRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        !menuRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      setOpen(false);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [buttonRef, menuRef]);
 
   return (
-    <div className="group relative">
+    <div className="relative">
       <div
-        className={`block cursor-pointer ml-4 hover:no-underline p-2 rounded inline-flex items-center transition duration-150 ease-in-out text-gray-300 group-hover:text-white hover:text-white group-hover:bg-gray-700 hover:bg-gray-700`}>
-        <Emoji emoji={emoji} size={18} />
-        <span className="ml-2">{name}</span>
+        ref={buttonRef}
+        className={`${
+          isOpen ? "bg-gray-700 text-white border-indigo-500" : "bg-transparent"
+        } block border border-transparent tracking-wide cursor-pointer py-1 px-2 rounded flex items-center transition duration-150 ease-in-out text-gray-300 hover:text-white hover:bg-gray-700`}
+        onClick={() => setOpen(!isOpen)}>
+        <span className="mr-2">{name}</span>
+        <div className="ff-filter-drop-shadow">
+          <Emoji emoji={emoji} size={24} />
+        </div>
       </div>
-      <div
-        className={`hidden group-hover:block absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md text-gray-800`}>
-        <Link
-          className={`${classNames(menuItem)}${
-            disabled ? " pointer-events-none text-gray-500" : ""
-          }`}
-          to="/app/settings">
-          Settings
-        </Link>
-        <button className={classNames(menuItem)} onClick={() => signOut()}>
-          <FontAwesomeIcon icon={faSignOut} />
-          <span className="ml-2">Sign out</span>
-        </button>
-      </div>
+      {isOpen ? (
+        <div
+          ref={menuRef}
+          className={`absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md text-gray-800 mt-2`}>
+          <Link
+            className={`${classNames(menuItem)}${
+              disabled ? " pointer-events-none text-gray-500" : ""
+            }`}
+            to="/app/settings"
+            onClick={() => setOpen(false)}>
+            Settings
+          </Link>
+          <button className={classNames(menuItem)} onClick={() => signOut()}>
+            <FontAwesomeIcon icon={faSignOut} />
+            <span className="ml-2">Sign out</span>
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

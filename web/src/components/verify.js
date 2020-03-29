@@ -7,12 +7,12 @@ import {
   faSpinnerThird,
 } from "@fortawesome/pro-duotone-svg-icons";
 import { parse } from "query-string";
-import { useAuth } from "../../hooks/use-auth";
-import Button from "../button";
 import { useLocation, useNavigate } from "react-router-dom";
-import Loading from "../loading";
-import Error from "../error";
-import { Panel } from "../panel";
+import { useAuth } from "../hooks/use-auth";
+import Button from "./common/button";
+import Loading from "./common/loading";
+import Error from "./common/error";
+import { Panel } from "./common/panel";
 
 function CheckEmail({ email }) {
   const { resendSignUp, loading } = useAuth();

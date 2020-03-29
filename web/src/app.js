@@ -2,16 +2,19 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/use-auth";
 import Layout from "./components/layout";
-import Redirect from "./components/redirect";
+import Redirect from "./components/common/redirect";
 
-import SignIn from "./components/signin";
+import SignIn from "./components/sign-in";
 import CreateAccount from "./components/create-account";
-import Verify from "./components/create-account/verify";
+import Verify from "./components/verify";
 import Settings from "./components/settings";
-import Profile from "./components/settings/profile";
-import Expenses from "./components/settings/expenses";
-import LinkAccounts from "./components/settings/accounts";
+import EditProfile from "./components/settings/profile";
+import EditExpenses from "./components/settings/expenses";
+import EditAccounts from "./components/settings/accounts";
 import Setup from "./components/setup";
+import Profile from "./components/setup/profile";
+import Expenses from "./components/setup/expenses";
+import LinkAccounts from "./components/setup/accounts";
 import Transactions from "./components/transactions";
 import Balances from "./components/balances";
 
@@ -29,9 +32,9 @@ function App() {
             <Route path="balances" element={<Balances />} />
             <Route path="settings" element={<Settings />}>
               <Route path="/" element={<Redirect to="profile" />} />
-              <Route path="profile" element={<Profile editing={true} />} />
-              <Route path="accounts" element={<LinkAccounts editing={true} />} />
-              <Route path="expenses" element={<Expenses editing={true} />} />
+              <Route path="profile" element={<EditProfile />} />
+              <Route path="accounts" element={<EditAccounts />} />
+              <Route path="expenses" element={<EditExpenses />} />
             </Route>
             <Route path="setup" element={<Setup />}>
               <Route path="profile" element={<Profile />} />

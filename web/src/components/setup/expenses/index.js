@@ -4,10 +4,10 @@ import { faSave } from "@fortawesome/pro-duotone-svg-icons";
 import { useMachine } from "@xstate/react";
 import { useFetch } from "../../../hooks/use-fetch";
 import { fetchMachine } from "../../../machines/fetch";
-import Loading from "../../loading";
-import Button from "../../button";
+import Loading from "../../common/loading";
+import Button from "../../common/button";
 import ExpenseList from "./card";
-import { Well } from "../../alert";
+import { Well } from "../../common/alert";
 
 export default function({ editing }) {
   const navigate = useNavigate();

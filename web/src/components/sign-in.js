@@ -1,25 +1,30 @@
 import React, { useState } from "react";
-import { useAuth } from "../../hooks/use-auth";
-import { Link } from "react-router-dom";
-import Input from "../input";
-import Alert from "../alert";
-import Button from "../button";
-import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
-import { getRandomEmail } from "../../shared/placeholders";
-import { Panel } from "../panel";
+import { useAuth } from "../hooks/use-auth";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "./common/input";
+import Alert from "./common/alert";
+import Button from "./common/button";
+import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
+import { getRandomEmail } from "../shared/placeholders";
+import { Panel } from "./common/panel";
 
 export default function() {
-  const { signUp, loading, error } = useAuth();
+  const { signIn, loading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
-    signUp(email, password);
+    signIn(email, password);
+  }
+
+  if (error && error.code === "UserNotConfirmedException") {
+    navigate(`/verify?email=${email}`);
   }
 
   return (
-    <Panel title="Join">
+    <Panel title="Sign in">
       <>
         <form onSubmit={e => handleSubmit(e)} className="mt-8">
           <div className="mb-6">
@@ -40,29 +45,34 @@ export default function() {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
-          <div className="flex items-center justify-end">
+          <div className="flex align-items justify-end">
             <Button
               large
               className="w-full"
               type="submit"
-              text="Create Account"
-              icon={faBullseyePointer}
+              text="Sign in"
+              icon={faSignIn}
               loading={loading}
               disabled={!email || !password || loading}
             />
           </div>
         </form>
         <p className="mt-4 text-center text-gray-500">
-          Already have an account?{" "}
-          <Link to="/" className="ff-link">
-            Sign in
+          Don't have an account?{" "}
+          <Link to="/create-account" className="ff-link">
+            Create account
           </Link>
         </p>
       </>
       {error ? (
         <Alert intent="error" message={error.message || error} />
       ) : (
-        <p className="block p-4">try it out, full refund available</p>
+        <>
+          <span role="img" aria-label="hand waving" className="mr-2">
+            👋
+          </span>
+          welcome back dear friend
+        </>
       )}
     </Panel>
   );
