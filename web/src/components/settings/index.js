@@ -3,7 +3,6 @@ import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faListOl, faCogs, faAddressCard } from "@fortawesome/pro-duotone-svg-icons";
-import { Emoji } from "emoji-mart";
 
 const linkStyle = [
   "block",
