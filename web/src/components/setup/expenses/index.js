@@ -70,8 +70,8 @@ export default function({ editing }) {
               </p>
 
               <p className="mt-4 leading-normal">
-                We took a look at your transactions over the last 3 months from the accounts you
-                selected previously and found what we think are your monthly expenses.
+                We looked at your transactions over the last 3 months from the accounts you selected
+                previously and found what we think are your monthly expenses.
               </p>
 
               <p className="mt-4 leading-normal">
@@ -89,8 +89,12 @@ export default function({ editing }) {
       </div>
       <div className="w-1/3 sticky ff-top-0 p-2 pl-1">
         <Well
-          message="After you finish your account setup and sign in you can add more expenses in the
-              settings."
+          message={
+            <div>
+              After setup you can add more bills or income in <b>Settings</b> by selecting from
+              recent transactions or adding them manually.
+            </div>
+          }
         />
         <Button
           onClick={handleSubmit}

@@ -40,7 +40,7 @@ export default function({ editing }) {
     <>
       <div className="p-2 w-2/3">
         <div className="w-full bg-white p-4 rounded shadow">
-          <h1 className="text-xl font-bold text-gray-700 tracking-wide">Create User Profile</h1>
+          <h1 className="text-xl font-bold text-gray-700 tracking-wide">Setup Your Profile</h1>
           <div className="text-gray-600 mt-4">
             <p className="leading-normal">
               It's so great to meet you! If you would like, you can tell us your name and pick an
@@ -62,7 +62,13 @@ export default function({ editing }) {
         </div>
       </div>
       <div className="w-1/3 sticky ff-top-0 p-2 pl-1 flex-grow">
-        <Well message="You can change your name or emoji anytime in the settings once signed in." />
+        <Well
+          message={
+            <div>
+              You can change your name or emoji anytime in <b>Settings</b> when signed in.
+            </div>
+          }
+        />
         <Button
           className="mt-2 w-full whitespace-no-wrap"
           onClick={handleSubmit}

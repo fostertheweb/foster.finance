@@ -67,26 +67,25 @@ export default function() {
     <>
       <div className="p-2 w-2/3">
         <div className="bg-white p-4 rounded shadow">
+          <h1 className="text-xl text-gray-700 font-bold tracking-wide">Setup Bank Accounts</h1>
           {fetchLinkState.matches("resolved") ? (
-            <AccountList
-              data={fetchLinkState.context.data}
-              error={fetchLinkState.context.error}
-              onChange={setAccounts}
-            />
+            <>
+              <p className="mt-4 leading-normal text-gray-600">
+                We have automatically selected your Checking and Credit Card accounts. Modify the
+                selection, if needed, to include every account that you pay bills from and where you
+                deposit your paycheck.
+              </p>
+              <AccountList
+                data={fetchLinkState.context.data}
+                error={fetchLinkState.context.error}
+                onChange={setAccounts}
+              />
+            </>
           ) : (
-            <div className="text-gray-600">
-              <h1 className="text-xl text-gray-700 font-bold tracking-wide">Setup Bank Accounts</h1>
-              <p className="mt-4 leading-normal">
-                Thank you for trusting us! That is a great start to our relationship. [click button,
-                link bank account]
-              </p>
-              <p className="mt-4 leading-normal">
-                We have automatically selected your checking and Credit Card accounts because that
-                is where most people receive their income and pay their bills from.
-              </p>
-              <p className="mt-4 leading-normal">
-                Modify the selection, if needed, to include every account that you pay bills from
-                and where you deposit your paycheck.
+            <div>
+              <p className="mt-4 leading-normal text-gray-600">
+                Thank you for trusting us! That is a great start to our relationship. Let's get
+                things rolling by linking your bank account.
               </p>
               <div className="flex items-baseline justify-between mt-6">
                 <LinkButton
@@ -100,7 +99,14 @@ export default function() {
       </div>
       <div className="w-1/3 sticky ff-top-0 p-2 pl-1">
         <div className="">
-          <Well message="If you have more accounts to link you can add them later in your settings after setup." />
+          <Well
+            message={
+              <div>
+                If you have more accounts to link you can add them later in <b>Settings</b> after
+                setup.
+              </div>
+            }
+          />
         </div>
         <Button
           onClick={handleSubmit}
