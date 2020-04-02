@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPiggyBank, faListOl, faCogs } from "@fortawesome/pro-duotone-svg-icons";
+import { faPiggyBank, faListOl, faCogs, faAddressCard } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
 
 const linkStyle = [
@@ -38,7 +38,7 @@ export default function() {
             activeClassName="font-medium bg-gray-300"
             className={classNames(linkStyle)}>
             <div className="w-4 inline-block text-center">
-              <Emoji emoji="hugging_face" size={14} />
+              <FontAwesomeIcon icon={faAddressCard} className="text-indigo-500 fill-current" />
             </div>
             <span className="ml-2">Edit Profile</span>
           </NavLink>

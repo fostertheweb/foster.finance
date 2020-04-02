@@ -53,7 +53,7 @@ export function Well({ intent, message }) {
   const icon = theme.icon;
 
   return (
-    <div className={`rounded bg-${color}-${color === "gray" ? "200" : "100"} flex items-stretch`}>
+    <div className={`rounded bg-${color}-${color === "gray" ? "200" : "100"} flex`}>
       {icon ? (
         <div className={`rounded-l bg-${color}-${color === "gray" ? "400" : "200"} mr-1 p-1`}>
           <FontAwesomeIcon icon={icon} className={`text-${color}-600 fill-current`} />

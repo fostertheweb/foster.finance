@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPiggyBank, faListOl } from "@fortawesome/pro-duotone-svg-icons";
-import { Emoji } from "emoji-mart";
+import { faAddressCard, faPiggyBank, faListOl } from "@fortawesome/pro-duotone-svg-icons";
 import { useLocation } from "react-router";
 
 export default function() {
@@ -11,14 +10,16 @@ export default function() {
 
   return (
     <div className="p-2">
-      <div className="p-2 bg-white rounded shadow flex items-center justify-around">
+      <div className="py-2 flex items-center justify-around">
         <Step
           active={step === "profile"}
           label="Your Profile"
           icon={
-            <div className={step === "profile" ? "" : "opacity-50 ff-filter-grayscale"}>
-              <Emoji emoji="hugging_face" size={28} />
-            </div>
+            <FontAwesomeIcon
+              icon={faAddressCard}
+              size="2x"
+              className={`${step === "profile" ? "text-indigo-500" : "text-gray-500"} fill-current`}
+            />
           }
         />
         <Line active={step === "accounts"} />

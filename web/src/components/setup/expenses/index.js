@@ -58,14 +58,24 @@ export default function({ editing }) {
 
   return (
     <>
-      <div className="p-2">
+      <div className="p-2 w-2/3">
         {discoverState.matches("resolved") ? (
           <div className="p-4 bg-white rounded shadow">
             <div className="text-gray-600">
-              <p>
-                We looked at the last <b>3</b> months of transactions from your <b>Checking</b> and{" "}
-                <b>Credit</b> accounts and found the following recurring expenses. Confirm your
-                monthly expenses below and save the selection.
+              <h1 className="text-xl text-gray-700 font-bold tracking-wide">
+                Setup Bills &amp; Income
+              </h1>
+              <p className="mt-4 leading-normal">
+                You are doing a great job! We just need one last thing from you.
+              </p>
+
+              <p className="mt-4 leading-normal">
+                We took a look at your transactions over the last 3 months from the accounts you
+                selected previously and found what we think are your monthly expenses.
+              </p>
+
+              <p className="mt-4 leading-normal">
+                Confirm your bills and income by selecting them below and hit save to finish setup!
               </p>
             </div>
             <ExpenseList
@@ -77,7 +87,7 @@ export default function({ editing }) {
           </div>
         ) : null}
       </div>
-      <div className="sticky ff-top-0 p-2 pl-1">
+      <div className="w-1/3 sticky ff-top-0 p-2 pl-1">
         <Well
           message="After you finish your account setup and sign in you can add more expenses in the
               settings."

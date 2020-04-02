@@ -65,7 +65,7 @@ export default function() {
 
   return (
     <>
-      <div className="p-2">
+      <div className="p-2 w-2/3">
         <div className="bg-white p-4 rounded shadow">
           {fetchLinkState.matches("resolved") ? (
             <AccountList
@@ -75,10 +75,18 @@ export default function() {
             />
           ) : (
             <div className="text-gray-600">
-              <p>
-                Connect to your bank via your online credentials so we can see transactions from
-                your <b>Checking</b> and <b>Credit Card</b> accounts. You may select any other
-                accounts that you pay bills from, so we can find your expenses.
+              <h1 className="text-xl text-gray-700 font-bold tracking-wide">Setup Bank Accounts</h1>
+              <p className="mt-4 leading-normal">
+                Thank you for trusting us! That is a great start to our relationship. [click button,
+                link bank account]
+              </p>
+              <p className="mt-4 leading-normal">
+                We have automatically selected your checking and Credit Card accounts because that
+                is where most people receive their income and pay their bills from.
+              </p>
+              <p className="mt-4 leading-normal">
+                Modify the selection, if needed, to include every account that you pay bills from
+                and where you deposit your paycheck.
               </p>
               <div className="flex items-baseline justify-between mt-6">
                 <LinkButton
@@ -90,8 +98,10 @@ export default function() {
           )}
         </div>
       </div>
-      <div className="sticky ff-top-0 p-2 pl-1">
-        <Well message="If you have more accounts to link you can add them later in your settings after setup." />
+      <div className="w-1/3 sticky ff-top-0 p-2 pl-1">
+        <div className="">
+          <Well message="If you have more accounts to link you can add them later in your settings after setup." />
+        </div>
         <Button
           onClick={handleSubmit}
           className="w-full whitespace-no-wrap mt-2"
