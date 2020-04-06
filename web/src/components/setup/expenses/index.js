@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSave } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTasks } from "@fortawesome/pro-duotone-svg-icons";
 import { useMachine } from "@xstate/react";
 import { useFetch } from "../../../hooks/use-fetch";
 import { fetchMachine } from "../../../machines/fetch";
 import Loading from "../../common/loading";
 import Button from "../../common/button";
-import ExpenseList from "./card";
+import ExpenseList from "./list";
 import { Well } from "../../common/alert";
 
-export default function({ editing }) {
+export default function() {
   const navigate = useNavigate();
   const { get, post } = useFetch();
   const [discoverState, sendFetchDiscover] = useMachine(fetchMachine, {
@@ -27,11 +28,9 @@ export default function({ editing }) {
   const saved = saveExpensesState.matches("resolved");
 
   useEffect(() => {
-    if (!editing) {
-      sendFetchDiscover("FETCH");
-    }
+    sendFetchDiscover("FETCH");
     // eslint-disable-next-line
-  }, [editing]);
+  }, []);
 
   useEffect(() => {
     if (saved) {
@@ -61,9 +60,10 @@ export default function({ editing }) {
       <div className="p-2 w-2/3">
         {discoverState.matches("resolved") ? (
           <div className="p-4 bg-white rounded shadow">
-            <div className="text-gray-600">
-              <h1 className="text-xl text-gray-700 font-bold tracking-wide">
-                Setup Bills &amp; Income
+            <div className="text-gray-700">
+              <h1 className="text-xl font-bold tracking-wide">
+                <FontAwesomeIcon icon={faTasks} size="lg" className="fill-current mr-2" /> Setup
+                Bills &amp; Income
               </h1>
               <p className="mt-4 leading-normal">
                 You are doing a great job! We just need one last thing from you.

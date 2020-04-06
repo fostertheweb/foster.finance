@@ -1,4 +1,6 @@
 const luxon = require("luxon");
+const got = require("got");
+const RITEKIT_CLIENT_ID = process.env.RITEKIT_CLIENT_ID;
 
 module.exports = function(app, _options, next) {
   app.get("/discover", async ({ user_id }) => {
@@ -16,7 +18,7 @@ module.exports = function(app, _options, next) {
       const transactions = responses.reduce((transactions, response) => {
         return [...transactions, ...response.transactions];
       }, []);
-      return transactions.reduce((expenses, transaction) => {
+      const expenses = transactions.reduce((expenses, transaction) => {
         const expense = {
           day: transaction.date.slice(-2),
           amount: transaction.amount,
@@ -35,6 +37,13 @@ module.exports = function(app, _options, next) {
 
         return expenses;
       }, []);
+
+      const expesesWithLogo = expenses.map(async e => {
+        const company = await getCompanyInfo(e.name);
+        return { ...e, logo: company };
+      });
+
+      return await Promise.all(expesesWithLogo);
     } catch (err) {
       app.log.error(err);
       throw err;
@@ -64,4 +73,34 @@ function compareTransaction(transaction, expense) {
   }
 
   return false;
+}
+
+async function getCompanyInfo(name) {
+  let _domain = undefined;
+  try {
+    const clearbit = await got(
+      `https://autocomplete.clearbit.com/v1/companies/suggest?query=${name}`,
+    );
+    if (clearbit.body && clearbit.body.length > 0) {
+      console.log(clearbit.body);
+      const company = JSON.parse(clearbit.body)[0];
+      _domain = company.domain;
+      await got(`https://logo.clearbit.com/${company.domain}`);
+      return company.logo;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    if (_domain) {
+      console.log(_domain);
+      await got(
+        `https://api.ritekit.com/v1/images/logo?client_id=${RITEKIT_CLIENT_ID}&domain=${_domain}`,
+      );
+      return `https://api.ritekit.com/v1/images/logo?client_id=${RITEKIT_CLIENT_ID}&domain=${_domain}`;
+    }
+
+    console.error(err);
+    return null;
+  }
 }

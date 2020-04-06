@@ -34,7 +34,7 @@ export default function({ loading, error, data, onChange }) {
         </div>
       ) : (
         <>
-          <div className="text-gray-600 text-lg font-medium p-2">
+          <div className="flex items-center text-gray-700 text-lg font-medium p-2 mt-4">
             {data.institution.logo ? (
               <img
                 src={`data:image/png;base64,${data.institution.logo}`}
@@ -55,7 +55,7 @@ export default function({ loading, error, data, onChange }) {
             <Alert error={error.message || error} />
           ) : (
             <>
-              <div className="my-2">
+              <div className="mt-2">
                 {data.accounts.map(account => (
                   <ListItem account={account} key={account.account_id} onSelect={handleSelect} />
                 ))}

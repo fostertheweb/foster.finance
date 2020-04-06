@@ -66,11 +66,11 @@ export default function() {
   return (
     <>
       <div className="p-2 w-2/3">
-        <div className="bg-white p-4 rounded shadow">
-          <h1 className="text-xl text-gray-700 font-bold tracking-wide">Setup Bank Accounts</h1>
+        <div className="bg-white p-4 rounded shadow text-gray-700">
+          <h1 className="text-xl font-bold tracking-wide">Setup Bank Accounts</h1>
           {fetchLinkState.matches("resolved") ? (
             <>
-              <p className="mt-4 leading-normal text-gray-600">
+              <p className="mt-4 leading-normal">
                 We have automatically selected your Checking and Credit Card accounts. Modify the
                 selection, if needed, to include every account that you pay bills from and where you
                 deposit your paycheck.
@@ -83,7 +83,7 @@ export default function() {
             </>
           ) : (
             <div>
-              <p className="mt-4 leading-normal text-gray-600">
+              <p className="mt-4 leading-normal text-gray-700">
                 Thank you for trusting us! That is a great start to our relationship. Let's get
                 things rolling by linking your bank account.
               </p>

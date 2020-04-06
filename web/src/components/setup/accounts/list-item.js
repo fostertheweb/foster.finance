@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/pro-duotone-svg-icons";
 
 export default function({ account, onSelect }) {
   const [isSelected, setSelected] = useState(account.selected);
@@ -10,9 +12,16 @@ export default function({ account, onSelect }) {
 
   return (
     <div
-      className="flex items-center p-1 hover:bg-gray-200 border-t border-gray-300 cursor-pointer"
+      className={`relative flex items-center p-2 mt-2 rounded border ${
+        isSelected ? "border-blue-500" : "border-gray-400"
+      } hover:border-blue-500 cursor-pointer text-gray-700`}
       onClick={() => setSelected(!isSelected)}>
-      <div className="text-center p-2 mr-2">
+      {isSelected ? (
+        <div className="absolute top-0 left-0 -ml-2 -mt-2">
+          <FontAwesomeIcon icon={faCheckCircle} className="ff-fa-theme-primary" size="lg" />
+        </div>
+      ) : null}
+      <div className="hidden">
         <input name="accounts" type="checkbox" checked={isSelected} onChange={handleSelection} />
       </div>
       <div className="flex-grow">
@@ -23,7 +32,7 @@ export default function({ account, onSelect }) {
         </div>
       </div>
       <div className="text-md text-right">
-        <div>
+        <div className="font-medium text-gray-600">
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",

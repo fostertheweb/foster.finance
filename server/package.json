@@ -22,6 +22,7 @@
     "fastify-mongodb": "^2.0.0",
     "fastify-plugin": "^1.6.0",
     "fastify-sensible": "^2.1.1",
+    "got": "^10.7.0",
     "luxon": "^1.22.0",
     "mongodb": "^3.5.3",
     "plaid": "^4.3.0"
