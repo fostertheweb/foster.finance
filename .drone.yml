@@ -39,10 +39,7 @@ steps:
         from_secret: AWS_SECRET_ACCESS_KEY
       AWS_REGION:
         from_secret: aws_region
-      SERVICE_ACCOUNT:
-        from_secret: service_account
     commands:
-      - echo "$SERVICE_ACCOUNT" >> ./server/dist/service-account.json
       - echo "$TFVARS" >> ./terraform.tfvars
       - terraform init -backend-config="token=$TF_CLOUD_TOKEN"
       - terraform apply -auto-approve=true

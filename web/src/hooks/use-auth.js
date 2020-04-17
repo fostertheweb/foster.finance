@@ -1,7 +1,9 @@
 // TODO: state machine
-import React, { useState, useEffect, useContext, createContext } from "react";
-import Amplify, { Auth, Hub } from "aws-amplify";
+import React, { useEffect, useContext, createContext } from "react";
+import Amplify, { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
+import { useMachine } from "@xstate/react";
+import { authMachine } from "../machines/auth";
 
 Amplify.configure({
   Auth: {
@@ -25,129 +27,38 @@ export const useAuth = () => {
 };
 
 function useAuthProvider() {
-  const [jwt, setJWT] = useState(null);
-  const [user, setUser] = useState(null);
-  const [userId, setID] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [newUser, setNewUser] = useState(null);
   const navigate = useNavigate();
-
-  function confirmSignUp(email, code) {
-    setLoading(true);
-    Auth.confirmSignUp(email, code)
-      .then(handleSuccess)
-      .catch(handleError);
-  }
+  const [state, send] = useMachine(authMachine, {
+    services: {
+      signIn: (_context, { email, password }) => Auth.signIn(email, password),
+      signOut: () => Auth.signOut(),
+      signUp: (_context, { email, password }) => Auth.signUp(email, password),
+      resendSignUp: (_context, { email }) => Auth.resendSignUp(email),
+      confirmSignUp: (_context, { email, code }) => Auth.confirmSignUp(email, code),
+      currentUser: () => Auth.currentAuthenticatedUser(),
+      currentSession: () => Auth.currentSession(),
+    },
+  });
 
   function signIn(email, password) {
-    setLoading(true);
-    Auth.signIn(email, password)
-      .then(user => {
-        setUser(user);
-        handleSuccess(user);
-      })
-      .catch(handleError);
-  }
-
-  function signUp(email, password) {
-    setLoading(true);
-    Auth.signUp(email, password)
-      .then(handleSuccess)
-      .catch(handleError);
-  }
-
-  function resendSignUp(email) {
-    setLoading(true);
-    Auth.resendSignUp(email)
-      .then(handleSuccess)
-      .catch(handleError);
+    send("SIGN_IN", { email, password });
   }
 
   function signOut() {
-    setLoading(true);
-    Auth.signOut()
-      .then(handleSuccess)
-      .catch(handleError);
+    send("SIGN_OUT");
   }
 
-  function handleError(err) {
-    setError(err);
-    setUser(null);
-    setLoading(false);
-    setID(null);
-    setJWT(null);
-
-    if (process.env.NODE_ENV === "development") {
-      console.error(err);
-    }
+  function signUp(email, password) {
+    send("SIGN_UP", { email, password });
   }
 
-  function handleSuccess(response) {
-    setError(null);
-    setLoading(false);
-
-    if (process.env.NODE_ENV === "development") {
-      console.log(response);
-    }
+  function resendSignUp(email) {
+    send("RESEND_SIGN_UP", { email });
   }
 
-  function handleAuthChange({ payload: { event, data } }) {
-    switch (event) {
-      case "signIn":
-        navigate("/app");
-        break;
-      case "signOut":
-        setUser(null);
-        navigate("/");
-        break;
-      case "signUp":
-        setNewUser(data);
-        navigate("/verify");
-        break;
-      default:
-        console.log({ event, data });
-        break;
-    }
+  function confirmSignUp(email, code) {
+    send("CONFIRM_USER", { email, code });
   }
 
-  useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(user => {
-        setJWT(user.signInUserSession.idToken.jwtToken);
-        setUser(user);
-        setID(user.attributes.sub);
-        setLoading(false);
-      })
-      .catch(err => {
-        if (err === "not authenticated") {
-          setError(null);
-          setUser(null);
-          setID(null);
-          setJWT(null);
-          setLoading(false);
-        } else {
-          handleError(err);
-        }
-      });
-
-    Hub.listen("auth", handleAuthChange);
-
-    return () => Hub.remove("auth", handleAuthChange);
-    // eslint-disable-next-line
-  }, []);
-
-  return {
-    loading,
-    error,
-    userId,
-    user,
-    jwt,
-    newUser,
-    confirmSignUp,
-    signIn,
-    signUp,
-    signOut,
-    resendSignUp,
-  };
+  return { status: state, signIn, signOut, signUp, resendSignUp, confirmSignUp };
 }
