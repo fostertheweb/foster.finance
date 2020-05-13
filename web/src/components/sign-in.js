@@ -1,27 +1,23 @@
 import React, { useState } from "react";
-import { useAuth } from "../hooks/use-auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "./common/input";
-import Alert from "./common/alert";
 import Button from "./common/button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../shared/placeholders";
 import { Panel } from "./common/panel";
 
-export default function() {
-  const { signIn, loading, error } = useAuth();
+export default function () {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
-    signIn(email, password);
+    console.log("SIGN_IN");
   }
 
-  if (error && error.code === "UserNotConfirmedException") {
-    navigate(`/verify?email=${email}`);
-  }
+  // if (error && error.code === "UserNotConfirmedException") {
+  //   navigate(`/verify?email=${email}`);
+  // }
 
   return (
     <Panel title="Sign in">
@@ -64,16 +60,12 @@ export default function() {
           </Link>
         </p>
       </>
-      {error ? (
-        <Alert intent="error" message={error.message || error} />
-      ) : (
-        <>
-          <span role="img" aria-label="hand waving" className="mr-2">
-            👋
-          </span>
-          welcome back dear friend
-        </>
-      )}
+      <>
+        <span role="img" aria-label="hand waving" className="mr-2">
+          👋
+        </span>
+        welcome back dear friend
+      </>
     </Panel>
   );
 }

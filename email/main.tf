@@ -1,3 +1,9 @@
+locals {
+  common_tags = {
+    project = var.application
+  }
+}
+
 data "archive_file" "email" {
   type        = "zip"
   source_file = "./email/index.js"

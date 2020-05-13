@@ -10,15 +10,16 @@ import Input from "../common/input";
 import Alert, { Well } from "../common/alert";
 import Button from "../common/button";
 
-export default function({ editing }) {
+export default function ({ editing }) {
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("");
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { post } = useFetch();
+  const fetch = useFetch();
   const [postProfileState, sendPostProfile] = useMachine(fetchMachine, {
     services: {
-      fetchData: (_context, { profile }) => post("/profile", profile),
+      fetchData: (_context, { profile }) =>
+        fetch("/profile", { method: "POST", body: { profile } }),
     },
   });
   const saved = postProfileState.matches("resolved");

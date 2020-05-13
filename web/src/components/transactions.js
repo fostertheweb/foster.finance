@@ -8,12 +8,12 @@ import { useFetch } from "../hooks/use-fetch";
 import { Calendar } from "./calendar";
 import { Select } from "./common/input";
 
-export default function() {
-  const { get } = useFetch();
+export default function () {
+  const fetch = useFetch();
   const [status, send] = useMachine(fetchMachine, {
     services: {
       fetchData: (_context, { start_date, end_date }) =>
-        get("/transactions", { start_date, end_date }),
+        fetch("/transactions", { queryParams: { start_date, end_date } }),
     },
   });
   const [month, setMonth] = useState(luxon.DateTime.local().month);

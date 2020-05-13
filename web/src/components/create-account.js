@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
-import { useAuth } from "../hooks/use-auth";
 import { getRandomEmail } from "../shared/placeholders";
 import Input from "./common/input";
-import Alert from "./common/alert";
 import Button from "./common/button";
 import { Panel } from "./common/panel";
 
-export default function() {
-  const { signUp, loading, error } = useAuth();
+export default function () {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    signUp(email, password);
+    console.log("SIGN_UP");
   }
 
   return (
@@ -59,11 +56,7 @@ export default function() {
           </Link>
         </p>
       </>
-      {error ? (
-        <Alert intent="error" message={error.message || error} />
-      ) : (
-        <p className="block p-4">try it out, full refund available</p>
-      )}
+      <p className="block p-4">try it out, full refund available</p>
     </Panel>
   );
 }

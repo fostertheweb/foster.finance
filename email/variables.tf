@@ -8,26 +8,6 @@ variable "domain_name" {
   type    = string
 }
 
-variable "db_url" {
-  type = string
-}
-
-variable "plaid_client_id" {
-  type = string
-}
-
-variable "plaid_public_key" {
-  type = string
-}
-
-variable "plaid_secret" {
-  type = string
-}
-
-variable "plaid_env" {
-  type = string
-}
-
 variable "zoho_record_name" {
   type = string
 }
@@ -42,12 +22,4 @@ variable "zoho_dkim_1" {
 
 variable "zoho_dkim_2" {
   type = string
-}
-
-variable "subnets" {
-  type = list(string)
-}
-
-variable "security_groups" {
-  type = list(string)
 }

@@ -3,6 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faListOl, faCogs, faAddressCard } from "@fortawesome/pro-duotone-svg-icons";
+import { Routes, Route } from "react-router-dom";
+import Accounts from "../setup/accounts";
 
 const linkStyle = [
   "block",
@@ -23,7 +25,7 @@ const linkStyle = [
   "ease-in-out",
 ];
 
-export default function() {
+function Settings() {
   return (
     <div className="ff-container ff-pt-header flex items-start">
       <div className="sticky top-0 whitespace-no-wrap p-2">
@@ -65,7 +67,19 @@ export default function() {
           </NavLink>
         </div>
       </div>
-      <Outlet />
+      <Outlet />>
     </div>
+  );
+}
+
+export default function () {
+  return (
+    <Routes>
+      <Route path="/" element={<Settings />}>
+        <Route path="profile" element={<Profile />} />
+        <Route path="accounts" element={<Accounts />} />
+        <Route path="expenses" element={<Expenses />} />
+      </Route>
+    </Routes>
   );
 }

@@ -11,16 +11,16 @@ import Logo from "../common/logo";
 import UserMenu from "./user-menu";
 import HeaderLink from "./link";
 
-export default function() {
+export default function () {
   const { user } = useAuth();
-  const { get } = useFetch();
+  const fetch = useFetch();
   const [profile, setProfile] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
   const isDuringSetup = location.pathname.includes("setup");
   const [state, send] = useMachine(fetchMachine, {
     services: {
-      fetchData: () => get("/profile"),
+      fetchData: () => fetch("/profile"),
     },
   });
 

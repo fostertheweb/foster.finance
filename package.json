@@ -3,13 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "client": "yarn workspace web start",
-    "server": "yarn workspace server run develop",
-    "build": "yarn workspace web build && yarn workspace server run dist"
+    "web": "pnpm run --filter web start",
+    "server": "pnpm run --filter server develop",
+    "build": "pnpm multi run build"
   },
-  "workspaces": [
-    "web",
-    "server"
-  ],
   "private": true
 }

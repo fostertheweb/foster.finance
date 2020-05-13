@@ -10,13 +10,14 @@ import LinkButton from "../../link-button";
 import Button from "../../common/button";
 import { Well } from "../../common/alert";
 
-export default function() {
+export default function () {
   const navigate = useNavigate();
   const { userId } = useAuth();
-  const { post } = useFetch();
+  const fetch = useFetch();
   const [fetchLinkState, sendFetchLink] = useMachine(fetchMachine, {
     services: {
-      fetchData: (_context, { public_token }) => post("/accounts/link", { public_token }),
+      fetchData: (_context, { public_token }) =>
+        fetch("/accounts/link", { method: "POST", body: { public_token } }),
     },
   });
   const [postAccountsState, sendPostAccounts] = useMachine(fetchMachine, {
