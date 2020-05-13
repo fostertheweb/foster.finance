@@ -12,4 +12,4 @@ jobs:
       with:
         version: 4.11.1
         run_install: |
-          - args: [--filter web]
+          - args: [--filter, web]
