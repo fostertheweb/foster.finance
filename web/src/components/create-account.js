@@ -44,8 +44,7 @@ export default function () {
               type="submit"
               text="Create Account"
               icon={faBullseyePointer}
-              loading={loading}
-              disabled={!email || !password || loading}
+              disabled={!email || !password}
             />
           </div>
         </form>

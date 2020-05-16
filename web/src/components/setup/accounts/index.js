@@ -22,7 +22,8 @@ export default function () {
   });
   const [postAccountsState, sendPostAccounts] = useMachine(fetchMachine, {
     services: {
-      fetchData: (_context, { accounts }) => post("/accounts", { accounts }),
+      fetchData: (_context, { accounts }) =>
+        fetch("/accounts", { method: "POST", body: { accounts } }),
     },
   });
   const [accounts, setAccounts] = useState([]);
@@ -36,7 +37,9 @@ export default function () {
   function handleSubmit(event) {
     event.preventDefault();
     const { item_id, access_token, public_token } = fetchLinkState.context.data;
-    const selected = accounts.filter(a => a.selected).map(({ account_id }) => account_id);
+    const selected = accounts.filter((a) => a.selected).map(({ account_id }) =>
+      account_id
+    );
     localStorage.setItem(userId, public_token);
     sendPostAccounts({
       type: "FETCH",
@@ -68,45 +71,49 @@ export default function () {
     <>
       <div className="p-2 w-2/3">
         <div className="bg-white p-4 rounded shadow text-gray-700">
-          <h1 className="text-xl font-bold tracking-wide">Setup Bank Accounts</h1>
-          {fetchLinkState.matches("resolved") ? (
-            <>
-              <p className="mt-4 leading-normal">
-                We have automatically selected your Checking and Credit Card accounts. Modify the
-                selection, if needed, to include every account that you pay bills from and where you
-                deposit your paycheck.
-              </p>
-              <AccountList
-                data={fetchLinkState.context.data}
-                error={fetchLinkState.context.error}
-                onChange={setAccounts}
-              />
-            </>
-          ) : (
-            <div>
-              <p className="mt-4 leading-normal text-gray-700">
-                Thank you for trusting us! That is a great start to our relationship. Let's get
-                things rolling by linking your bank account.
-              </p>
-              <div className="flex items-baseline justify-between mt-6">
-                <LinkButton
-                  onLinkSuccess={handleLinkSuccess}
-                  loading={fetchLinkState.matches("loading")}
+          <h1 className="text-xl font-bold tracking-wide">
+            Setup Bank Accounts
+          </h1>
+          {fetchLinkState.matches("resolved")
+            ? (
+              <>
+                <p className="mt-4 leading-normal">
+                  We have automatically selected your Checking and Credit Card accounts. Modify the
+                  selection, if needed, to include every account that you pay bills from and where you
+                  deposit your paycheck.
+                </p>
+                <AccountList
+                  data={fetchLinkState.context.data}
+                  error={fetchLinkState.context.error}
+                  onChange={setAccounts}
                 />
+              </>
+            )
+            : (
+              <div>
+                <p className="mt-4 leading-normal text-gray-700">
+                  Thank you for trusting us! That is a great start to our relationship. Let's get
+                  things rolling by linking your bank account.
+                </p>
+                <div className="flex items-baseline justify-between mt-6">
+                  <LinkButton
+                    onLinkSuccess={handleLinkSuccess}
+                    loading={fetchLinkState.matches("loading")}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
       <div className="w-1/3 sticky ff-top-0 p-2 pl-1">
         <div className="">
           <Well
-            message={
-              <div>
-                If you have more accounts to link you can add them later in <b>Settings</b> after
-                setup.
-              </div>
-            }
+            message={<div>
+              If you have more accounts to link you can add them later in <b>
+                Settings
+              </b> after
+              setup.
+            </div>}
           />
         </div>
         <Button
