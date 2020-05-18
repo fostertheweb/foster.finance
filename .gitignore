@@ -27,5 +27,3 @@ pnpm-debug.log*
 *.tfvars
 web/src/styles.css
 web/build
-
-service-account.json

@@ -77,7 +77,7 @@ resource "aws_lambda_function" "server" {
       PLAID_SECRET     = var.plaid_secret
       PLAID_PUBLIC_KEY = var.plaid_public_key
       PLAID_ENV        = var.plaid_env
-      DB_URL           = var.db_url
+      DB_CONNECTION    = ""
     }
   }
 
@@ -90,7 +90,7 @@ resource "aws_api_gateway_rest_api" "server" {
 
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.server.id
-  parent_id   = aws_api_gateway_rest_api.sever.root_resource_id
+  parent_id   = aws_api_gateway_rest_api.server.root_resource_id
   path_part   = "{proxy+}"
 }
 
@@ -101,7 +101,7 @@ resource "aws_api_gateway_method" "any" {
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_intergration" "lambda" {
+resource "aws_api_gateway_integration" "lambda" {
   rest_api_id             = aws_api_gateway_rest_api.server.id
   resource_id             = aws_api_gateway_resource.proxy.id
   http_method             = aws_api_gateway_method.any.http_method
@@ -115,7 +115,7 @@ resource "aws_api_gateway_deployment" "server" {
 
   triggers = {
     redeployment = sha1(join(",", list(
-      jsonencode(aws_api_gateway_integration.example),
+      jsonencode(aws_api_gateway_integration.lambda),
     )))
   }
 }

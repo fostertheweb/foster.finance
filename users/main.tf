@@ -39,10 +39,13 @@ resource "aws_cognito_user_pool_client" "web" {
 }
 
 resource "mongodbatlas_project" "app" {
-    name = var.application
-    org_id = var.atlas_org_id
+  name   = var.application
+  org_id = var.atlas_org_id
 }
 
 resource "mongodbatlas_cluster" "users" {
-
+  project_id             = mongodbatlas_project.app.id
+  provider_name          = "AWS"
+  name                   = "users"
+  provider_instance_name = "M0"
 }

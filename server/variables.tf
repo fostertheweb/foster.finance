@@ -1,9 +1,4 @@
 variable "application" {
-  default = "foster-finance"
-  type    = string
-}
-
-variable "db_url" {
   type = string
 }
 

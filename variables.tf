@@ -8,10 +8,6 @@ variable "domain_name" {
   type    = string
 }
 
-variable "db_url" {
-  type = string
-}
-
 variable "plaid_client_id" {
   type = string
 }
@@ -41,5 +37,9 @@ variable "zoho_dkim_1" {
 }
 
 variable "zoho_dkim_2" {
+  type = string
+}
+
+variable "atlas_org_id" {
   type = string
 }

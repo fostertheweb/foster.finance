@@ -120,7 +120,6 @@ resource "aws_cloudfront_origin_access_identity" "access_identity" {
   comment = "${var.application}-access-identity"
 }
 
-# Route53
 data "aws_route53_zone" "selected" {
   name = "${var.domain_name}."
 }

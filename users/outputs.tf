@@ -7,5 +7,5 @@ output "client_id" {
 }
 
 output "db_connection" {
-    value = mongodbatlas_cluster.users.connection_strings.standard_srv
+  value = mongodbatlas_cluster.users.connection_strings.standard_srv
 }

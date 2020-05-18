@@ -1,11 +1,9 @@
 variable "application" {
-  default = "foster-finance"
-  type    = string
+  type = string
 }
 
 variable "domain_name" {
-  default = "foster.finance"
-  type    = string
+  type = string
 }
 
 variable "client_mime_types" {
