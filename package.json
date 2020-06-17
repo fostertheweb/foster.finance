@@ -1,11 +1,17 @@
 {
-  "name": "foster-finance",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "web": "pnpm run --filter web start",
-    "server": "pnpm run --filter server develop",
-    "build": "pnpm multi run build"
-  },
-  "private": true
+	"name": "foster-finance",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"web": "yarn workspace web start",
+		"server": "yarn workspace server run develop",
+		"build": "yarn workspaces run build",
+		"build:web": "yarn web run build",
+		"build:server": "yarn workspace server run build"
+	},
+	"workspaces": [
+		"web",
+		"server"
+	],
+	"private": true
 }
