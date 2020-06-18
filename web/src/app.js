@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { AmplifyAuthProvider } from "./hooks/use-amplify-auth";
+import { RecoilRoot } from "recoil";
 import Layout from "./components/layout";
 import Redirect from "./components/common/redirect";
 import SignIn from "./components/sign-in";
@@ -12,24 +12,24 @@ import Transactions from "./components/transactions";
 import Balances from "./components/balances";
 
 function App() {
-  return (
-    <div>
-      <AmplifyAuthProvider>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="create-account" element={<CreateAccount />} />
-          <Route path="verify" element={<Verify />} />
-          <Route path="app" element={<Layout />}>
-            <Route path="/" element={<Redirect to="transactions" />} />
-            <Route path="transactions" element={<Transactions />} />
-            <Route path="balances" element={<Balances />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="setup" element={<Setup />} />
-          </Route>
-        </Routes>
-      </AmplifyAuthProvider>
-    </div>
-  );
+	return (
+		<div>
+			<RecoilRoot>
+				<Routes>
+					<Route path="/" element={<SignIn />} />
+					<Route path="create-account" element={<CreateAccount />} />
+					<Route path="verify" element={<Verify />} />
+					<Route path="app" element={<Layout />}>
+						<Route path="/" element={<Redirect to="transactions" />} />
+						<Route path="transactions" element={<Transactions />} />
+						<Route path="balances" element={<Balances />} />
+						<Route path="settings" element={<Settings />} />
+						<Route path="setup" element={<Setup />} />
+					</Route>
+				</Routes>
+			</RecoilRoot>
+		</div>
+	);
 }
 
 export default App;
