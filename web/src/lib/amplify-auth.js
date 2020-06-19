@@ -9,6 +9,4 @@ Amplify.configure({
 	},
 });
 
-export const useAmplifyAuth = () => {
-	return Auth;
-};
+export const AmplifyAuth = Auth;
