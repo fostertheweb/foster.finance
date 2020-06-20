@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Input from "./common/input";
-import Button from "./common/button";
-import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
+import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "../shared/placeholders";
-import { Panel } from "./common/panel";
+import Input from "../../components/common/input";
+import Button from "../../components/common/button";
+import { Panel } from "../../components/common/panel";
 
 export default function () {
 	const [email, setEmail] = useState("");
@@ -12,15 +12,11 @@ export default function () {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log("SIGN_IN");
+		console.log("SIGN_UP");
 	}
 
-	// if (error && error.code === "UserNotConfirmedException") {
-	//   navigate(`/verify?email=${email}`);
-	// }
-
 	return (
-		<Panel title="Sign in">
+		<Panel title="Join">
 			<>
 				<form onSubmit={(e) => handleSubmit(e)} className="mt-8">
 					<div className="mb-6">
@@ -35,30 +31,25 @@ export default function () {
 					<div className="mb-6">
 						<Input large type="password" id="password" label="Password" onChange={(e) => setPassword(e.target.value)} />
 					</div>
-					<div className="flex align-items justify-end">
+					<div className="flex items-center justify-end">
 						<Button
 							large
 							className="w-full"
 							type="submit"
-							text="Sign in"
-							icon={faSignIn}
+							text="Create Account"
+							icon={faBullseyePointer}
 							disabled={!email || !password}
 						/>
 					</div>
 				</form>
 				<p className="mt-4 text-center text-gray-500">
-					Don't have an account?{" "}
-					<Link to="/create-account" className="ff-link">
-						Create account
+					Already have an account?{" "}
+					<Link to="/" className="ff-link">
+						Sign in
 					</Link>
 				</p>
 			</>
-			<>
-				<span role="img" aria-label="hand waving" className="mr-2">
-					👋
-				</span>
-				welcome back dear friend
-			</>
+			<p className="block p-4">try it out, full refund available</p>
 		</Panel>
 	);
 }
