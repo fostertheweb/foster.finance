@@ -4,9 +4,9 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faListOl, faCogs, faAddressCard } from "@fortawesome/pro-duotone-svg-icons";
 import { Routes, Route } from "react-router-dom";
-import Accounts from "../setup/accounts";
-import Profile from "./profile";
-import Expenses from "./expenses";
+import Accounts from "components/setup/accounts";
+import Profile from "components/settings/profile";
+import Expenses from "components/settings/expenses";
 
 const linkStyle = [
 	"block",

@@ -12,7 +12,7 @@ export const currentUserSelector = selector({
 	},
 });
 
-export const currentUserIdAtom = selector({
+export const currentUserIdSelector = selector({
 	key: "foster.finance.currentUserId",
 	get: ({ get }) => {
 		const currentUser = get(currentUserSelector);

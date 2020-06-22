@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
-import { getRandomEmail } from "../shared/placeholders";
-import Input from "../../components/common/input";
-import Button from "../../components/common/button";
-import { Panel } from "../../components/common/panel";
+import { getRandomEmail } from "lib/placeholders";
+import Input from "components/common/input";
+import Button from "components/common/button";
+import { Panel } from "components/common/panel";
 
 export default function () {
 	const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ export default function () {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log("SIGN_UP");
+		console.log("useAmplifyAuth - signUp");
 	}
 
 	return (

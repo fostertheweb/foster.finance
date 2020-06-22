@@ -2,20 +2,10 @@ import React, { useEffect, useState } from "react";
 import * as luxon from "luxon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/pro-duotone-svg-icons";
-import { useMachine } from "@xstate/react";
-import { fetchMachine } from "../machines/fetch";
-import { useFetch } from "../hooks/use-fetch";
-import { Calendar } from "../components/calendar";
-import { Select } from "../components/common/input";
+import { Calendar } from "components/calendar";
+import { Select } from "components/common/input";
 
 export default function () {
-	const fetch = useFetch();
-	const [status, send] = useMachine(fetchMachine, {
-		services: {
-			fetchData: (_context, { start_date, end_date }) =>
-				fetch("/transactions", { queryParams: { start_date, end_date } }),
-		},
-	});
 	const [month, setMonth] = useState(luxon.DateTime.local().month);
 	const year = luxon.DateTime.local().year;
 	const months = luxon.Info.months().map((label, index) => ({
@@ -28,7 +18,7 @@ export default function () {
 		const start_date = start.toFormat("yyyy-MM-dd");
 		const end_date = end.toFormat("yyyy-MM-dd");
 
-		send({ type: "FETCH", start_date, end_date });
+		console.log("getTransactions()", start_date, end_date);
 
 		//eslint-disable-next-line
 	}, [month, year]);
@@ -66,7 +56,7 @@ export default function () {
 				</div>
 			</div>
 			<div className="flex-grow">
-				<Calendar year={year} month={month} loading={status.matches("loading")} data={status.context.data} />
+				<Calendar year={year} month={month} loading={false} data={{}} />
 			</div>
 		</div>
 	);
