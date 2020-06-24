@@ -1,5 +1,5 @@
 import { selector } from "recoil";
-import { currentUserIdSelector } from "./amplify-auth";
+import { currentUserIdSelector } from "state/current-user";
 
 export const setupStatusSelector = selector({
 	key: "foster.finance.setupStatus",

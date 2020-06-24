@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Input from "components/common/input";
 import Button from "components/common/button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "lib/placeholders";
 import { Panel } from "components/common/panel";
+import { useSignIn, useCurrentUser } from "hooks/amplify-auth";
 
 export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	function handleSubmit(e) {
+	const signIn = useSignIn();
+	const currentUser = useCurrentUser();
+
+	useEffect(() => {
+		currentUser();
+	}, []);
+
+	async function handleSubmit(e) {
 		e.preventDefault();
 		console.log("useAmplifyAuth - signIn()");
+		signIn(email, password);
 	}
 
 	return (

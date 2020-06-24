@@ -1,21 +1,14 @@
-import { selector } from "recoil";
-import { AmplifyAuth } from "../lib/amplify-auth";
+import { atom, selector } from "recoil";
 
-export const currentUserSelector = selector({
+export const currentUserAtom = atom({
 	key: "foster.finance.currentUser",
-	get: async () => {
-		try {
-			return await AmplifyAuth.currentAuthenticatedUser();
-		} catch (err) {
-			return null;
-		}
-	},
+	default: null,
 });
 
 export const currentUserIdSelector = selector({
 	key: "foster.finance.currentUserId",
 	get: ({ get }) => {
-		const currentUser = get(currentUserSelector);
+		const currentUser = get(currentUserAtom);
 
 		if (currentUser) {
 			return currentUser.attributes.sub;
@@ -28,10 +21,23 @@ export const currentUserIdSelector = selector({
 export const currentUserAccessTokenSelector = selector({
 	key: "foster.finance.currentUserAccessToken",
 	get: ({ get }) => {
-		const currentUser = get(currentUserSelector);
+		const currentUser = get(currentUserAtom);
 
 		if (currentUser) {
 			return currentUser.signInUserSession.idToken.jwtToken;
+		}
+
+		return null;
+	},
+});
+
+export const currentUserRefreshTokenSelector = selector({
+	key: "foster.finance.currentUserRefreshToken",
+	get: ({ get }) => {
+		const currentUser = get(currentUserAtom);
+
+		if (currentUser) {
+			return currentUser.signInUserSession.refreshToken.token;
 		}
 
 		return null;

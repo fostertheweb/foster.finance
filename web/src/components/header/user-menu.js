@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
 import classNames from "classnames";
+import { useSignOut } from "hooks/amplify-auth";
 
 const menuItem = [
 	"block",
@@ -24,10 +25,7 @@ export default function ({ emoji, name, disabled }) {
 	const [isOpen, setOpen] = useState(false);
 	const buttonRef = useRef(null);
 	const menuRef = useRef(null);
-
-	function signOut() {
-		console.log("useAmplifyAuth - signOut()");
-	}
+	const signOut = useSignOut();
 
 	useEffect(() => {
 		function handleClickOutside(event) {
