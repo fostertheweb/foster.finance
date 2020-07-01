@@ -20,11 +20,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 .terraform/
 **/*.zip
 *.tfvars
 web/src/styles.css
 web/build
-
-service-account.json

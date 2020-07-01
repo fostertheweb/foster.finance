@@ -1,3 +1,17 @@
+locals {
+  common_tags = {
+    project = var.application
+  }
+}
+
+data "aws_route53_zone" "selected" {
+  name = "${var.domain_name}."
+}
+
+data "aws_iam_role" "lambda" {
+  name = "${var.application}-lambda-role"
+}
+
 data "archive_file" "email" {
   type        = "zip"
   source_file = "./email/index.js"
@@ -7,7 +21,7 @@ data "archive_file" "email" {
 resource "aws_lambda_function" "email" {
   filename         = "./email/lambda.zip"
   function_name    = "${var.application}-email"
-  role             = aws_iam_role.lambda.arn
+  role             = data.aws_iam_role.lambda.arn
   handler          = "index.handler"
   source_code_hash = data.archive_file.email.output_base64sha256
   runtime          = "nodejs10.x"

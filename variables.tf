@@ -8,10 +8,6 @@ variable "domain_name" {
   type    = string
 }
 
-variable "db_url" {
-  type = string
-}
-
 variable "plaid_client_id" {
   type = string
 }
@@ -44,28 +40,6 @@ variable "zoho_dkim_2" {
   type = string
 }
 
-variable "subnets" {
-  type = list(string)
-}
-
-variable "security_groups" {
-  type = list(string)
-}
-
-variable "client_mime_types" {
-  default = {
-    html  = "text/html"
-    css   = "text/css"
-    js    = "application/javascript"
-    map   = "application/javascript"
-    json  = "application/json"
-    txt   = "text/plain"
-    ico   = "image/x-icon"
-    ttf   = "font/ttf"
-    otf   = "font/otf"
-    eot   = "font/eot"
-    svg   = "image/svg+xml"
-    woff  = "font/woff"
-    woff2 = "font/woff2"
-  }
+variable "atlas_org_id" {
+  type = string
 }

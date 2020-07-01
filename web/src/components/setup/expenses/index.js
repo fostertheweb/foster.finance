@@ -10,17 +10,18 @@ import Button from "../../common/button";
 import ExpenseList from "./list";
 import { Well } from "../../common/alert";
 
-export default function() {
+export default function () {
   const navigate = useNavigate();
-  const { get, post } = useFetch();
+  const fetch = useFetch();
   const [discoverState, sendFetchDiscover] = useMachine(fetchMachine, {
     services: {
-      fetchData: () => get("/expenses/discover"),
+      fetchData: () => fetch("/expenses/discover"),
     },
   });
   const [saveExpensesState, sendSaveExpenses] = useMachine(fetchMachine, {
     services: {
-      fetchData: (_context, { expenses }) => post("/expenses", { expenses }),
+      fetchData: (_context, { expenses }) =>
+        fetch("/expenses", { method: "POST", body: { expenses } }),
     },
   });
   const [expenses, setExpenses] = useState([]);
