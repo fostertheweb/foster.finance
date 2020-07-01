@@ -1,14 +1,10 @@
 import React from "react";
-import { Redirect, Route } from "react-router";
+import { Navigate, Route } from "react-router";
+import { isAuthenticatedSelector } from "hooks/amplify-auth";
+import Loading from "components/common/loading";
+import { useRecoilValueLoadable } from "recoil";
 
-function isAuthenticated() {
-	return true;
-}
-
-export default function PublicRoute() {
-	if (isAuthenticated()) {
-		return <Redirect to="/transactions" />;
-	}
-
-	return <Route element={} path={} />;
+export default function PublicRoute({ element: Element, path }) {
+	// return <Navigate to="/sign-in" replace />;
+	return <Route element={<Element />} path={path} />;
 }

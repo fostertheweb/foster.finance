@@ -5,18 +5,13 @@ import Button from "components/common/button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "lib/placeholders";
 import { Panel } from "components/common/panel";
-import { useSignIn, useCurrentUser } from "hooks/amplify-auth";
+import { useSignIn } from "hooks/amplify-auth";
 
 export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const signIn = useSignIn();
-	const currentUser = useCurrentUser();
-
-	useEffect(() => {
-		currentUser();
-	}, []);
 
 	async function handleSubmit(e) {
 		e.preventDefault();

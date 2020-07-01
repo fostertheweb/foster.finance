@@ -1,5 +1,5 @@
 import { selector } from "recoil";
-import { currentUserIdSelector } from "state/current-user";
+import { currentUserIdSelector } from "atoms/current-user";
 
 export const setupStatusSelector = selector({
 	key: "foster.finance.setupStatus",
