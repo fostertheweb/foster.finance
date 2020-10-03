@@ -8,20 +8,14 @@ app.register(require("fastify-sensible"));
 app.register(require("fastify-jwt"), { secret: "chipwheel" });
 app.register(require("fastify-mongodb"), { url: process.env.DB_URL });
 app.register(require("fastify-cors"), {
-  origin: true,
-  methods: ["GET", "POST", "PUT", "PATCH"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Amz-User-Agent",
-    "X-Amz-Security-Token",
-    "X-Amz-Date",
-  ],
-  credentials: true,
-  maxAage: 300,
+	origin: true,
+	methods: ["GET", "POST", "PUT", "PATCH"],
+	allowedHeaders: ["Content-Type", "Authorization", "X-Amz-User-Agent", "X-Amz-Security-Token", "X-Amz-Date"],
+	credentials: true,
+	maxAage: 300,
 });
 
-// local plugins
+// plugins
 app.register(require("./plugins/plaid"));
 app.register(require("./plugins/session"));
 

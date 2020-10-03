@@ -4,30 +4,32 @@ import { faLock } from "@fortawesome/pro-duotone-svg-icons";
 import Button from "./common/button";
 import Alert from "./common/alert";
 
-const product = process.env.REACT_APP_PLAID_PRODUCT_SCOPE.split(",");
-const env = process.env.REACT_APP_PLAID_ENVIRONMENT;
-const publicKey = process.env.REACT_APP_PLAID_PUBLIC_KEY;
+const {
+	REACT_APP_PLAID_ENVIRONMENT: env,
+	REACT_APP_PLAID_PRODUCT_SCOPE: product,
+	REACT_APP_PLAID_PUBLIC_KEY: publicKey,
+} = process.env;
 
 const noOp = () => null;
 
-export default function(props) {
-  const config = {
-    clientName: "foster finance",
-    countryCodes: ["US"],
-    language: "en",
-    product,
-    publicKey,
-    env,
-    onSuccess: props.onLinkSuccess,
-    onError: console.error,
-    onExit: props.onLinkExit || noOp,
-  };
+export default function (props) {
+	const config = {
+		clientName: "foster finance",
+		countryCodes: ["US"],
+		language: "en",
+		product,
+		publicKey,
+		env,
+		onSuccess: props.onLinkSuccess,
+		onError: console.error,
+		onExit: props.onLinkExit || noOp,
+	};
 
-  const { open, ready, error } = usePlaidLink(config);
+	const { open, ready, error } = usePlaidLink(config);
 
-  if (error) {
-    return <Alert intent="error" message={error.message || error} />;
-  }
+	if (error) {
+		return <Alert intent="error" message={error.message || error} />;
+	}
 
-  return <Button text="Link Bank Account" icon={faLock} onClick={() => open()} disabled={!ready} />;
+	return <Button text="Link Bank Account" icon={faLock} onClick={() => open()} disabled={!ready} />;
 }

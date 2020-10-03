@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
 import classNames from "classnames";
-import { useSignOut } from "hooks/amplify-auth";
+import { useSignOut } from "hooks/use-amplify-auth";
 
 const menuItem = [
 	"block",
@@ -51,7 +51,7 @@ export default function ({ emoji, name, disabled }) {
 				ref={buttonRef}
 				className={`${
 					isOpen ? "bg-gray-700 text-white border-indigo-500" : "bg-transparent"
-				} block border border-transparent cursor-pointer py-1 px-2 rounded flex items-center transition duration-150 ease-in-out text-gray-300 hover:text-white hover:bg-gray-700`}
+				} border border-transparent cursor-pointer py-1 px-2 rounded flex items-center transition duration-150 ease-in-out text-gray-300 hover:text-white hover:bg-gray-700`}
 				onClick={() => setOpen(!isOpen)}>
 				<span className="mr-2">{name}</span>
 				<div className="ff-filter-drop-shadow">
