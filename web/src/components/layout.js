@@ -1,13 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "components/header";
-import { useIsAuthenticated } from "hooks/use-amplify-auth";
+import { useCurrentUser } from "hooks/use-amplify-auth";
 
 export default function () {
-	const isAuthenticated = useIsAuthenticated();
+	const { data, status } = useCurrentUser();
+
+	console.log(data, status);
+
 	return (
 		<div>
-			{isAuthenticated && <Header />}
+			{data && <Header />}
 			<Outlet />
 		</div>
 	);

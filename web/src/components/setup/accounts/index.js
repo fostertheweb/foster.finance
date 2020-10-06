@@ -1,33 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { faSave } from "@fortawesome/pro-duotone-svg-icons";
-import { useAuth } from "../../../../hooks/use-auth";
-import AccountList from "./list";
-import LinkButton from "../../link-button";
-import Button from "../../common/button";
-import { Well } from "../../common/alert";
+import AccountList from "components/setup/accounts/list";
+import LinkButton from "components/link-button";
+import Button from "components/common/button";
+import { Well } from "components/common/alert";
+import { useSaveAccounts, useCreateLink, useGetLinkToken } from "hooks/use-accounts";
 
 export default function () {
-	const { userId } = useAuth();
+	const { data: link, status: getLinkTokenStatus } = useGetLinkToken();
+	const [createLink, { data: item, status: createLinkStatus, error }] = useCreateLink();
+	const [saveAccounts, { saveStatus }] = useSaveAccounts();
+	const [accounts, setAccounts] = useState([]);
 
 	function handleLinkSuccess(public_token) {
-		console.log({ public_token });
+		createLink(public_token);
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		const { item_id, access_token, public_token } = {};
+		const { item_id, access_token } = item;
 		const selected = accounts.filter((a) => a.selected).map(({ account_id }) => account_id);
-		localStorage.setItem(userId, public_token);
-		sendPostAccounts({
-			type: "FETCH",
-			accounts: [
-				{
-					item_id,
-					access_token,
-					account_ids: selected,
-				},
-			],
-		});
+		saveAccounts([
+			{
+				item_id,
+				access_token,
+				account_ids: selected,
+			},
+		]);
+	}
+
+	if (!link || getLinkTokenStatus === "loading") {
+		return "Loading...";
 	}
 
 	return (
@@ -35,17 +38,13 @@ export default function () {
 			<div className="p-2 w-2/3">
 				<div className="bg-white p-4 rounded shadow text-gray-700">
 					<h1 className="text-xl font-bold tracking-wide">Setup Bank Accounts</h1>
-					{fetchLinkState.matches("resolved") ? (
+					{item ? (
 						<>
 							<p className="mt-4 leading-normal">
 								We have automatically selected your Checking and Credit Card accounts. Modify the selection, if needed,
 								to include every account that you pay bills from and where you deposit your paycheck.
 							</p>
-							<AccountList
-								data={fetchLinkState.context.data}
-								error={fetchLinkState.context.error}
-								onChange={setAccounts}
-							/>
+							<AccountList data={item} error={error} onChange={setAccounts} />
 						</>
 					) : (
 						<div>
@@ -54,7 +53,11 @@ export default function () {
 								linking your bank account.
 							</p>
 							<div className="flex items-baseline justify-between mt-6">
-								<LinkButton onLinkSuccess={handleLinkSuccess} loading={fetchLinkState.matches("loading")} />
+								<LinkButton
+									token={link.link_token}
+									onLinkSuccess={handleLinkSuccess}
+									loading={createLinkStatus === "loading"}
+								/>
 							</div>
 						</div>
 					)}
@@ -75,8 +78,8 @@ export default function () {
 					className="w-full whitespace-no-wrap mt-2"
 					text="Save Account Selection"
 					icon={faSave}
-					loading={postAccountsState.matches("loading")}
-					disabled={!fetchLinkState.matches("resolved")}
+					loading={saveStatus === "loading"}
+					disabled={saveStatus === "loading" || createLinkStatus !== "success"}
 				/>
 			</div>
 		</>

@@ -10,9 +10,30 @@ module.exports = function (app, _options, next) {
 		}
 	});
 
+	app.get("/link", async ({ user_id }, reply) => {
+		try {
+			const link = await app.plaid().createLinkToken({
+				user: {
+					client_user_id: user_id,
+				},
+				client_name: "foster finance",
+				country_codes: ["US"],
+				language: "en",
+				products: ["auth", "transactions"],
+			});
+
+			return reply.send(link);
+		} catch (err) {
+			console.log({ user_id });
+			console.error(err);
+		}
+	});
+
 	app.post("/link", async ({ body: { public_token } }) => {
 		try {
-			const { access_token, item_id } = await app.plaid().exchangePublicToken(public_token);
+			const exchangeResponse = await app.plaid().exchangePublicToken(public_token);
+			console.log({ exchangeResponse });
+			const { item_id, access_token } = exchangeResponse;
 			const {
 				item: { institution_id },
 			} = await app.plaid().getItem(access_token);

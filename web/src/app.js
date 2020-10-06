@@ -8,9 +8,14 @@ import SignIn from "pages/public/sign-in";
 import CreateAccount from "pages/public/create-account";
 import Verify from "pages/public/verify-email";
 import Confirm from "pages/public/confirm-email";
+import SetupLayout from "components/setup";
+import Dashboard from "pages/dashboard";
+
+import SetupProfile from "components/setup/profile";
+import SetupAccounts from "components/setup/accounts";
 
 // import Settings from "pages/settings";
-// import Setup from "pages/setup";
+
 // import Transactions from "pages/transactions";
 // import Balances from "pages/balances";
 
@@ -24,11 +29,15 @@ function App() {
 						<Route path="join" element={<CreateAccount />} />
 						<Route path="verify" element={<Verify />} />
 						<Route path="confirm" element={<Confirm />} />
-						<Route path="transactions" element={<div>transactions</div>} />
+						<Route path="dashboard" element={<Dashboard />} />
+						<Route path="setup" element={<SetupLayout />}>
+							<Route path="profile" element={<SetupProfile />} />
+							<Route path="accounts" element={<SetupAccounts />} />
+						</Route>
 						{/* <Route path="transactions" element={<Transactions />} />
 						<Route path="balances" element={<Balances />} />
 						<Route path="settings" element={<Settings />} />
-						<Route path="setup" element={<Setup />} /> */}
+						 */}
 					</Route>
 				</Routes>
 			</RecoilRoot>

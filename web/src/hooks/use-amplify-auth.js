@@ -1,6 +1,5 @@
 import Amplify, { Auth } from "aws-amplify";
-import { useMutation, useQuery } from "react-query";
-import { atom, useRecoilValue, useSetRecoilState } from "recoil";
+import { useMutation, useQuery, useQueryCache } from "react-query";
 
 Amplify.configure({
 	Auth: {
@@ -11,37 +10,28 @@ Amplify.configure({
 	},
 });
 
-const isAuthenticatedState = atom({
-	key: "ff.isAuthenticated",
-	default: false,
-});
-
-export function useIsAuthenticated() {
-	return useRecoilValue(isAuthenticatedState);
-}
-
-export function useSetIsAuthenticated() {
-	return useSetRecoilState(isAuthenticatedState);
+export function useCurrentUser() {
+	return useQuery("currentUser", () => Auth.currentAuthenticatedUser());
 }
 
 export function useCurrentSession() {
-	return useQuery(Auth.currentSession);
+	return useQuery("currentSession", () => Auth.currentSession());
 }
 
 export function useSignOut() {
-	const setIsAuthenticated = useSetIsAuthenticated();
+	const queryCache = useQueryCache();
 	return useMutation(() => Auth.signOut(), {
 		onSuccess() {
-			setIsAuthenticated(false);
+			queryCache.setQueryData("currentUser", () => undefined);
 		},
 	});
 }
 
 export function useSignIn() {
-	const setIsAuthenticated = useSetIsAuthenticated();
+	const queryCache = useQueryCache();
 	return useMutation(({ email, password }) => Auth.signIn(email, password), {
 		onSuccess() {
-			setIsAuthenticated(true);
+			queryCache.refetchQueries("currentUser");
 		},
 	});
 }

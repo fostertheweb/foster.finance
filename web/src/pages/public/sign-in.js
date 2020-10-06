@@ -10,7 +10,6 @@ import { useSignIn } from "hooks/use-amplify-auth";
 export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
 	const [signIn, { status }] = useSignIn();
 	const navigate = useNavigate();
 
@@ -21,7 +20,7 @@ export default function () {
 
 	useEffect(() => {
 		if (status === "success") {
-			navigate("/transactions");
+			navigate("/dashboard");
 		}
 		//eslint-disable-next-line
 	}, [status]);
