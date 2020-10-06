@@ -21,7 +21,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route path="/" element={<SignIn />} />
-						<Route path="create-account" element={<CreateAccount />} />
+						<Route path="join" element={<CreateAccount />} />
 						<Route path="verify" element={<Verify />} />
 						<Route path="confirm" element={<Confirm />} />
 						<Route path="transactions" element={<div>transactions</div>} />

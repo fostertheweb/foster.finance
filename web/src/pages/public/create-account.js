@@ -21,7 +21,7 @@ export default function () {
 
 	useEffect(() => {
 		if (status === "success") {
-			navigate("/setup");
+			navigate(`/verify?email=${email}`);
 		}
 		//eslint-disable-next-line
 	}, [status]);

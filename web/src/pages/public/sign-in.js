@@ -42,7 +42,7 @@ export default function () {
 					<div className="mb-6">
 						<Input large type="password" id="password" label="Password" onChange={(e) => setPassword(e.target.value)} />
 					</div>
-					<div className="flex align-items justify-end">
+					<div className="flex justify-end align-items">
 						<Button
 							large
 							className="w-full"
@@ -56,7 +56,7 @@ export default function () {
 				</form>
 				<p className="mt-4 text-center text-gray-500">
 					Don't have an account?{" "}
-					<Link to="/create-account" className="ff-link">
+					<Link to="/join" className="ff-link">
 						Create account
 					</Link>
 				</p>

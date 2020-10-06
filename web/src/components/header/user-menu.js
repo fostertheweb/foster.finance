@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
@@ -25,7 +25,8 @@ export default function ({ emoji, name, disabled }) {
 	const [isOpen, setOpen] = useState(false);
 	const buttonRef = useRef(null);
 	const menuRef = useRef(null);
-	const signOut = useSignOut();
+	const [signOut, { status }] = useSignOut();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -45,6 +46,13 @@ export default function ({ emoji, name, disabled }) {
 		};
 	}, [buttonRef, menuRef]);
 
+	useEffect(() => {
+		if (status === "success") {
+			navigate("/");
+		}
+		//esline-disable-next-line
+	}, [status]);
+
 	return (
 		<div className="relative">
 			<div
@@ -59,10 +67,10 @@ export default function ({ emoji, name, disabled }) {
 				</div>
 			</div>
 			{isOpen ? (
-				<div ref={menuRef} className={`absolute right-0 w-40 z-50 bg-white rounded py-2 shadow-md text-gray-800 mt-2`}>
+				<div ref={menuRef} className="absolute right-0 z-50 w-40 py-2 mt-2 text-gray-800 bg-white rounded shadow-md">
 					<Link
 						className={`${classNames(menuItem)}${disabled ? " pointer-events-none text-gray-500" : ""}`}
-						to="/app/settings"
+						to="/settings"
 						onClick={() => setOpen(false)}>
 						Settings
 					</Link>
