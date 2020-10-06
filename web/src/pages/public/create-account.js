@@ -1,19 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { faBullseyePointer } from "@fortawesome/pro-duotone-svg-icons";
 import { getRandomEmail } from "lib/placeholders";
 import Input from "components/common/input";
 import Button from "components/common/button";
 import { Panel } from "components/common/panel";
+import { useSignUp } from "hooks/use-amplify-auth";
 
 export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [signUp, { status }] = useSignUp();
+	const navigate = useNavigate();
+
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log("useAmplifyAuth - signUp");
+		signUp({ email, password });
 	}
+
+	useEffect(() => {
+		if (status === "success") {
+			navigate("/setup");
+		}
+		//eslint-disable-next-line
+	}, [status]);
 
 	return (
 		<Panel title="Join">
@@ -39,6 +50,7 @@ export default function () {
 							text="Create Account"
 							icon={faBullseyePointer}
 							disabled={!email || !password}
+							loading={status === "loading"}
 						/>
 					</div>
 				</form>

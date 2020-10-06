@@ -15,9 +15,13 @@ export function useCurrentSession() {
 }
 
 export function useSignOut() {
-	return useMutation(Auth.signOut);
+	return useMutation(() => Auth.signOut());
 }
 
 export function useSignIn() {
-	return useMutation(Auth.signIn);
+	return useMutation(({ email, password }) => Auth.signIn(email, password));
+}
+
+export function useSignUp() {
+	return useMutation(({ email, password }) => Auth.signUp(email, password));
 }

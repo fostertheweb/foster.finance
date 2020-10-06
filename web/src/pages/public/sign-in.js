@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "components/common/input";
 import Button from "components/common/button";
 import { faSignIn } from "@fortawesome/pro-duotone-svg-icons";
@@ -11,13 +11,20 @@ export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const signIn = useSignIn();
+	const [signIn, { status }] = useSignIn();
+	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log("useAmplifyAuth - signIn()");
-		signIn(email, password);
+		signIn({ email, password });
 	}
+
+	useEffect(() => {
+		if (status === "success") {
+			navigate("/transactions");
+		}
+		//eslint-disable-next-line
+	}, [status]);
 
 	return (
 		<Panel title="Sign in">
@@ -43,6 +50,7 @@ export default function () {
 							text="Sign in"
 							icon={faSignIn}
 							disabled={!email || !password}
+							loading={status === "loading"}
 						/>
 					</div>
 				</form>

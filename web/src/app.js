@@ -24,6 +24,7 @@ function App() {
 						<Route path="create-account" element={<CreateAccount />} />
 						<Route path="verify" element={<Verify />} />
 						<Route path="confirm" element={<Confirm />} />
+						<Route path="transactions" element={<div>transactions</div>} />
 						{/* <Route path="transactions" element={<Transactions />} />
 						<Route path="balances" element={<Balances />} />
 						<Route path="settings" element={<Settings />} />
