@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/pro-duotone-svg-icons";
 import { Emoji } from "emoji-mart";
 import classNames from "classnames";
-import { useSignOut } from "hooks/use-amplify-auth";
+import { useCurrentUser, useSignOut } from "hooks/use-amplify-auth";
+import { useGetProfile } from "hooks/use-profile";
 
 const menuItem = [
 	"block",
@@ -21,12 +22,14 @@ const menuItem = [
 	"ease-in-out",
 ];
 
-export default function ({ emoji, name, disabled }) {
+export default function () {
 	const [isOpen, setOpen] = useState(false);
 	const buttonRef = useRef(null);
 	const menuRef = useRef(null);
-	const [signOut, { status }] = useSignOut();
+	const [signOut, { status: signOutStatus }] = useSignOut();
+	const { data: currentUser } = useCurrentUser();
 	const navigate = useNavigate();
+	const { data: profile, status: profileStatus } = useGetProfile();
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -47,11 +50,11 @@ export default function ({ emoji, name, disabled }) {
 	}, [buttonRef, menuRef]);
 
 	useEffect(() => {
-		if (status === "success") {
+		if (signOutStatus === "success") {
 			navigate("/");
 		}
 		//esline-disable-next-line
-	}, [status]);
+	}, [signOutStatus]);
 
 	return (
 		<div className="relative">
@@ -61,17 +64,14 @@ export default function ({ emoji, name, disabled }) {
 					isOpen ? "bg-gray-700 text-white border-indigo-500" : "bg-transparent"
 				} border border-transparent cursor-pointer py-1 px-2 rounded flex items-center transition duration-150 ease-in-out text-gray-300 hover:text-white hover:bg-gray-700`}
 				onClick={() => setOpen(!isOpen)}>
-				<span className="mr-2">{name}</span>
+				<span className="mr-2">{profile?.name || currentUser?.attributes?.email}</span>
 				<div className="ff-filter-drop-shadow">
-					<Emoji emoji={emoji} size={24} />
+					<Emoji emoji={profile?.emoji || "hatching_chick"} size={24} />
 				</div>
 			</div>
 			{isOpen ? (
 				<div ref={menuRef} className="absolute right-0 z-50 w-40 py-2 mt-2 text-gray-800 bg-white rounded shadow-md">
-					<Link
-						className={`${classNames(menuItem)}${disabled ? " pointer-events-none text-gray-500" : ""}`}
-						to="/settings"
-						onClick={() => setOpen(false)}>
+					<Link className={classNames(menuItem)} to="/settings" onClick={() => setOpen(false)}>
 						Settings
 					</Link>
 					<button className={classNames(menuItem)} onClick={() => signOut()}>
