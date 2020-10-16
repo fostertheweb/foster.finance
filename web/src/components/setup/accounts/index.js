@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faSave } from "@fortawesome/pro-duotone-svg-icons";
 import AccountList from "components/setup/accounts/list";
 import LinkButton from "components/link-button";
 import Button from "components/common/button";
 import { Well } from "components/common/alert";
 import { useSaveAccounts, useCreateLink, useGetLinkToken } from "hooks/use-accounts";
+import { useNavigate } from "react-router";
 
 export default function () {
 	const { data: link, status: getLinkTokenStatus } = useGetLinkToken();
 	const [createLink, { data: item, status: createLinkStatus, error }] = useCreateLink();
 	const [saveAccounts, { saveStatus }] = useSaveAccounts();
 	const [accounts, setAccounts] = useState([]);
+	const navigate = useNavigate();
 
 	function handleLinkSuccess(public_token) {
 		createLink(public_token);
@@ -28,6 +30,13 @@ export default function () {
 			},
 		]);
 	}
+
+	useEffect(() => {
+		if (saveStatus === "success") {
+			navigate("/setup/expenses");
+		}
+		//eslint-disable-next-line
+	}, [saveStatus]);
 
 	if (!link || getLinkTokenStatus === "loading") {
 		return "Loading...";
@@ -67,9 +76,9 @@ export default function () {
 				<div className="">
 					<Well
 						message={
-							<div>
+							<>
 								If you have more accounts to link you can add them later in <b>Settings</b> after setup.
-							</div>
+							</>
 						}
 					/>
 				</div>

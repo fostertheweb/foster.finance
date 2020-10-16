@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import Axios from "axios";
-import { useCurrentSession } from "./use-amplify-auth";
+import { useCurrentSession } from "hooks/use-amplify-auth";
 
 const { REACT_APP_API_ENDPOINT: API_URL } = process.env;
 

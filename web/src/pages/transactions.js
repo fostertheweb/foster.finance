@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as luxon from "luxon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/pro-duotone-svg-icons";
 import { Calendar } from "components/calendar";
 import { Select } from "components/common/input";
+import { useTransactions } from "hooks/use-transactions";
 
 export default function () {
 	const [month, setMonth] = useState(luxon.DateTime.local().month);
@@ -13,15 +14,8 @@ export default function () {
 		value: index + 1,
 	}));
 
-	useEffect(() => {
-		const [start, end] = currentMonth(year, month);
-		const start_date = start.toFormat("yyyy-MM-dd");
-		const end_date = end.toFormat("yyyy-MM-dd");
-
-		console.log("getTransactions()", start_date, end_date);
-
-		//eslint-disable-next-line
-	}, [month, year]);
+	const [start, end] = currentMonth(year, month);
+	const { data: transactions, status } = useTransactions(start.toFormat("yyyy-MM-dd"), end.toFormat("yyyy-MM-dd"));
 
 	return (
 		<div className="ff-container ff-pt-header flex items-start">
@@ -56,7 +50,7 @@ export default function () {
 				</div>
 			</div>
 			<div className="flex-grow">
-				<Calendar year={year} month={month} loading={false} data={{}} />
+				<Calendar year={year} month={month} loading={false} data={transactions} />
 			</div>
 		</div>
 	);

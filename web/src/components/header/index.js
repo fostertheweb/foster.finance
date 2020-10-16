@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinnerThird, faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
+import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
 import Logo from "components/common/logo";
 import UserMenu from "components/header/user-menu";
 import HeaderLink from "components/header/link";
