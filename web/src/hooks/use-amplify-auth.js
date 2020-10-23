@@ -23,6 +23,7 @@ export function useSignOut() {
 	return useMutation(() => Auth.signOut(), {
 		onSuccess() {
 			queryCache.setQueryData("currentUser", () => undefined);
+			queryCache.setQueryData("currentSession", () => undefined);
 		},
 	});
 }
@@ -32,6 +33,7 @@ export function useSignIn() {
 	return useMutation(({ email, password }) => Auth.signIn(email, password), {
 		onSuccess() {
 			queryCache.refetchQueries("currentUser");
+			queryCache.refetchQueries("currentSession");
 		},
 	});
 }

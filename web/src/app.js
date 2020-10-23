@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+
 // Application Layout
 import Layout from "components/layout";
 // Public Pages
@@ -23,12 +24,15 @@ import SettingsAccounts from "components/setup/accounts";
 import SettingsProfile from "components/settings/profile";
 import SettingsExpenses from "components/settings/expenses";
 
+import { useCurrentSession } from "hooks/use-amplify-auth";
+
 function App() {
+	const { status, data: session } = useCurrentSession();
 	return (
 		<div>
 			<RecoilRoot>
 				<Routes>
-					<Route path="/" element={<Layout />}>
+					<Route path="/" element={<Layout isAuthenticated={status !== "loading" && session} />}>
 						<Route path="/" element={<SignIn />} />
 						<Route path="join" element={<CreateAccount />} />
 						<Route path="verify" element={<Verify />} />
