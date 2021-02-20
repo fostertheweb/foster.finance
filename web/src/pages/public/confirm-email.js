@@ -7,7 +7,7 @@ import { useConfirmSignUp } from "hooks/use-amplify-auth";
 import { Panel } from "components/common/panel";
 
 export default function () {
-	const [confirmSignUp, { status }] = useConfirmSignUp();
+	const { status, mutate: confirmSignUp } = useConfirmSignUp();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { id, code } = parse(location.search);

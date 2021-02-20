@@ -1,5 +1,5 @@
 import Amplify, { Auth } from "aws-amplify";
-import { useMutation, useQuery, useQueryCache } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 Amplify.configure({
 	Auth: {
@@ -19,7 +19,7 @@ export function useCurrentSession() {
 }
 
 export function useSignOut() {
-	const queryCache = useQueryCache();
+	const queryCache = useQueryClient();
 	return useMutation(() => Auth.signOut(), {
 		onSuccess() {
 			queryCache.setQueryData("currentUser", () => undefined);
@@ -29,7 +29,7 @@ export function useSignOut() {
 }
 
 export function useSignIn() {
-	const queryCache = useQueryCache();
+	const queryCache = useQueryClient();
 	return useMutation(({ email, password }) => Auth.signIn(email, password), {
 		onSuccess() {
 			queryCache.refetchQueries("currentUser");

@@ -26,7 +26,7 @@ export default function () {
 	const [isOpen, setOpen] = useState(false);
 	const buttonRef = useRef(null);
 	const menuRef = useRef(null);
-	const [signOut, { status: signOutStatus }] = useSignOut();
+	const { status: signOutStatus, mutate: signOut } = useSignOut();
 	const { data: currentUser } = useCurrentUser();
 	const navigate = useNavigate();
 	const { data: profile, status: profileStatus } = useGetProfile();

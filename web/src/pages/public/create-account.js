@@ -11,7 +11,7 @@ export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const [signUp, { status }] = useSignUp();
+	const { status, mutate: signUp } = useSignUp();
 	const navigate = useNavigate();
 
 	function handleSubmit(e) {

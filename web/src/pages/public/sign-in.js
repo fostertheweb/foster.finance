@@ -10,7 +10,7 @@ import { useSignIn } from "hooks/use-amplify-auth";
 export default function () {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [signIn, { status }] = useSignIn();
+	const { status, mutate: signIn } = useSignIn();
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 // Application Layout
 import Layout from "components/layout";
@@ -24,15 +24,14 @@ import SettingsAccounts from "components/setup/accounts";
 import SettingsProfile from "components/settings/profile";
 import SettingsExpenses from "components/settings/expenses";
 
-import { useCurrentSession } from "hooks/use-amplify-auth";
+const queryClient = new QueryClient();
 
 function App() {
-	const { status, data: session } = useCurrentSession();
 	return (
 		<div>
-			<RecoilRoot>
+			<QueryClientProvider client={queryClient}>
 				<Routes>
-					<Route path="/" element={<Layout isAuthenticated={status !== "loading" && session} />}>
+					<Route path="/" element={<Layout />}>
 						<Route path="/" element={<SignIn />} />
 						<Route path="join" element={<CreateAccount />} />
 						<Route path="verify" element={<Verify />} />
@@ -52,7 +51,7 @@ function App() {
 						</Route>
 					</Route>
 				</Routes>
-			</RecoilRoot>
+			</QueryClientProvider>
 		</div>
 	);
 }

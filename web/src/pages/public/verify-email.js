@@ -8,7 +8,7 @@ import { useResendSignUp } from "hooks/use-amplify-auth";
 import { Panel } from "components/common/panel";
 
 export default function () {
-	const [resendSignUp, { status }] = useResendSignUp();
+	const { status, mutate: resendSignUp } = useResendSignUp();
 	const location = useLocation();
 	const { email } = parse(location.search);
 
