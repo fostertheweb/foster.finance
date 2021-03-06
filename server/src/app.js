@@ -17,7 +17,7 @@ app.register(require("fastify-cors"), {
 
 // plugins
 app.register(require("./plugins/plaid"));
-app.register(require("./plugins/session"));
+// app.register(require("./plugins/session"));
 
 // routes
 app.register(require("./routes/accounts"), { prefix: "/accounts" });

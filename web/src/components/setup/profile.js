@@ -10,7 +10,7 @@ import { useCurrentUser } from "hooks/use-amplify-auth";
 
 export default function () {
 	const { data: user } = useCurrentUser();
-	const [createProfile, { status, error }] = useCreateProfile();
+	const { mutate: createProfile, status, error } = useCreateProfile();
 	const [name, setName] = useState("");
 	const [emoji, setEmoji] = useState("");
 	const navigate = useNavigate();
@@ -39,8 +39,7 @@ export default function () {
 						</p>
 					</div>
 					<div className="flex items-end w-full mt-6">
-						<EmojiInput colons={emoji} onChange={setEmoji} />
-						<div className="w-full ml-6">
+						<div className="w-full">
 							<Input
 								value={name}
 								label="Name"
@@ -68,7 +67,6 @@ export default function () {
 					loading={status === "loading"}
 					disabled={status === "loading"}
 				/>
-				{error ? <Alert intent="error" message={error.message || error} /> : null}
 			</div>
 		</>
 	);

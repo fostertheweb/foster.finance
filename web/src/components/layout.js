@@ -2,10 +2,10 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "components/header";
 
-export default function ({ isAuthenticated }) {
+export default function () {
 	return (
 		<div>
-			{isAuthenticated && <Header />}
+			<Header />
 			<Outlet />
 		</div>
 	);

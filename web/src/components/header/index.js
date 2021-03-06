@@ -1,7 +1,6 @@
 import React from "react";
 import { faCoins, faCalendarAlt } from "@fortawesome/pro-duotone-svg-icons";
 import Logo from "components/common/logo";
-import UserMenu from "components/header/user-menu";
 import HeaderLink from "components/header/link";
 
 export default function () {
@@ -19,9 +18,7 @@ export default function () {
 						Balances
 					</HeaderLink>
 				</div>
-				<div className="flex items-center">
-					<UserMenu disabled={false} emoji={"hatching_chick"} name={"jfost784@gmail.com"} />
-				</div>
+				<div className="flex items-center"></div>
 			</div>
 		</div>
 	);

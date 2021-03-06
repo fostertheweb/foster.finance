@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { faSave } from "@fortawesome/pro-duotone-svg-icons";
 import AccountList from "components/setup/accounts/list";
 import LinkButton from "components/link-button";
 import Button from "components/common/button";
 import { Well } from "components/common/alert";
-import { useSaveAccounts, useCreateLink, useGetLinkToken } from "hooks/use-accounts";
-import { useNavigate } from "react-router";
+import { useCreateLink, useGetLinkToken, useAccountsLocal } from "hooks/use-accounts";
 
 export default function () {
 	const { data: link, status: getLinkTokenStatus } = useGetLinkToken();
-	const [createLink, { data: item, status: createLinkStatus, error }] = useCreateLink();
-	const [saveAccounts, { saveStatus }] = useSaveAccounts();
+	const { mutate: createLink, data: item, status: createLinkStatus, error } = useCreateLink();
+	const { mutate: saveAccounts } = useAccountsLocal();
 	const [accounts, setAccounts] = useState([]);
-	const navigate = useNavigate();
 
 	function handleLinkSuccess(public_token) {
 		createLink(public_token);
@@ -31,22 +29,14 @@ export default function () {
 		]);
 	}
 
-	useEffect(() => {
-		if (saveStatus === "success") {
-			navigate("/setup/expenses");
-		}
-		//eslint-disable-next-line
-	}, [saveStatus]);
-
 	if (!link || getLinkTokenStatus === "loading") {
 		return "Loading...";
 	}
 
 	return (
 		<>
-			<div className="p-2 w-2/3">
-				<div className="bg-white p-4 rounded shadow text-gray-700">
-					<h1 className="text-xl font-bold tracking-wide">Setup Bank Accounts</h1>
+			<div className="">
+				<div className="p-4 text-gray-700 bg-white rounded shadow">
 					{item ? (
 						<>
 							<p className="mt-4 leading-normal">
@@ -54,6 +44,13 @@ export default function () {
 								to include every account that you pay bills from and where you deposit your paycheck.
 							</p>
 							<AccountList data={item} error={error} onChange={setAccounts} />
+							<Button
+								onClick={handleSubmit}
+								className="w-full mt-2 whitespace-no-wrap"
+								text="Save Account Selection"
+								icon={faSave}
+								disabled={createLinkStatus !== "success"}
+							/>
 						</>
 					) : (
 						<div>
@@ -67,29 +64,18 @@ export default function () {
 									onLinkSuccess={handleLinkSuccess}
 									loading={createLinkStatus === "loading"}
 								/>
+
+								<Well
+									message={
+										<>
+											If you have more accounts to link you can add them later in <b>Settings</b> after setup.
+										</>
+									}
+								/>
 							</div>
 						</div>
 					)}
 				</div>
-			</div>
-			<div className="w-1/3 sticky ff-top-0 p-2 pl-1">
-				<div className="">
-					<Well
-						message={
-							<>
-								If you have more accounts to link you can add them later in <b>Settings</b> after setup.
-							</>
-						}
-					/>
-				</div>
-				<Button
-					onClick={handleSubmit}
-					className="w-full whitespace-no-wrap mt-2"
-					text="Save Account Selection"
-					icon={faSave}
-					loading={saveStatus === "loading"}
-					disabled={saveStatus === "loading" || createLinkStatus !== "success"}
-				/>
 			</div>
 		</>
 	);

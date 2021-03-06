@@ -1,14 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
+import SetupAccounts from "components/setup/accounts";
+import SetupExpenses from "components/setup/expenses";
 
 export default function () {
 	return (
 		<div className="ff-pt-header">
 			<div className="p-4">
-				<h2 className="text-lg font-medium">Dashboard</h2>
-				<Link to="/setup/accounts" className="block mt-4 underline">
-					Finish setting up your account.
-				</Link>
+				<div className="flex">
+					<div>
+						<h2>Accounts</h2>
+						<div className="">
+							<SetupAccounts />
+						</div>
+					</div>
+					<div>
+						<h2>Income</h2>
+						<div></div>
+						<h2>Expenses</h2>
+						<div>
+							<SetupExpenses />
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

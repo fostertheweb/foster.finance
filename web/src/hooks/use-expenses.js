@@ -1,40 +1,24 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
+import { useLocalStorage } from "react-use";
 import Axios from "axios";
-import { useCurrentSession } from "hooks/use-amplify-auth";
 
 const { REACT_APP_API_ENDPOINT: API_URL } = process.env;
 
 export function useDiscoverExpenses() {
-	const { data: session } = useCurrentSession();
-	return useQuery(
-		["discoverExpenses", session?.idToken?.jwtToken],
-		async () => {
-			const { data } = await Axios.get(`${API_URL}/expenses/discover`, {
-				headers: {
-					Authorization: session.idToken.jwtToken,
-				},
-			});
-			return data;
-		},
-		{
-			enabled: session,
-		},
-	);
+	return useMutation(async (accounts) => {
+		const { data } = await Axios.post(`${API_URL}/expenses/discover`, { accounts });
+		return data;
+	});
+}
+
+export function useExpensesLocal() {
+	const [value, setValue] = useLocalStorage("ff.expenses", []);
+	return { data: value, mutate: setValue };
 }
 
 export function useSaveExpenses() {
-	const { data: session } = useCurrentSession();
 	return useMutation(async (expenses) => {
-		const { data } = await Axios.post(
-			`${API_URL}/expenses`,
-			{ expenses },
-			{
-				headers: {
-					Authorization: session.idToken.jwtToken,
-				},
-			},
-		);
-
+		const { data } = await Axios.post(`${API_URL}/expenses`, { expenses });
 		return data;
 	});
 }

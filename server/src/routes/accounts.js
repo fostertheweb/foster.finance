@@ -10,11 +10,11 @@ module.exports = function (app, _options, next) {
 		}
 	});
 
-	app.get("/link", async ({ user_id }, reply) => {
+	app.get("/link", async (_, reply) => {
 		try {
 			const link = await app.plaid().createLinkToken({
 				user: {
-					client_user_id: user_id,
+					client_user_id: "user01",
 				},
 				client_name: "foster finance",
 				country_codes: ["US"],
@@ -24,7 +24,7 @@ module.exports = function (app, _options, next) {
 
 			return reply.send(link);
 		} catch (err) {
-			console.log({ user_id });
+			console.log({ user: "user01" });
 			console.error(err);
 		}
 	});
@@ -56,13 +56,13 @@ module.exports = function (app, _options, next) {
 		}
 	});
 
-	app.post("/", async ({ user_id, body: { accounts = [] } }, reply) => {
+	app.post("/", async ({ body: { accounts = [] } }, reply) => {
 		try {
 			if (accounts.length < 1) {
 				throw reply.badRequest("You must select at least one account.");
 			}
 
-			return await app.mongo.db.collection("accounts").insertOne({ user_id, accounts });
+			return await app.mongo.db.collection("accounts").insertOne({ user_id: "user01", accounts });
 		} catch (err) {
 			throw err;
 		}
