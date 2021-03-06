@@ -1,29 +1,39 @@
 import React from "react";
 
-import SetupAccounts from "components/setup/accounts";
-import SetupExpenses from "components/setup/expenses";
+import SetupAccounts from "components/accounts";
+import SetupExpenses from "components/expenses";
+import { Panel } from "components/common/panel";
 
 export default function () {
 	return (
 		<div className="ff-pt-header">
 			<div className="p-4">
-				<div className="flex">
-					<div>
-						<h2 className="text-lg font-medium text-gray-500 pb-4">Accounts</h2>
+				<div className="flex gap-4">
+					<div className="w-1/3">
+						<DashboardHeading>Accounts</DashboardHeading>
 						<div className="">
 							<SetupAccounts />
 						</div>
 					</div>
-					<div>
-						<h2>Income</h2>
-						<div></div>
-						<h2>Expenses</h2>
+					<div className="w-1/3">
+						<DashboardHeading>Income</DashboardHeading>
+						<div className="pb-2">
+							<div className="p-8 bg-gray-200"></div>
+						</div>
+						<DashboardHeading>Expenses</DashboardHeading>
 						<div>
 							<SetupExpenses />
 						</div>
+					</div>
+					<div className="w-1/3">
+						<div className="p-8 bg-gray-200"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
+}
+
+function DashboardHeading({ children }) {
+	return <h2 className="pb-4 text-lg font-medium tracking-wide text-gray-600">{children}</h2>;
 }

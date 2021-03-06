@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird, faLandmark } from "@fortawesome/pro-duotone-svg-icons";
 import Alert from "components/common/alert";
-import ListItem from "components/setup/accounts/list-item";
+import ListItem from "components/accounts/list-item";
 
 export default function ({ loading, error, data, onChange }) {
 	const [accounts, setAccounts] = useState(data.accounts);
@@ -21,17 +21,17 @@ export default function ({ loading, error, data, onChange }) {
 	return (
 		<div className="flex-grow">
 			{loading ? (
-				<div className="flex justify-center items-center mt-2 p-4 bg-white rounded border border-gray-300 w-full">
+				<div className="flex items-center justify-center w-full p-4 mt-2 bg-white border border-gray-300 rounded">
 					<FontAwesomeIcon icon={faSpinnerThird} spin className="text-gray-400 fill-current" size="lg" />
 				</div>
 			) : (
 				<>
-					<div className="flex items-center text-gray-700 text-lg font-medium p-2 mt-4">
+					<div className="flex items-center p-2 mt-4 text-lg font-medium text-gray-700">
 						{data.institution.logo ? (
 							<img
 								src={`data:image/png;base64,${data.institution.logo}`}
 								alt="bank logo"
-								className="w-8 h-8 mr-2 inline-block"
+								className="inline-block w-8 h-8 mr-2"
 							/>
 						) : (
 							<FontAwesomeIcon icon={faLandmark} size="lg" className="mr-3" color={data.institution.primary_color} />

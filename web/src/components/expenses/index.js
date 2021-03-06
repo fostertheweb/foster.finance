@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTasks } from "@fortawesome/pro-duotone-svg-icons";
 import Loading from "components/common/loading";
 import Button from "components/common/button";
-import ExpenseList from "components/setup/expenses/list";
+import ExpenseList from "components/expenses/list";
 import { Well } from "components/common/alert";
 import { useDiscoverExpenses, useExpensesLocal } from "hooks/use-expenses";
 import { useAccountsLocal } from "hooks/use-accounts";
@@ -26,7 +26,15 @@ export default function () {
 
 	return (
 		<>
-			<div className="w-2/3 p-2">
+			<Well
+				message={
+					<div>
+						After setup you can add more bills or income in <b>Settings</b> by selecting from recent transactions or
+						adding them manually.
+					</div>
+				}
+			/>
+			<div className="pt-2">
 				{expenses ? (
 					<div className="p-4 bg-white rounded shadow">
 						<div className="text-gray-700">
@@ -48,23 +56,14 @@ export default function () {
 					</div>
 				) : null}
 			</div>
-			<div className="sticky w-1/3 p-2 pl-1 ff-top-0">
-				<Well
-					message={
-						<div>
-							After setup you can add more bills or income in <b>Settings</b> by selecting from recent transactions or
-							adding them manually.
-						</div>
-					}
-				/>
-				<Button
-					onClick={handleSubmit}
-					className="w-full mt-2 whitespace-no-wrap"
-					text="Save Recurring Expenses"
-					icon={faSave}
-					disabled={!expenses || discoverStatus === "loading"}
-				/>
-			</div>
+
+			<Button
+				onClick={handleSubmit}
+				className="w-full mt-2 whitespace-no-wrap"
+				text="Save Recurring Expenses"
+				icon={faSave}
+				disabled={!expenses || discoverStatus === "loading"}
+			/>
 		</>
 	);
 }

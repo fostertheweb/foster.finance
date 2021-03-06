@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { faSave } from "@fortawesome/pro-duotone-svg-icons";
-import AccountList from "components/setup/accounts/list";
+import AccountList from "components/accounts/list";
 import LinkButton from "components/link-button";
 import Button from "components/common/button";
 import { Well } from "components/common/alert";
@@ -35,11 +35,18 @@ export default function () {
 
 	return (
 		<>
-			<div className="">
+			<Well
+				message={
+					<>
+						If you have more accounts to link you can add them later in <b>Settings</b> after setup.
+					</>
+				}
+			/>
+			<div className="pt-2">
 				<div className="p-4 text-gray-700 bg-white rounded shadow">
 					{item ? (
 						<>
-							<p className="mt-4 leading-normal">
+							<p className="leading-normal">
 								We have automatically selected your Checking and Credit Card accounts. Modify the selection, if needed,
 								to include every account that you pay bills from and where you deposit your paycheck.
 							</p>
@@ -58,21 +65,12 @@ export default function () {
 								Thank you for trusting us! That is a great start to our relationship. Let's get things rolling by
 								linking your bank account.
 							</p>
-							<div className="flex items-baseline justify-between mt-6">
-								<LinkButton
-									token={link.link_token}
-									onLinkSuccess={handleLinkSuccess}
-									loading={createLinkStatus === "loading"}
-								/>
 
-								<Well
-									message={
-										<>
-											If you have more accounts to link you can add them later in <b>Settings</b> after setup.
-										</>
-									}
-								/>
-							</div>
+							<LinkButton
+								token={link.link_token}
+								onLinkSuccess={handleLinkSuccess}
+								loading={createLinkStatus === "loading"}
+							/>
 						</div>
 					)}
 				</div>
