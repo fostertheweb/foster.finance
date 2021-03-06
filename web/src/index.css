@@ -12,6 +12,7 @@
 
 body {
 	background: var(--ff-bg-light);
+	font-family: "Inter", sans-serif;
 }
 
 .ff-container {
@@ -47,11 +48,11 @@ body {
 }
 
 .ff-font-sans {
-	font-family: "Open Sans", sans-serif;
+	font-family: "Inter", sans-serif;
 }
 
 .ff-font-mono {
-	font-family: "Share Tech Mono", monospace;
+	font-family: "Roboto Mono", monospace;
 }
 
 .ff-bg-gray-200-to-blue-500 {
@@ -95,9 +96,9 @@ body {
 }
 
 .brand {
-	font-family: "Secular One", sans-serif;
+	font-family: "bluu", sans-serif;
 	margin-bottom: -8px;
-	font-size: 18px;
+	font-size: 22px;
 }
 
 .emoji-input {

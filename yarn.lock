@@ -2720,10 +2720,20 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fontsource/inter@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.2.2.tgz#efe97167aac992db3fadf60ea0dd72aacd3e1fc4"
+  integrity sha512-lvR1PQe+8FTTd3YRW84KGcgUR8leZ7S3aY+51MQ90MQHI0VQe3cDH6T6jjs1qTm+wPmWfdSVjN8ugvNZpGUnvA==
+
 "@fontsource/open-sans@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.2.1.tgz"
   integrity sha512-CfvS4yIrZxBA9FoITkceFUM3HS9MYty8qZJ/Jq1m4NRqQlJX7Jc8KV4k/APG1h16jdp9ilU6VmZbdLwPxXr7Yw==
+
+"@fontsource/roboto-mono@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-4.2.2.tgz#deb736753e9680e94a11d6e162badf8636310942"
+  integrity sha512-qBEDhPHwN0m6VXSS1EGSAkmKT3gqfQZJyynSkSDQZNPRLeDVq7CTcmJWhjIqAFgVqJ4PNfMUIEl9+bqeBtlvhQ==
 
 "@fontsource/secular-one@^4.2.1":
   version "4.2.1"

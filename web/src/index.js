@@ -4,9 +4,9 @@ import App from "./app";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import "@fontsource/secular-one";
-import "@fontsource/open-sans";
-import "@fontsource/share-tech-mono";
+import "@fontsource/inter";
+import "@fontsource/roboto-mono";
+import "typography.css"
 import "index.css";
 
 ReactDOM.render(

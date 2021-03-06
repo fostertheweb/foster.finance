@@ -9,7 +9,7 @@ export default function () {
 			<div className="p-4">
 				<div className="flex">
 					<div>
-						<h2>Accounts</h2>
+						<h2 className="text-lg font-medium text-gray-500 pb-4">Accounts</h2>
 						<div className="">
 							<SetupAccounts />
 						</div>
