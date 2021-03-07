@@ -38,12 +38,7 @@ export default function () {
 				{expenses ? (
 					<div className="p-4 bg-white rounded shadow">
 						<div className="text-gray-700">
-							<h1 className="text-xl font-bold tracking-wide">
-								<FontAwesomeIcon icon={faTasks} size="lg" className="mr-2 fill-current" /> Setup Bills &amp; Income
-							</h1>
-							<p className="mt-4 leading-normal">You are doing a great job! We just need one last thing from you.</p>
-
-							<p className="mt-4 leading-normal">
+							<p className="leading-normal">
 								We looked at your transactions over the last 3 months from the accounts you selected previously and
 								found what we think are your monthly expenses.
 							</p>

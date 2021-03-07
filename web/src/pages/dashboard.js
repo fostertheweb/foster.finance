@@ -1,5 +1,6 @@
 import React from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPiggyBank, faMoneyCheckAlt, faReceipt } from "@fortawesome/pro-duotone-svg-icons";
 import SetupAccounts from "components/accounts";
 import SetupExpenses from "components/expenses";
 import { Panel } from "components/common/panel";
@@ -8,24 +9,24 @@ export default function () {
 	return (
 		<div className="ff-pt-header">
 			<div className="p-4">
-				<div className="flex gap-4">
-					<div className="w-1/3">
-						<DashboardHeading>Accounts</DashboardHeading>
+				<div className="grid grid-cols-3 gap-4">
+					<div className="">
+						<DashboardHeading icon={faPiggyBank}>Accounts</DashboardHeading>
 						<div className="">
 							<SetupAccounts />
 						</div>
 					</div>
-					<div className="w-1/3">
-						<DashboardHeading>Income</DashboardHeading>
+					<div className="">
+						<DashboardHeading icon={faMoneyCheckAlt}>Income</DashboardHeading>
 						<div className="pb-2">
 							<div className="p-8 bg-gray-200"></div>
 						</div>
-						<DashboardHeading>Expenses</DashboardHeading>
+						<DashboardHeading icon={faReceipt}>Expenses</DashboardHeading>
 						<div>
 							<SetupExpenses />
 						</div>
 					</div>
-					<div className="w-1/3">
+					<div className="">
 						<div className="p-8 bg-gray-200"></div>
 					</div>
 				</div>
@@ -34,6 +35,11 @@ export default function () {
 	);
 }
 
-function DashboardHeading({ children }) {
-	return <h2 className="pb-4 text-lg font-medium tracking-wide text-gray-600">{children}</h2>;
+function DashboardHeading({ children, icon }) {
+	return (
+		<div className="pb-2 text-gray-600 flex items-center">
+			<FontAwesomeIcon icon={icon} className="mr-2" size="lg" />
+			<h2 className="text-lg font-medium tracking-wide">{children}</h2>
+		</div>
+	);
 }

@@ -61,7 +61,7 @@ export default function () {
 						</>
 					) : (
 						<div>
-							<p className="mt-4 leading-normal text-gray-700">
+							<p className="leading-normal text-gray-700">
 								Thank you for trusting us! That is a great start to our relationship. Let's get things rolling by
 								linking your bank account.
 							</p>
