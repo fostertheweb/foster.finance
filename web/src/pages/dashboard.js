@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faMoneyCheckAlt, faReceipt } from "@fortawesome/pro-duotone-svg-icons";
 import SetupAccounts from "components/accounts";
 import SetupExpenses from "components/expenses";
-import { Panel } from "components/common/panel";
 
 export default function () {
 	return (
@@ -37,7 +36,7 @@ export default function () {
 
 function DashboardHeading({ children, icon }) {
 	return (
-		<div className="pb-2 text-gray-600 flex items-center">
+		<div className="flex items-center pb-2 text-gray-600">
 			<FontAwesomeIcon icon={icon} className="mr-2" size="lg" />
 			<h2 className="text-lg font-medium tracking-wide">{children}</h2>
 		</div>

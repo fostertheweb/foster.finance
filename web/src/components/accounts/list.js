@@ -42,7 +42,7 @@ export default function ({ loading, error, data, onChange }) {
 						<Alert error={error.message || error} />
 					) : (
 						<>
-							<div className="mt-2">
+							<div className="mt-2 overflow-y-scroll h-3/4">
 								{data.accounts.map((account) => (
 									<ListItem account={account} key={account.account_id} onSelect={handleSelect} />
 								))}
