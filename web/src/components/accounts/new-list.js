@@ -15,6 +15,8 @@ export default function() {
 	);
 }
 
-function Account() {
+function Account({ data: {} }) {
+	return <div>
 
+	</div>;
 }
