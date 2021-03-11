@@ -23,8 +23,11 @@
 		"fastify-plugin": "^1.6.0",
 		"fastify-sensible": "^2.1.1",
 		"got": "^10.7.0",
+		"graphql": "^15.5.0",
 		"luxon": "^1.22.0",
+		"mercurius": "^7.2.0",
 		"mongodb": "^3.5.3",
+		"nexus": "^1.0.0",
 		"plaid": "^7.1.0"
 	},
 	"devDependencies": {
