@@ -30,14 +30,3 @@ module "server" {
   plaid_public_key = var.plaid_public_key
   plaid_env        = var.plaid_env
 }
-
-module "email" {
-  source = "./email"
-
-  application       = var.application
-  domain_name       = var.domain_name
-  zoho_record_name  = var.zoho_record_name
-  zoho_record_value = var.zoho_record_value
-  zoho_dkim_1       = var.zoho_dkim_1
-  zoho_dkim_2       = var.zoho_dkim_2
-}
