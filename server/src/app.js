@@ -2,6 +2,8 @@ const app = require("fastify")({ logger: true });
 const { makeSchema } = require("nexus");
 const mercurius = require("mercurius");
 const Plaid = require("plaid");
+const path = require("path");
+const types = require("./schema");
 
 const plaid = new Plaid.Client({
 	clientID: process.env.PLAID_CLIENT_ID,
@@ -24,7 +26,6 @@ app.get("/ping", () => "PONG");
 app.register(require("fastify-sensible"));
 app.register(mercurius, {
 	schema,
-	resolvers,
 	context() {
 		return { plaid };
 	},

@@ -3,35 +3,31 @@ const { objectType, enumType } = require("nexus");
 const ACH = objectType({
 	name: "ACH",
 	definition(t) {
-		t.string("account", { nullable: true });
-		t.string("account_id", { nullable: true });
-		t.string("routing", { nullable: true });
-		t.string("wire_routing", { nullable: true });
+		t.string("account");
+		t.string("account_id");
+		t.string("routing");
+		t.string("wire_routing");
 	},
 });
 
 const Account = objectType({
 	name: "Account",
 	definition(t) {
-		t.string("account_id", { nullable: true });
+		t.string("account_id");
 		t.field("balances", {
 			type: Balances,
-			nullable: true,
 		});
-		t.string("mask", { nullable: true });
-		t.string("name", { nullable: true });
+		t.string("mask");
+		t.string("name");
 		t.field("numbers", {
 			type: AccountNumbers,
-			nullable: true,
 		});
-		t.string("official_name", { nullable: true });
+		t.string("official_name");
 		t.field("subtype", {
 			type: AccountSubType,
-			nullable: true,
 		});
 		t.field("type", {
 			type: AccountType,
-			nullable: true,
 		});
 	},
 });
@@ -41,13 +37,9 @@ const AccountNumbers = objectType({
 	definition(t) {
 		t.field("ach", {
 			type: ACH,
-			list: [false],
-			nullable: true,
 		});
 		t.field("eft", {
 			type: EFT,
-			list: [false],
-			nullable: true,
 		});
 	},
 });
@@ -57,8 +49,6 @@ const AccountsResponse = objectType({
 	definition(t) {
 		t.field("accounts", {
 			type: Account,
-			list: [false],
-			nullable: true,
 		});
 	},
 });
@@ -66,24 +56,23 @@ const AccountsResponse = objectType({
 const Balances = objectType({
 	name: "Balances",
 	definition(t) {
-		t.float("available", { nullable: true });
-		t.float("current", { nullable: true });
-		t.float("limit", { nullable: true });
+		t.float("available");
+		t.float("current");
+		t.float("limit");
 		t.field("iso_currency_code", {
 			type: ISOCurrencyCode,
-			nullable: true,
 		});
-		t.string("unofficial_currency_code", { nullable: true });
+		t.string("unofficial_currency_code");
 	},
 });
 
 const EFT = objectType({
 	name: "EFT",
 	definition(t) {
-		t.string("account", { nullable: true });
-		t.string("account_id", { nullable: true });
-		t.string("institution", { nullable: true });
-		t.string("branch", { nullable: true });
+		t.string("account");
+		t.string("account_id");
+		t.string("institution");
+		t.string("branch");
 	},
 });
 

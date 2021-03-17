@@ -7,7 +7,7 @@ const PlaidError = objectType({
 		t.int("http_code");
 		t.string("error_code");
 		t.string("error_message");
-		t.string("display_message", { nullable: true });
+		t.string("display_message");
 		t.string("request_id");
 	},
 });

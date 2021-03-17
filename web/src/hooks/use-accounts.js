@@ -1,22 +1,12 @@
 import { useMutation, useQuery } from "react-query";
 import Axios from "axios";
-import { useCurrentSession } from "hooks/use-amplify-auth";
 import { useLocalStorage } from "react-use";
 
 const { REACT_APP_API_ENDPOINT: API_URL } = process.env;
 
 export function useSaveAccounts() {
-	const { data: session } = useCurrentSession();
 	return useMutation(async (accounts) => {
-		const { data } = await Axios.post(
-			`${API_URL}/accounts`,
-			{ accounts },
-			{
-				headers: {
-					Authorization: session.idToken.jwtToken,
-				},
-			},
-		);
+		const { data } = await Axios.post(`${API_URL}/accounts`, { accounts });
 
 		return data;
 	});

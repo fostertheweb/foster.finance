@@ -1,65 +1,56 @@
-const { objectType, inputObjectType, enumType } = require("nexus");
+const { objectType, inputObjectType, enumType, nonNull } = require("nexus");
 const { Account } = require("./account");
 
 const Category = objectType({
 	name: "Category",
 	definition(t) {
-		t.int("category_id", { nullable: true });
-		t.string("group", { nullable: true });
-		t.string("hierarchy", {
-			list: [false],
-			nullable: true,
-		});
+		t.int("category_id");
+		t.string("group");
+		t.string("hierarchy", {});
 	},
 });
 
 const Location = objectType({
 	name: "Location",
 	definition(t) {
-		t.string("address", { nullable: true });
-		t.string("city", { nullable: true });
-		t.string("state", { nullable: true });
-		t.float("latitude", { nullable: true });
-		t.float("longitude", { nullable: true });
+		t.string("address");
+		t.string("city");
+		t.string("state");
+		t.float("latitude");
+		t.float("longitude");
 	},
 });
 
 const PaymentMeta = objectType({
 	name: "PaymentMeta",
 	definition(t) {
-		t.int("reference_number", { nullable: true });
-		t.int("ppdId", { nullable: true });
-		t.string("payeeName", { nullable: true });
+		t.int("reference_number");
+		t.int("ppdId");
+		t.string("payeeName");
 	},
 });
 
 const Transaction = objectType({
 	name: "Transaction",
 	definition(t) {
-		t.string("transaction_id", { nullable: true });
-		t.string("account_id", { nullable: true });
-		t.string("category", {
-			list: [false],
-			nullable: true,
-		});
-		t.string("category_id", { nullable: true });
+		t.string("transaction_id");
+		t.string("account_id");
+		t.string("category", {});
+		t.string("category_id");
 		t.field("transaction_type", {
 			type: TransactionType,
-			nullable: true,
 		});
-		t.string("name", { nullable: true });
-		t.float("amount", { nullable: true });
-		t.string("date", { nullable: true });
-		t.boolean("pending", { nullable: true });
-		t.string("pending_transaction_id", { nullable: true });
-		t.string("account_owner", { nullable: true });
+		t.string("name");
+		t.float("amount");
+		t.string("date");
+		t.boolean("pending");
+		t.string("pending_transaction_id");
+		t.string("account_owner");
 		t.field("location", {
 			type: Location,
-			nullable: true,
 		});
 		t.field("payment_meta", {
 			type: PaymentMeta,
-			nullable: true,
 		});
 	},
 });
@@ -68,23 +59,19 @@ const TransactionsResponse = objectType({
 	definition(t) {
 		t.field("accounts", {
 			type: Account,
-			list: [false],
-			nullable: true,
 		});
 		t.field("transactions", {
 			type: Transaction,
-			list: [false],
-			nullable: true,
 		});
-		t.int("total_transactions", { nullable: true });
+		t.int("total_transactions");
 	},
 });
 
 const TransactionsRequest = inputObjectType({
 	name: "TransactionsRequest",
 	definition(t) {
-		t.string("start_date", { required: true });
-		t.string("end_date", { required: true });
+		t.nonNull.string("start_date");
+		t.nonNull.string("end_date");
 		t.field("options", { type: TransactionsRequestOptions });
 	},
 });
@@ -92,7 +79,7 @@ const TransactionsRequest = inputObjectType({
 const TransactionsRequestOptions = inputObjectType({
 	name: "TransactionsRequestOptions",
 	definition(t) {
-		t.string("account_ids", { list: [false] });
+		t.nonNull.string("account_ids");
 		t.int("count");
 		t.int("offset");
 	},
