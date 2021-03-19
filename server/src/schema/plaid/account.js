@@ -1,4 +1,5 @@
-const { objectType, enumType } = require("nexus");
+const { objectType, enumType, list } = require("nexus");
+const { Item } = require("./item");
 
 const ACH = objectType({
 	name: "ACH",
@@ -48,7 +49,10 @@ const AccountsResponse = objectType({
 	name: "AccountsResponse",
 	definition(t) {
 		t.field("accounts", {
-			type: Account,
+			type: list(Account),
+		});
+		t.field("item", {
+			type: Item,
 		});
 	},
 });

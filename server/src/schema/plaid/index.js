@@ -4,4 +4,5 @@ module.exports = {
 	...require("./item"),
 	...require("./transaction"),
 	...require("./link"),
+	...require("./institutions"),
 };

@@ -29,10 +29,10 @@ app.register(mercurius, {
 	context() {
 		return { plaid };
 	},
+	graphiql: "playground",
 });
 
 // routes
-app.register(require("./routes/accounts"), { prefix: "/accounts" });
 app.register(require("./routes/expenses"), { prefix: "/expenses" });
 app.register(require("./routes/transactions"), { prefix: "/transactions" });
 

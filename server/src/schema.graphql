@@ -47,7 +47,8 @@ enum AccountType {
 }
 
 type AccountsResponse {
-  accounts: Account
+  accounts: [Account]
+  item: Item
 }
 
 type Balances {
@@ -83,6 +84,35 @@ enum ISOCurrencyCode {
   USD
 }
 
+type Institution {
+  country_codes: [String]
+  institution_id: String
+  logo: String
+  name: String
+  oauth: Boolean
+  primary_color: String
+  products: [String]
+  routing_numbers: [String]
+  url: String
+}
+
+type InstitutionResponse {
+  institution: Institution
+}
+
+type Item {
+  available_products: [String]
+  billed_products: [String]
+  institution_id: String
+  item_id: String
+  webook: String
+}
+
+type ItemResponse {
+  item: Item
+  request_id: String
+}
+
 type Location {
   address: String
   city: String
@@ -92,7 +122,7 @@ type Location {
 }
 
 type Mutation {
-  exchangePublicToken(token: String!): ExchangePublicTokenResponse
+  exchangePublicToken(public_token: String!): ExchangePublicTokenResponse
 }
 
 type PaymentMeta {
@@ -121,7 +151,14 @@ enum PlaidErrorType {
 }
 
 type Query {
-  getLink(uid: String!): CreateLinkTokenResponse
+  getAccounts(access_token: String!, options: RequestOptionsInput): AccountsResponse
+  getInstitutionById(institution_id: String!): InstitutionResponse
+  getItem(access_token: String!): ItemResponse
+  getLink(client_user_id: String!): CreateLinkTokenResponse
+}
+
+input RequestOptionsInput {
+  account_ids: [String]
 }
 
 type Transaction {

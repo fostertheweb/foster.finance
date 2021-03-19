@@ -1,4 +1,4 @@
-const { arg, objectType, stringArg, nonNull } = require("nexus");
+const { objectType, stringArg, nonNull } = require("nexus");
 const { ExchangePublicTokenResponse } = require("./plaid");
 
 const Mutation = objectType({
@@ -7,10 +7,10 @@ const Mutation = objectType({
 		t.field("exchangePublicToken", {
 			type: ExchangePublicTokenResponse,
 			args: {
-				token: nonNull(stringArg()),
+				public_token: nonNull(stringArg()),
 			},
-			async reolve(_root, { token }, { plaid }) {
-				return await plaid.exchangePublicToken(token);
+			async reolve(_root, { public_token }, { plaid }) {
+				return await plaid.exchangePublicToken(public_token);
 			},
 		});
 	},
