@@ -23,6 +23,9 @@ const schema = makeSchema({
 app.get("/ping", () => "PONG");
 
 // installed plugins
+app.register(require("fastify-cors"), {
+	origin: true,
+});
 app.register(require("fastify-sensible"));
 app.register(mercurius, {
 	schema,
@@ -31,9 +34,5 @@ app.register(mercurius, {
 	},
 	graphiql: "playground",
 });
-
-// routes
-app.register(require("./routes/expenses"), { prefix: "/expenses" });
-app.register(require("./routes/transactions"), { prefix: "/transactions" });
 
 module.exports = app;

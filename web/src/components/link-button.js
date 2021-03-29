@@ -10,9 +10,6 @@ export default function (props) {
 	const config = {
 		token: props.token,
 		onSuccess: props.onLinkSuccess,
-		onError(err) {
-			console.error(err);
-		},
 		onExit: props.onLinkExit || noOp,
 	};
 

@@ -20,19 +20,21 @@ export default function () {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		const { item_id, access_token } = item;
-		const selected = accounts.filter((a) => a.selected).map(({ account_id }) => account_id);
-		saveAccounts([
-			{
-				item_id,
-				access_token,
-				account_ids: selected,
-			},
-		]);
+
+		// const selected = accounts.filter((a) => a.selected).map(({ account_id }) => account_id);
+		// saveAccounts([
+		// 	{
+		// 		item_id,
+		// 		access_token,
+		// 		account_ids: selected,
+		// 	},
+		// ]);
 	}
 
 	useEffect(() => {
 		if (createLinkStatus === "success") {
+			const { item_id, access_token } = item;
+			console.log({ item_id, access_token });
 			setOpen(true);
 		}
 	}, [createLinkStatus]);
@@ -48,7 +50,7 @@ export default function () {
 					We have automatically selected your Checking and Credit Card accounts. Modify the selection, if needed, to
 					include every account that you pay bills from and where you deposit your paycheck.
 				</p>
-				<AccountList data={item} error={error} onChange={setAccounts} />
+				{/* <AccountList data={item} error={error} onChange={setAccounts} /> */}
 				<Button
 					onClick={handleSubmit}
 					className="w-full mt-2 whitespace-no-wrap"

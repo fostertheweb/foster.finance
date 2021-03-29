@@ -5,6 +5,8 @@ const {
 	RequestOptionsInput,
 	InstitutionResponse,
 	ItemResponse,
+	ExchangePublicTokenResponse,
+	TransactionsResponse,
 } = require("./plaid");
 
 const Query = objectType({
@@ -27,7 +29,6 @@ const Query = objectType({
 				});
 			},
 		});
-
 		t.field("getItem", {
 			type: ItemResponse,
 			args: { access_token: nonNull(stringArg()) },
@@ -35,7 +36,6 @@ const Query = objectType({
 				return await plaid.getItem(access_token);
 			},
 		});
-
 		t.field("getAccounts", {
 			type: AccountsResponse,
 			args: {
@@ -46,7 +46,6 @@ const Query = objectType({
 				return await plaid.getAccounts(access_token, options);
 			},
 		});
-
 		t.field("getInstitutionById", {
 			type: InstitutionResponse,
 			args: {
@@ -54,6 +53,22 @@ const Query = objectType({
 			},
 			async resolve(_root, { institution_id }, { plaid }) {
 				return await plaid.getInstitutionById(institution_id, { include_optional_metadata: true });
+			},
+		});
+		t.field("getTransactions", {
+			type: TransactionsResponse,
+			args: {
+				access_token: nonNull(stringArg()),
+				options: stringArg(),
+			},
+			async resolve(_root, { accounts, start_date, end_date }, { plaid }) {
+				const requests = accounts.map(async ({ account_ids, access_token }) => {
+					return await plaid.getTransactions(access_token, start_date, end_date, { account_ids });
+				});
+				const responses = await Promise.all(requests);
+				return responses.reduce((transactions, response) => {
+					return [...transactions, ...response.transactions];
+				}, []);
 			},
 		});
 	},

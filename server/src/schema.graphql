@@ -79,9 +79,23 @@ type ExchangePublicTokenResponse {
   status_code: Int
 }
 
+type Expense {
+  amount: String
+  date: String
+  interval: Int
+  name: String
+}
+
 enum ISOCurrencyCode {
   CAD
   USD
+}
+
+type Income {
+  amount: String
+  date: String
+  interval: Int
+  name: String
 }
 
 type Institution {
@@ -155,6 +169,7 @@ type Query {
   getInstitutionById(institution_id: String!): InstitutionResponse
   getItem(access_token: String!): ItemResponse
   getLink(client_user_id: String!): CreateLinkTokenResponse
+  getTransactions(access_token: String!, options: String): TransactionsResponse
 }
 
 input RequestOptionsInput {
