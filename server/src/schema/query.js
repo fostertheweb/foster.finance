@@ -5,8 +5,8 @@ const {
 	RequestOptionsInput,
 	InstitutionResponse,
 	ItemResponse,
-	ExchangePublicTokenResponse,
 	TransactionsResponse,
+	TransactionsInput,
 } = require("./plaid");
 
 const Query = objectType({
@@ -59,7 +59,7 @@ const Query = objectType({
 			type: TransactionsResponse,
 			args: {
 				access_token: nonNull(stringArg()),
-				options: stringArg(),
+				options: TransactionsInput,
 			},
 			async resolve(_root, { accounts, start_date, end_date }, { plaid }) {
 				const requests = accounts.map(async ({ account_ids, access_token }) => {

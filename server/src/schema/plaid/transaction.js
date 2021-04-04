@@ -35,7 +35,7 @@ const Transaction = objectType({
 	definition(t) {
 		t.string("transaction_id");
 		t.string("account_id");
-		t.string("category", {});
+		t.string("category", { type: Category });
 		t.string("category_id");
 		t.field("transaction_type", {
 			type: TransactionType,
@@ -67,19 +67,19 @@ const TransactionsResponse = objectType({
 	},
 });
 
-const TransactionsRequest = inputObjectType({
-	name: "TransactionsRequest",
+const TransactionsInput = inputObjectType({
+	name: "TransactionsInput",
 	definition(t) {
 		t.nonNull.string("start_date");
 		t.nonNull.string("end_date");
-		t.field("options", { type: TransactionsRequestOptions });
+		t.field("options", { type: TransactionsOptionsInput });
 	},
 });
 
-const TransactionsRequestOptions = inputObjectType({
-	name: "TransactionsRequestOptions",
+const TransactionsOptionsInput = inputObjectType({
+	name: "TransactionsOptionsInput",
 	definition(t) {
-		t.nonNull.string("account_ids");
+		t.list.string("account_ids");
 		t.int("count");
 		t.int("offset");
 	},
@@ -95,4 +95,4 @@ const TransactionType = enumType({
 	},
 });
 
-module.exports = { Transaction, TransactionsRequest, TransactionsResponse };
+module.exports = { Transaction, TransactionsInput, TransactionsResponse };

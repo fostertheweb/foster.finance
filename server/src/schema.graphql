@@ -59,6 +59,12 @@ type Balances {
   unofficial_currency_code: String
 }
 
+type Category {
+  category_id: Int
+  group: String
+  hierarchy: String
+}
+
 type CreateLinkTokenResponse {
   expiration: String
   link_token: String
@@ -180,7 +186,7 @@ type Transaction {
   account_id: String
   account_owner: String
   amount: Float
-  category: String
+  category: Category
   category_id: String
   date: String
   location: Location
@@ -199,14 +205,14 @@ enum TransactionType {
   UNRESOLVED
 }
 
-input TransactionsRequest {
+input TransactionsInput {
   end_date: String!
-  options: TransactionsRequestOptions
+  options: TransactionsOptionsInput
   start_date: String!
 }
 
-input TransactionsRequestOptions {
-  account_ids: String!
+input TransactionsOptionsInput {
+  account_ids: [String]
   count: Int
   offset: Int
 }
