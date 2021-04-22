@@ -1,7 +1,7 @@
 terraform {
   backend "remote" {
     hostname     = "app.terraform.io"
-    organization = "Family"
+    organization = "fostertheweb"
 
     workspaces {
       name = "foster-finance"
