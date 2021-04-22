@@ -4,6 +4,14 @@ locals {
   }
 }
 
+data "aws_secretsmanager_secret" "config" {
+  name = "${var.application}-config"
+}
+
+data "aws_secretsmanager_secret_version" "config" {
+  secret_id = data.aws_secretsmanager_secret.config.id
+}
+
 data "aws_iam_policy_document" "lambda" {
   statement {
     sid = "1"
@@ -73,10 +81,10 @@ resource "aws_lambda_function" "server" {
 
   environment {
     variables = {
-      PLAID_CLIENT_ID  = var.plaid_client_id
-      PLAID_SECRET     = var.plaid_secret
-      PLAID_PUBLIC_KEY = var.plaid_public_key
-      PLAID_ENV        = var.plaid_env
+      PLAID_CLIENT_ID  = jsondecode(data.aws_secretsmanager_secret_version.config.secret_string)["PLAID_CLIENT_ID"]
+      PLAID_SECRET     = jsondecode(data.aws_secretsmanager_secret_version.config.secret_string)["PLAID_SECRET"]
+      PLAID_PUBLIC_KEY = jsondecode(data.aws_secretsmanager_secret_version.config.secret_string)["PLAID_PUBLIC_KEY"]
+      PLAID_ENV        = jsondecode(data.aws_secretsmanager_secret_version.config.secret_string)["PLAID_ENV"]
     }
   }
 
