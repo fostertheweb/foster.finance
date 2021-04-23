@@ -175,7 +175,7 @@ type Query {
   getInstitutionById(institution_id: String!): InstitutionResponse
   getItem(access_token: String!): ItemResponse
   getLink(client_user_id: String!): CreateLinkTokenResponse
-  getTransactions(access_token: String!, options: String): TransactionsResponse
+  getTransactions(access_token: String!, options: TransactionsInput): TransactionsResponse
 }
 
 input RequestOptionsInput {
