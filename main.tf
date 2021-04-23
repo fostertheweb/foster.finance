@@ -24,10 +24,6 @@ module "web" {
 module "server" {
   source = "./server"
 
-  application      = var.application
-  domain_name      = var.domain_name
-  plaid_client_id  = var.plaid_client_id
-  plaid_secret     = var.plaid_secret
-  plaid_public_key = var.plaid_public_key
-  plaid_env        = var.plaid_env
+  application = var.application
+  domain_name = var.domain_name
 }
