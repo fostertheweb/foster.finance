@@ -91,46 +91,10 @@ resource "aws_lambda_function" "server" {
   tags = local.common_tags
 }
 
-resource "aws_api_gateway_rest_api" "server" {
-  name = "ff-api"
-}
-
-resource "aws_api_gateway_resource" "proxy" {
-  rest_api_id = aws_api_gateway_rest_api.server.id
-  parent_id   = aws_api_gateway_rest_api.server.root_resource_id
-  path_part   = "{proxy+}"
-}
-
-resource "aws_api_gateway_method" "any" {
-  rest_api_id   = aws_api_gateway_rest_api.server.id
-  resource_id   = aws_api_gateway_resource.proxy.id
-  http_method   = "ANY"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "lambda" {
-  rest_api_id             = aws_api_gateway_rest_api.server.id
-  resource_id             = aws_api_gateway_resource.proxy.id
-  http_method             = aws_api_gateway_method.any.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.server.invoke_arn
-}
-
-resource "aws_api_gateway_deployment" "server" {
-  rest_api_id = aws_api_gateway_rest_api.server.id
-
-  triggers = {
-    redeployment = sha1(join(",", tolist(
-      jsonencode(aws_api_gateway_integration.lambda),
-    )))
-  }
-}
-
-resource "aws_api_gateway_stage" "prod" {
-  rest_api_id   = aws_api_gateway_rest_api.server.id
-  stage_name    = "prod"
-  deployment_id = aws_api_gateway_deployment.server.id
+resource "aws_apigatewayv2_api" "server" {
+  name          = "${var.application}-api"
+  protocol_type = "HTTP"
+	target        = aws_lambda_function.server.arn
 }
 
 data "aws_route53_zone" "selected" {
@@ -141,7 +105,7 @@ resource "aws_route53_record" "api" {
   zone_id = data.aws_route53_zone.selected.zone_id
   name    = "api.${var.domain_name}"
   type    = "A"
-  records = [aws_api_gateway_deployment.server.invoke_url]
+  records = [aws_apigatewayv2_api.server.invoke_url]
 
-  depends_on = [aws_api_gateway_deployment.server]
+  depends_on = [aws_apigatewayv2_api.server]
 }
