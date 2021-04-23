@@ -121,7 +121,7 @@ resource "aws_api_gateway_deployment" "server" {
   rest_api_id = aws_api_gateway_rest_api.server.id
 
   triggers = {
-    redeployment = sha1(join(",", list(
+    redeployment = sha1(join(",", toList(
       jsonencode(aws_api_gateway_integration.lambda),
     )))
   }
