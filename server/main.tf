@@ -132,3 +132,16 @@ resource "aws_api_gateway_stage" "prod" {
   stage_name    = "prod"
   deployment_id = aws_api_gateway_deployment.server.id
 }
+
+data "aws_route53_zone" "selected" {
+  name = "${var.domain_name}."
+}
+
+resource "aws_route53_record" "api" {
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name    = "api.${var.domain_name}"
+  type    = "A"
+  records = [aws_api_gateway_deployment.server.invoke_url]
+
+  depends_on = [aws_api_gateway_deployment.server.cdn]
+}
