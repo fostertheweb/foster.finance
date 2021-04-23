@@ -27,3 +27,4 @@ pnpm-debug.log*
 *.tfvars
 web/src/styles.css
 web/build
+.terraform.lock.hcl
