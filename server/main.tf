@@ -106,6 +106,7 @@ resource "aws_route53_record" "api" {
   name    = "api.${var.domain_name}"
   type    = "A"
   records = ["${aws_apigatewayv2_api.server.api_endpoint}/foster-finance-server"]
+	ttl     = 300
 
   depends_on = [aws_apigatewayv2_api.server]
 }
