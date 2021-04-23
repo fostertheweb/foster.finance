@@ -143,5 +143,5 @@ resource "aws_route53_record" "api" {
   type    = "A"
   records = [aws_api_gateway_deployment.server.invoke_url]
 
-  depends_on = [aws_api_gateway_deployment.server.cdn]
+  depends_on = [aws_api_gateway_deployment.server]
 }
