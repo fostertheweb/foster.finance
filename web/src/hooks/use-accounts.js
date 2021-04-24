@@ -34,6 +34,8 @@ export function useCreateLink() {
 			`,
 		);
 
+		console.log(data);
+
 		return data;
 	});
 }
