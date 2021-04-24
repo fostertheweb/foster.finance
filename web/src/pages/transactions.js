@@ -18,18 +18,19 @@ export default function () {
 	const { data: transactions, status } = useTransactions(start.toFormat("yyyy-MM-dd"), end.toFormat("yyyy-MM-dd"));
 
 	return (
-		<div className="ff-container ff-pt-header flex items-start">
-			<div className="p-2">
-				<div className="flex items-center bg-white border border-gray-400 rounded">
+		<div className="ff-pt-header">
+			<div className="flex items-center w-full p-2 justify-evenly">
+				<button className="">ok</button>
+				<div>
 					<button
 						onClick={() => {
 							setMonth(month - 1);
 						}}
-						className="text-base text-gray-500 px-2 py-1 m-1 rounded hover:bg-gray-200 focus:outline-none focus:shadow-outline">
+						className="p-2">
 						<FontAwesomeIcon icon={faChevronLeft} />
 					</button>
 					<Select
-						className="text-gray-700 font-medium appearance-none bg-transparent py-1 px-4 border-l border-r border-gray-300 focus:outline-none focus:shadow-outline"
+						className=""
 						value={month}
 						options={months}
 						onChange={(event) => {
@@ -40,18 +41,14 @@ export default function () {
 						onClick={() => {
 							setMonth(month + 1);
 						}}
-						className="text-base text-gray-500 px-2 py-1 m-1 rounded hover:bg-gray-200 focus:outline-none focus:shadow-outline">
+						className="p-2">
 						<FontAwesomeIcon icon={faChevronRight} />
 					</button>
 				</div>
-				<div>
-					<div className="pb-1 font-medium text-gray-700 border-b border-gray-300 mt-4">Accounts</div>
-					<div></div>
-				</div>
+				<button className="">Today</button>
 			</div>
-			<div className="flex-grow">
-				<Calendar year={year} month={month} loading={false} data={transactions} />
-			</div>
+
+			<Calendar year={year} month={month} loading={false} data={transactions} />
 		</div>
 	);
 }

@@ -4,18 +4,15 @@ import classNames from "classnames";
 import Loading from "./common/loading";
 
 function Day({ number, isInCurrentMonth, isToday, data }) {
-	const day = ["box-border border-gray-400 border-l border-t flex-1 relative"];
-
 	return (
 		<div
 			className={classNames(
-				...day,
 				isInCurrentMonth ? "bg-white" : "bg-gray-200",
 				isToday ? "bg-purple-100 text-purple-800 font-bold" : "text-gray-600",
 			)}>
 			<span className="float-right m-1">{number}</span>
 			{data ? (
-				<ul className="list-none m-2 float-left text-xs font-medium">
+				<ul className="float-left m-2 text-xs font-medium list-none">
 					{data.map((t) => {
 						const amount = String(t.amount);
 						const isNegative = amount.charAt(0) === "-";
@@ -33,10 +30,38 @@ function Day({ number, isInCurrentMonth, isToday, data }) {
 }
 
 function Week({ days }) {
-	return <div className="flex flex-1">{days}</div>;
+	return days;
 }
 
 export function Calendar({ year, month, loading, data }) {
+	const daysInMonth = getDaysInMonth(year, month);
+	const firstWeekday = getFirstWeekday(year, month);
+
+	console.log({ daysInMonth });
+	console.log({ firstWeekday });
+
+	return (
+		<div className="grid grid-cols-7 border-b border-gray-300">
+			{Array.from({ length: firstWeekday }, () => (
+				<div className="bg-gray-200 border-t border-r border-gray-300"></div>
+			))}
+			{Array.from({ length: daysInMonth }, (_, index) => {
+				const weekday = getWeekday(year, month, index);
+
+				return (
+					<div
+						className={classNames(
+							"h-16 border-gray-300",
+							weekday > 0 && weekday < 6 ? "border-r border-t border-gray-300" : "border-r-0",
+							isToday(year, month, index) ? "bg-purple-100 text-purple-800 font-bold" : "bg-white text-gray-600",
+						)}></div>
+				);
+			})}
+		</div>
+	);
+}
+
+export function OldCalendar({ year, month, loading, data }) {
 	let weeks = [];
 	let key = 0;
 	let number = 1;
@@ -108,16 +133,14 @@ export function Calendar({ year, month, loading, data }) {
 	}
 
 	return (
-		<div className="flex flex-col ff-h-full">
-			<div className="flex justify-around leading border-l border-gray-400 bg-white text-gray-700 weekdays">
-				<div className="py-1">Sunday</div>
-				<div className="py-1">Monday</div>
-				<div className="py-1">Tuesday</div>
-				<div className="py-1">Wednesday</div>
-				<div className="py-1">Thursday</div>
-				<div className="py-1">Friday</div>
-				<div className="py-1">Saturday</div>
-			</div>
+		<div className="grid grid-cols-7 divide-x divide-y divide-gray-300">
+			<div className="py-1">Su</div>
+			<div className="py-1">M</div>
+			<div className="py-1">Tu</div>
+			<div className="py-1">W</div>
+			<div className="py-1">Th</div>
+			<div className="py-1">F</div>
+			<div className="py-1">Sa</div>
 			{weeks}
 		</div>
 	);
@@ -147,6 +170,10 @@ function getFirstWeekday(year, month) {
 
 	const weekday = luxon.DateTime.local(getCurrentYear(), getCurrentMonth(), 1).weekday;
 	return weekday === 7 ? 0 : weekday;
+}
+
+function getWeekday(year, month, day) {
+	return luxon.DateTime.local(year, month, 1).weekday;
 }
 
 function isToday(year, month, day) {
