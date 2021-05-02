@@ -25,13 +25,14 @@ export function useCreateLink() {
 		const { exchangePublicToken: data } = await request(
 			ENDPOINT,
 			gql`
-			mutation {
-				exchangePublicToken(public_token: "${public_token}") {
-					item_id
-					access_token
+				mutation Exchange($public_token: String!) {
+					exchangePublicToken(public_token: $public_token) {
+						item_id
+						access_token
+					}
 				}
-			}
 			`,
+			{ public_token },
 		);
 
 		console.log(data);
@@ -52,6 +53,7 @@ export function useGetLinkToken() {
 				}
 			`,
 		);
+		console.log(data);
 		return data;
 	});
 }

@@ -10,10 +10,12 @@ const Mutation = objectType({
 				public_token: nonNull(stringArg()),
 			},
 			async reolve(_root, { public_token }, { plaid }) {
-				console.log({ public_token });
-				const response = await plaid.exchangePublicToken(public_token);
-				console.log({ response });
-				return response;
+				try {
+					console.log({ PUBLIC_TOKEN: public_token });
+					return await plaid.exchangePublicToken(public_token);
+				} catch (err) {
+					console.error(err);
+				}
 			},
 		});
 	},

@@ -48,7 +48,7 @@ export default function () {
 				<button className="">Today</button>
 			</div>
 
-			<Calendar year={year} month={month} loading={false} data={transactions} />
+			<Calendar year={year} month={month} loading={status === "loading"} data={transactions} />
 		</div>
 	);
 }

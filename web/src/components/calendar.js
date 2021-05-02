@@ -16,8 +16,6 @@ export function Calendar({ year, month, loading, data }) {
 				const day = index + 1;
 				const weekday = getWeekday(year, month, day);
 
-				console.log({ day, weekday });
-
 				return (
 					<div
 						className={classNames(
