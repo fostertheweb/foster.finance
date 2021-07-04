@@ -1,124 +1,49 @@
 import React from "react";
 import * as luxon from "luxon";
 import classNames from "classnames";
-import Loading from "./common/loading";
-
-function Day({ number, isInCurrentMonth, isToday, data }) {
-	const day = ["box-border border-gray-400 border-l border-t flex-1 relative"];
-
-	return (
-		<div
-			className={classNames(
-				...day,
-				isInCurrentMonth ? "bg-white" : "bg-gray-200",
-				isToday ? "bg-purple-100 text-purple-800 font-bold" : "text-gray-600",
-			)}>
-			<span className="float-right m-1">{number}</span>
-			{data ? (
-				<ul className="list-none m-2 float-left text-xs font-medium">
-					{data.map((t) => {
-						const amount = String(t.amount);
-						const isNegative = amount.charAt(0) === "-";
-						return (
-							<li key={t.transaction_id} className={`mb-1 ${isNegative ? "text-red-600" : "text-green-600"}`}>
-								{isNegative ? null : "+"}
-								{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount)}
-							</li>
-						);
-					})}
-				</ul>
-			) : null}
-		</div>
-	);
-}
-
-function Week({ days }) {
-	return <div className="flex flex-1">{days}</div>;
-}
 
 export function Calendar({ year, month, loading, data }) {
-	let weeks = [];
-	let key = 0;
-	let number = 1;
-	let weeksInMonth = 5;
-
-	const firstWeekOfMonth = 0;
-	const firstDayOfWeek = 0;
-	const lastDayOfWeek = 6;
-	const firstDayOfWeekend = 6;
-
-	if (loading) {
-		return <Loading />;
-	}
-
-	// month starts on friday, or saturday and has 31 days
-	if (getFirstWeekday(year, month) >= lastDayOfWeek - 1 && getDaysInMonth(year, month) > 30) {
-		weeksInMonth = 6;
-	}
-
-	// month starts on saturday and has 30 or more days
-	if (getFirstWeekday(year, month) === lastDayOfWeek && getDaysInMonth(year, month) > 29) {
-		weeksInMonth = 6;
-	}
-
-	for (let week = firstWeekOfMonth; week < weeksInMonth; week++) {
-		let days = [];
-
-		for (let weekday = firstDayOfWeek; weekday <= lastDayOfWeek; weekday++) {
-			if (week === firstWeekOfMonth && weekday === firstDayOfWeekend && weekday === getFirstWeekday(year, month)) {
-				const calendarDate = luxon.DateTime.local(year, month, number);
-				const transactions = data ? data.filter((t) => compareDates(t.date, calendarDate)) : [];
-				const props = buildProps(number, true, isToday(year, month, number), transactions, key);
-				days.push(props);
-				number++;
-				key++;
-			} else if (week === firstWeekOfMonth && weekday === lastDayOfWeek && weekday === getFirstWeekday(year, month)) {
-				const calendarDate = luxon.DateTime.local(year, month, number);
-				const transactions = data ? data.filter((t) => compareDates(t.date, calendarDate)) : [];
-				const props = buildProps(number, true, isToday(year, month, number), transactions, key);
-				days.push(props);
-				number++;
-				key++;
-			} else if (week === 0 && weekday < getFirstWeekday(year, month)) {
-				const props = buildProps("", false, false, null, key);
-				days.push(props);
-				key++;
-			} else if (number > getDaysInMonth(year, month)) {
-				const props = buildProps("", false, false, null, key);
-				days.push(props);
-				key++;
-			} else {
-				const calendarDate = luxon.DateTime.local(year, month, number);
-				const transactions = data ? data.filter((t) => compareDates(t.date, calendarDate)) : [];
-				const props = buildProps(number, true, isToday(year, month, number), transactions, key);
-				days.push(props);
-				number++;
-				key++;
-			}
-		}
-
-		weeks.push(
-			<Week
-				days={days.map((props) => (
-					<Day {...props} />
-				))}
-				key={week}
-			/>,
-		);
-	}
+	const daysInMonth = getDaysInMonth(year, month);
+	const firstWeekday = getFirstWeekday(year, month);
+	const lastWeekday = getWeekday(year, month, daysInMonth);
 
 	return (
-		<div className="flex flex-col ff-h-full">
-			<div className="flex justify-around leading border-l border-gray-400 bg-white text-gray-700 weekdays">
-				<div className="py-1">Sunday</div>
-				<div className="py-1">Monday</div>
-				<div className="py-1">Tuesday</div>
-				<div className="py-1">Wednesday</div>
-				<div className="py-1">Thursday</div>
-				<div className="py-1">Friday</div>
-				<div className="py-1">Saturday</div>
-			</div>
-			{weeks}
+		<div className="grid grid-cols-7 border-b border-gray-300">
+			{Array.from({ length: firstWeekday }, () => (
+				<div className="bg-gray-200 border-t border-r border-gray-300"></div>
+			))}
+			{Array.from({ length: daysInMonth }, (_, index) => {
+				const day = index + 1;
+				const weekday = getWeekday(year, month, day);
+
+				return (
+					<div
+						className={classNames(
+							"relative h-16 border-t border-gray-300 hover:bg-indigo-100 cursor-pointer",
+							weekday < 6 || weekday === 7 ? "border-r" : "border-r-0",
+							isToday(year, month, day) ? "bg-purple-100 text-purple-800 font-bold" : "bg-white text-gray-600",
+						)}>
+						<span className="float-right m-1 text-sm">{day}</span>
+						{data ? (
+							<ul className="float-left m-2 text-xs font-medium list-none">
+								{data.map((t) => {
+									const amount = String(t.amount);
+									const isNegative = amount.charAt(0) === "-";
+									return (
+										<li key={t.transaction_id} className={`mb-1 ${isNegative ? "text-red-600" : "text-green-600"}`}>
+											{isNegative ? null : "+"}
+											{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount)}
+										</li>
+									);
+								})}
+							</ul>
+						) : null}
+					</div>
+				);
+			})}
+			{Array.from({ length: 6 - lastWeekday }, () => (
+				<div className="bg-gray-200 border-t border-gray-300"></div>
+			))}
 		</div>
 	);
 }
@@ -147,6 +72,10 @@ function getFirstWeekday(year, month) {
 
 	const weekday = luxon.DateTime.local(getCurrentYear(), getCurrentMonth(), 1).weekday;
 	return weekday === 7 ? 0 : weekday;
+}
+
+function getWeekday(year, month, day) {
+	return luxon.DateTime.local(year, month, day).weekday;
 }
 
 function isToday(year, month, day) {

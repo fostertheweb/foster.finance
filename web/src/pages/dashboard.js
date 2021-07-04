@@ -8,7 +8,7 @@ export default function () {
 	return (
 		<div className="ff-pt-header">
 			<div className="p-4">
-				<div className="grid grid-cols-3 gap-4">
+				<div className="grid gap-4">
 					<div className="">
 						<DashboardHeading icon={faPiggyBank}>Accounts</DashboardHeading>
 						<div className="">

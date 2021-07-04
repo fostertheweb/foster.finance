@@ -14,10 +14,6 @@ export default function () {
 	const [accounts, setAccounts] = useState([]);
 	const [isOpen, setOpen] = useState(false);
 
-	function handleLinkSuccess(public_token) {
-		createLink(public_token);
-	}
-
 	function handleSubmit(event) {
 		event.preventDefault();
 
@@ -32,9 +28,7 @@ export default function () {
 	}
 
 	useEffect(() => {
-		if (createLinkStatus === "success") {
-			const { item_id, access_token } = item;
-			console.log({ item_id, access_token });
+		if (item && createLinkStatus === "success") {
 			setOpen(true);
 		}
 	}, [createLinkStatus]);
@@ -50,7 +44,7 @@ export default function () {
 					We have automatically selected your Checking and Credit Card accounts. Modify the selection, if needed, to
 					include every account that you pay bills from and where you deposit your paycheck.
 				</p>
-				{/* <AccountList data={item} error={error} onChange={setAccounts} /> */}
+				<AccountList data={item} error={error} onChange={setAccounts} />
 				<Button
 					onClick={handleSubmit}
 					className="w-full mt-2 whitespace-no-wrap"
@@ -59,24 +53,18 @@ export default function () {
 					disabled={createLinkStatus !== "success"}
 				/>
 			</Modal>
-			<Well
-				message={
-					<>
-						If you have more accounts to link you can add them later in <b>Settings</b> after setup.
-					</>
-				}
-			/>
 			<div className="pt-2">
 				<div className="p-4 text-gray-700 bg-white rounded shadow">
 					<div>
+						{/* if no accounts then show setup message
 						<p className="leading-normal text-gray-700">
 							Thank you for trusting us! That is a great start to our relationship. Let's get things rolling by linking
 							your bank account.
 						</p>
-
+ 						*/}
 						<LinkButton
 							token={link.link_token}
-							onLinkSuccess={handleLinkSuccess}
+							onLinkSuccess={(token) => createLink(token)}
 							loading={createLinkStatus === "loading"}
 						/>
 					</div>
